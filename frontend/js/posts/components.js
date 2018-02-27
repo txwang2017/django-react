@@ -20,10 +20,10 @@ export class PostList extends React.Component {
                     let path = `/post-detail/${post.uuid}`;
                     return (
                         <Link to={path} key={post.uuid}>
-                            <ul>
-                                <li id="post-title">{post.title}</li>
-                                <li id="post-author">{post.author}</li>
-                                <li id="post-pub-time">{pubTime.toLocaleDateString() + "  " + pubTime.toLocaleTimeString()}</li>
+                            <ul className="inline">
+                                <li className="post-title">{post.title}</li>
+                                <li className="post-author">{post.author}</li>
+                                <li className="post-pub-time">{pubTime.toLocaleDateString() + "  " + pubTime.toLocaleTimeString()}</li>
                             </ul>
                         </Link>
                     )
@@ -57,18 +57,19 @@ export class NewPost extends React.Component {
 
     render() {
         return (
-            <div>
+            <div id="new-post">
                 <p><input type="text"
                           id="new-post-title"
+                          placeholder="Title"
                           onChange={this.handlePostTitleChange}/>
                 </p>
-
                 <p><input type="text"
                           id="new-post-content"
+                          placeholder="Content"
                           onChange={this.handlePostContentChange}/>
                 </p>
                 <p>{this.props.state.newPostError}</p>
-                <button onClick={this.handleSubmit}>publish</button>
+                <button className="btn btn-primary" onClick={this.handleSubmit}>publish</button>
             </div>
         )
     }
@@ -101,7 +102,7 @@ export class PostDetail extends React.Component {
                         let commentTime = new Date(comment.pub_time);
                         commentTime = commentTime.toLocaleDateString() + "  " + commentTime.toLocaleTimeString();
                         return (
-                            <ul key={comment.uuid} id={`comment-${comment.uuid}`}>
+                            <ul className="inline" key={comment.uuid} id={`comment-${comment.uuid}`}>
                                 <li id="comment-author">{comment.author}</li>
                                 <li id="comment-content">{comment.content}</li>
                                 <li id="comment-time">{commentTime}</li>

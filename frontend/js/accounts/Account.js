@@ -1,32 +1,26 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {BrowserRouter, Route, Link} from 'react-router-dom';
+import {HashRouter, Route} from 'react-router-dom';
 
 import * as Actions from './actions';
-import {SignIn, SignUp, Header} from './components';
+import {SignIn, SignUp} from './components';
 
 const Account = ({state, actions}) => {
     const signInPath = "/accounts/sign-in";
     const signUpPath = "/accounts/sign-up";
     return (
         <div id="account">
-            <BrowserRouter>
-                <div>
-                <Header state={state.account}
-                        actions={actions}
-                        signInPath={signInPath}
-                        signUpPath={signUpPath}/>
+            <HashRouter>
                 <div id="user-sign">
-                    <Route path={signInPath} render={() => (
-                        <SignIn state={state.account} actions={actions.signIn}/>
+                    <Route exact path={signInPath} render={() => (
+                        <SignIn state={state} actions={actions.signIn}/>
                     )}/>
-                    <Route path={signUpPath} render={() => (
-                        <SignUp state={state.account} actions={actions.signUp}/>
+                    <Route exact path={signUpPath} render={() => (
+                        <SignUp state={state} actions={actions.signUp}/>
                     )}/>
                 </div>
-                </div>
-            </BrowserRouter>
+            </HashRouter>
         </div>
     )
 };

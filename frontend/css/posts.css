@@ -1,27 +1,15 @@
-#post-list {
-    top: 50px;
-    width: 100%;
-    background-color: lightcyan;
-    padding-bottom: 40px;
+#post-list{
+    position: absolute;
+    top: 40px;
 }
 
-#post-list ul{
-    list-style: none;
-    padding-top: 15px;
-    padding-bottom: 15px;
-    width: 100%;
-    height: auto;
-}
-
-#post-list ul li{
-    margin-left: 10px;
-    float: left;
-    font: normal 30px "Helvetica";
-}
-
-#post-list ul li a{
+#post-list a ul li{
     text-decoration: none;
-    color: blue
+    color: blue;
+    font: normal 14px "Arial";
 }
 
-#post
+#post-list a ul{
+    width: 100%;
+    border-bottom: black 10px;
+}
