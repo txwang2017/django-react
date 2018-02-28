@@ -1,7 +1,7 @@
 export const getPostList = postList => ({type: 'GET_POST_LIST', postList});
 
-export const fetchPostList = () => dispatch => {
-  fetch('api/posts/list/', {
+export const fetchPostList = (path = '/api/posts/list/') => dispatch => {
+  fetch(path, {
     method: 'GET',
   }).then(
     response => {
@@ -9,10 +9,19 @@ export const fetchPostList = () => dispatch => {
     }
   ).then(
     postList => {
-      dispatch(getPostList(postList))
+      dispatch(getPostList(postList.results));
+      dispatch(setNextPage(postList.next));
+      dispatch(setPreviousPage(postList.previous));
+      dispatch(setPostNum(postList.count));
     }
   )
 };
+
+export const setNextPage = nextPage => ({type: 'NEXT_PAGE', nextPage});
+
+export const setPreviousPage = previousPage => ({type: 'PREVIOUS_PAGE', previousPage});
+
+export const setPostNum = postNum => ({type: 'POST_NUM', postNum});
 
 export const setNewPostError = error => ({type: "NEW_POST_ERROR", error});
 

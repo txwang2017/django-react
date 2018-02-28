@@ -25,6 +25,10 @@
     color: blue
 }
 
+#user-sign{
+    z-index: 100;
+}
+
 #user-sign #sign-in{
     width: 35%;
     height: 150px;
@@ -33,7 +37,8 @@
     position: absolute;
     top: 30px;
     left: 65%;
-    opacity: 0.8;
+    opacity: 0.9;
+    z-index: 100;
 }
 
 #user-sign #sign-in input{
@@ -79,7 +84,8 @@
     position: absolute;
     top: 30px;
     left: 65%;
-    opacity: 0.8;
+    opacity: 0.9;
+    z-index: 100;
 }
 
 #user-sign #sign-up input{

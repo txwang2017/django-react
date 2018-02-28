@@ -10,7 +10,10 @@ const initialState = {
     comments: [],
   },
   postDetailError: "",
-  commentError: ""
+  commentError: "",
+  nextPage: null,
+  previousPage: null,
+  postNum: 0,
 };
 
 const postReducer = (state = initialState, actions) => {
@@ -37,6 +40,15 @@ const postReducer = (state = initialState, actions) => {
       break;
     case "COMMENT_ERROR":
       newState.commentError = actions.error;
+      break;
+    case "NEXT_PAGE":
+      newState.nextPage = actions.nextPage;
+      break;
+    case "PREVIOUS_PAGE":
+      newState.previousPage = actions.previousPage;
+      break;
+    case "POST_NUM":
+      newState.postNum = actions.postNum;
       break;
     default:
       break;

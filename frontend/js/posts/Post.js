@@ -16,7 +16,7 @@ const Post = ({state, actions}) => {
               <PostDetail state={state.post}
                           actions={actions}
                           uuid={uuid.match.params.uuid}/>
-              <NewComment state={state.post}
+              <NewComment state={state}
                           actions={actions}
                           uuid={uuid.match.params.uuid}/>
             </div>

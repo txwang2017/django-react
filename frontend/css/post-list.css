@@ -51,58 +51,6 @@
     left: 83%;
 }
 
-#post-detail {
-    position: absolute;
-    top: 40px;
-    width: 80%;
-    left: 10%;
-}
-
-#post-detail #post-detail-title {
-    position: center;
-    text-align: center;
-    font: bold 30px "Arial";
-}
-
-#post-detail #post-detail-author {
-    position: center;
-    text-align: center;
-    margin-top: 10px;
-    font: normal 18px "Arial";
-}
-
-#post-detail #post-detail-publish-time {
-    position: center;
-    text-align: center;
-    margin-top: 10px;
-    font: italic 16px "Arial";
-    color: #2e353d;
-}
-
-#post-detail #post-detail-content {
-    margin-top: 0;
-    position: center;
-    text-align: left;
-    font: normal 16px "WenQuanYi Micro Hei";
-    color: #2e353d;
-}
-
-#post-detail-comments ul{
-    position: relative;
-    left: 80%;
-}
-
-#new-comment {
-    position: center;
-    bottom: 10%;
-    width: 80%;
-}
-
-#new-comment #comment-content {
-    position: center;
-    width: 100%;
-}
-
 #pagination {
     position: fixed;
     top: 450px;

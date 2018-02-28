@@ -25541,7 +25541,7 @@ var Post = function Post(_ref) {
               _react2.default.createElement(_components.PostDetail, { state: state.post,
                 actions: actions,
                 uuid: uuid.match.params.uuid }),
-              _react2.default.createElement(_components.NewComment, { state: state.post,
+              _react2.default.createElement(_components.NewComment, { state: state,
                 actions: actions,
                 uuid: uuid.match.params.uuid })
             );
@@ -25586,15 +25586,31 @@ var getPostList = exports.getPostList = function getPostList(postList) {
 };
 
 var fetchPostList = exports.fetchPostList = function fetchPostList() {
+  var path = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '/api/posts/list/';
   return function (dispatch) {
-    fetch('api/posts/list/', {
+    fetch(path, {
       method: 'GET'
     }).then(function (response) {
       return response.json();
     }).then(function (postList) {
-      dispatch(getPostList(postList));
+      dispatch(getPostList(postList.results));
+      dispatch(setNextPage(postList.next));
+      dispatch(setPreviousPage(postList.previous));
+      dispatch(setPostNum(postList.count));
     });
   };
+};
+
+var setNextPage = exports.setNextPage = function setNextPage(nextPage) {
+  return { type: 'NEXT_PAGE', nextPage: nextPage };
+};
+
+var setPreviousPage = exports.setPreviousPage = function setPreviousPage(previousPage) {
+  return { type: 'PREVIOUS_PAGE', previousPage: previousPage };
+};
+
+var setPostNum = exports.setPostNum = function setPostNum(postNum) {
+  return { type: 'POST_NUM', postNum: postNum };
 };
 
 var setNewPostError = exports.setNewPostError = function setNewPostError(error) {
@@ -25731,9 +25747,21 @@ var PostList = exports.PostList = function (_React$Component) {
   function PostList(props) {
     _classCallCheck(this, PostList);
 
-    var _this = _possibleConstructorReturn(this, (PostList.__proto__ || Object.getPrototypeOf(PostList)).call(this));
+    var _this = _possibleConstructorReturn(this, (PostList.__proto__ || Object.getPrototypeOf(PostList)).call(this, props));
 
     _this.props = props;
+
+    _this.handleNextPage = function () {
+      if (_this.props.state.nextPage !== null) {
+        _this.props.actions.fetchPostList(_this.props.state.nextPage);
+      }
+    };
+
+    _this.handlePreviousPage = function () {
+      if (_this.props.state.previousPage !== null) {
+        _this.props.actions.fetchPostList(_this.props.state.previousPage);
+      }
+    };
     return _this;
   }
 
@@ -25747,34 +25775,64 @@ var PostList = exports.PostList = function (_React$Component) {
     value: function render() {
       return _react2.default.createElement(
         'div',
-        { id: 'post-list' },
-        this.props.state.postList.map(function (post) {
-          var pubTime = new Date(post.pub_time);
-          var path = '/post-detail/' + post.uuid;
-          return _react2.default.createElement(
-            _reactRouterDom.Link,
-            { to: path, key: post.uuid },
+        null,
+        _react2.default.createElement(
+          'table',
+          { className: 'table table-hover', id: 'post-list' },
+          _react2.default.createElement(
+            'tbody',
+            null,
+            this.props.state.postList.map(function (post) {
+              var pubTime = new Date(post.pub_time);
+              var path = '/post-detail/' + post.uuid;
+              return _react2.default.createElement(
+                'tr',
+                { className: 'post-info', key: post.uuid },
+                _react2.default.createElement(
+                  'td',
+                  { className: 'post-author' },
+                  post.author
+                ),
+                _react2.default.createElement(
+                  'td',
+                  { className: 'post-title' },
+                  _react2.default.createElement(
+                    _reactRouterDom.Link,
+                    { to: path },
+                    post.title
+                  )
+                ),
+                _react2.default.createElement(
+                  'td',
+                  { className: 'post-pub-time' },
+                  pubTime.toLocaleDateString() + "  " + pubTime.toLocaleTimeString()
+                )
+              );
+            })
+          )
+        ),
+        _react2.default.createElement(
+          'ul',
+          { id: 'pagination', className: 'inline' },
+          _react2.default.createElement(
+            'li',
+            { id: 'previous-page' },
             _react2.default.createElement(
-              'ul',
-              { className: 'inline' },
-              _react2.default.createElement(
-                'li',
-                { className: 'post-title' },
-                post.title
-              ),
-              _react2.default.createElement(
-                'li',
-                { className: 'post-author' },
-                post.author
-              ),
-              _react2.default.createElement(
-                'li',
-                { className: 'post-pub-time' },
-                pubTime.toLocaleDateString() + "  " + pubTime.toLocaleTimeString()
-              )
+              'button',
+              { className: 'btn', onClick: this.handlePreviousPage },
+              '\xAB'
             )
-          );
-        })
+          ),
+          _react2.default.createElement(
+            'li',
+            { id: 'next-page' },
+            _react2.default.createElement(
+              'button',
+              { className: 'btn', onClick: this.handleNextPage },
+              '\xBB'
+            )
+          )
+        )
       );
     }
   }]);
@@ -25878,28 +25936,29 @@ var PostDetail = exports.PostDetail = function (_React$Component3) {
         'div',
         { id: 'post-detail' },
         _react2.default.createElement(
-          'div',
-          { id: 'post-detail-title' },
-          'title: ',
-          this.props.state.postDetail.title
-        ),
-        _react2.default.createElement(
-          'div',
-          { id: 'post-detail-author' },
-          'author: ',
-          this.props.state.postDetail.author
-        ),
-        _react2.default.createElement(
-          'div',
-          { id: 'post-detail-publish-time' },
-          'time: ',
-          publishTime
-        ),
-        _react2.default.createElement(
-          'div',
-          { id: 'post-detail-content' },
-          'content: ',
-          this.props.state.postDetail.content
+          'pre',
+          { id: 'post-detail-info' },
+          _react2.default.createElement(
+            'div',
+            { id: 'post-detail-title' },
+            this.props.state.postDetail.title
+          ),
+          _react2.default.createElement(
+            'div',
+            { id: 'post-detail-author' },
+            this.props.state.postDetail.author
+          ),
+          _react2.default.createElement(
+            'div',
+            { id: 'post-detail-publish-time' },
+            'published at: ',
+            publishTime
+          ),
+          _react2.default.createElement(
+            'div',
+            { id: 'post-detail-content' },
+            this.props.state.postDetail.content
+          )
         ),
         _react2.default.createElement(
           'div',
@@ -25908,22 +25967,26 @@ var PostDetail = exports.PostDetail = function (_React$Component3) {
             var commentTime = new Date(comment.pub_time);
             commentTime = commentTime.toLocaleDateString() + "  " + commentTime.toLocaleTimeString();
             return _react2.default.createElement(
-              'ul',
-              { className: 'inline', key: comment.uuid, id: 'comment-' + comment.uuid },
+              'div',
+              { className: 'well', key: comment.uuid, id: 'comment-' + comment.uuid },
               _react2.default.createElement(
-                'li',
-                { id: 'comment-author' },
-                comment.author
+                'ul',
+                { className: 'inline' },
+                _react2.default.createElement(
+                  'li',
+                  { className: 'comment-author' },
+                  comment.author
+                ),
+                _react2.default.createElement(
+                  'li',
+                  { className: 'comment-time' },
+                  commentTime
+                )
               ),
               _react2.default.createElement(
-                'li',
-                { id: 'comment-content' },
+                'div',
+                { className: 'comment-content' },
                 comment.content
-              ),
-              _react2.default.createElement(
-                'li',
-                { id: 'comment-time' },
-                commentTime
               )
             );
           })
@@ -25961,21 +26024,27 @@ var NewComment = exports.NewComment = function (_React$Component4) {
   _createClass(NewComment, [{
     key: 'render',
     value: function render() {
-      return _react2.default.createElement(
-        'div',
-        { id: 'new-comment' },
-        _react2.default.createElement('input', { type: 'text', onChange: this.handleContentChange }),
-        _react2.default.createElement(
-          'p',
-          { id: 'comment-error' },
-          this.props.state.commentError
-        ),
-        _react2.default.createElement(
-          'button',
-          { onClick: this.handleSubmit },
-          'comment'
-        )
-      );
+      if (this.props.state.header.userInfo.isAuthenticated === true) {
+        return _react2.default.createElement(
+          'div',
+          { id: 'new-comment' },
+          _react2.default.createElement('textarea', { id: 'comment-content',
+            placeholder: 'comment.....',
+            onChange: this.handleContentChange }),
+          _react2.default.createElement(
+            'p',
+            { id: 'comment-error' },
+            this.props.state.post.commentError
+          ),
+          _react2.default.createElement(
+            'button',
+            { id: 'submit-comment', className: 'btn', onClick: this.handleSubmit },
+            'comment'
+          )
+        );
+      } else {
+        return null;
+      }
     }
   }]);
 
@@ -26558,7 +26627,10 @@ var initialState = {
     comments: []
   },
   postDetailError: "",
-  commentError: ""
+  commentError: "",
+  nextPage: null,
+  previousPage: null,
+  postNum: 0
 };
 
 var postReducer = function postReducer() {
@@ -26588,6 +26660,15 @@ var postReducer = function postReducer() {
       break;
     case "COMMENT_ERROR":
       newState.commentError = actions.error;
+      break;
+    case "NEXT_PAGE":
+      newState.nextPage = actions.nextPage;
+      break;
+    case "PREVIOUS_PAGE":
+      newState.previousPage = actions.previousPage;
+      break;
+    case "POST_NUM":
+      newState.postNum = actions.postNum;
       break;
     default:
       break;
