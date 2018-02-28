@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 
 from rest_framework.views import APIView, Response
 from rest_framework.permissions import BasePermission, AllowAny
+from rest_framework.pagination import PageNumberPagination
 
 from users.utils import fetch_user_by_cookie
 from .serializer import PostSerializer, PostsSerializer, CommentSerializer
@@ -19,13 +20,35 @@ class PostPermission(BasePermission):
         return self.author is not None
 
 
+class PostListPagination(PageNumberPagination):
+    page_size = 10
+    page_size_query_param = 'page_size'
+    max_page_size = 100
+
+
 class PostAPIListView(APIView):
 
     author = None
+    paginator = None
 
     def initial(self, request, *args, **kwargs):
         self.author = fetch_user_by_cookie(request=request)
+        self.paginator = PostListPagination()
         super(PostAPIListView, self).initial(request, *args, **kwargs)
+
+    def paginate_queryset(self, queryset):
+        return self.paginator.paginate_queryset(queryset, self.request, view=self)
+
+    def get_paginated_response(self, data):
+        return self.paginator.get_paginated_response(data)
+
+    def get_paginate_queryset(self, queryset):
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = PostsSerializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+        serializer = PostsSerializer(queryset, many=True)
+        return Response(serializer.data)
 
     def get_permissions(self):
         if self.request._request.method == "GET":
@@ -45,8 +68,7 @@ class PostAPIListView(APIView):
 
     def get(self, request, *args, **kwargs):
         query_set = get_all_posts()
-        data = [PostsSerializer(post).data for post in query_set]
-        return Response(data=data)
+        return self.get_paginate_queryset(query_set)
 
 
 class PostDetailAPIView(APIView):
