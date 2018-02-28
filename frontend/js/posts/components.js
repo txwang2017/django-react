@@ -63,13 +63,15 @@ export class NewPost extends React.Component {
                   placeholder="Title"
                   onChange={this.handlePostTitleChange}/>
         </p>
-        <p><input type="text"
-                  id="new-post-content"
-                  placeholder="Content"
-                  onChange={this.handlePostContentChange}/>
+        <p><textarea id="new-post-content"
+                     placeholder="Content"
+                     onChange={this.handlePostContentChange}/>
         </p>
         <p>{this.props.state.newPostError}</p>
-        <button className="btn btn-primary" onClick={this.handleSubmit}>publish</button>
+        <button id="new-post-submit"
+                className="btn btn-primary"
+                onClick={this.handleSubmit}>publish
+        </button>
       </div>
     )
   }

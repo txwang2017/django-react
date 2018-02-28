@@ -46,6 +46,7 @@ export const newPost = post => dispatch => {
       post => {
         if (success === true) {
           dispatch(addPost(post));
+          window.location.hash = '#';
         } else {
           dispatch(setNewPostError("please log in first"));
         }

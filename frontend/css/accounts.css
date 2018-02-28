@@ -1,7 +1,12 @@
-#account-header ul{
+#account-header #sign-in-up{
     position: relative;
-    top: 5px;
     left: 70%;
+    width: auto;
+}
+
+#account-header #log-in-info{
+    position: relative;
+    top: 1px;
     width: auto;
 }
 
