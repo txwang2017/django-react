@@ -104,6 +104,13 @@
 
 #user-info{
     position: absolute;
+    left: 70%;
+    top: 5px;
+    font: normal 14px "Helvetica";
+}
+
+#new-post-link{
+    position: absolute;
     left: 80%;
     top: 5px;
     font: normal 14px "Helvetica";

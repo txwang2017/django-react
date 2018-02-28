@@ -12,19 +12,18 @@ import accountReducer from "./accounts/reducers";
 import postReducer from './posts/reducers';
 import headerReducer from './header/reducers';
 
-const reducers = combineReducers({header: headerReducer, account: accountReducer});
-// const reducers = combineReducers({account: accountReducer, post: postReducer, header: headerReducer});
+const reducers = combineReducers({account: accountReducer, post: postReducer, header: headerReducer});
 const store = createStore(reducers, applyMiddleware(thunk));
 
 render(
-    <Provider store={store}>
-        <HashRouter>
-            <div id="main-content">
-                <Header/>
-                <Route path="/accounts" render={() => (<Account/>)}/>
-                {/*<Post/>*/}
-            </div>
-        </HashRouter>
-    </Provider>,
-    document.getElementById('main')
+  <Provider store={store}>
+    <HashRouter>
+      <div id="main-content">
+        <Header/>
+        <Account/>
+        <Post/>
+      </div>
+    </HashRouter>
+  </Provider>,
+  document.getElementById('main')
 );
