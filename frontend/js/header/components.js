@@ -6,16 +6,16 @@ export class SignIn extends React.Component {
   constructor(props) {
     super();
     this.props = props;
-    this.email = '';
+    this.username = '';
     this.password = '';
-    this.handleEmail = email => {
-      this.email = email.target.value;
+    this.handleUsername = username => {
+      this.username = username.target.value;
     };
     this.handlePassword = password => {
       this.password = password.target.value;
     };
     this.handleSubmit = () => {
-      this.props.actions.signIn(this.email, this.password);
+      this.props.actions.signIn(this.username, this.password);
     };
     this.handleClose = () => {
       this.props.actions.displaySignIn(false);
@@ -29,10 +29,10 @@ export class SignIn extends React.Component {
     } else {
       return (
         <div id="sign-in">
-          <p><input id="sign-in-email"
+          <p><input id="sign-in-username"
                     type="text"
-                    placeholder="email address"
-                    onChange={this.handleEmail}/>
+                    placeholder="username"
+                    onChange={this.handleUsername}/>
           </p>
           <p><input id="sign-in-password"
                     type="password"

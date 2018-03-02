@@ -25585,6 +25585,21 @@ var getPostList = exports.getPostList = function getPostList(postList) {
   return { type: 'GET_POST_LIST', postList: postList };
 };
 
+var getCookie = function getCookie(name) {
+  var cookieValue = null;
+  if (document.cookie && document.cookie !== '') {
+    var cookies = document.cookie.split(';');
+    for (var i = 0; i < cookies.length; i++) {
+      var cookie = cookies[i].trim();
+      if (cookie.substring(0, name.length + 1) === name + '=') {
+        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+        break;
+      }
+    }
+  }
+  return cookieValue;
+};
+
 var fetchPostList = exports.fetchPostList = function fetchPostList() {
   var path = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '/api/posts/list/';
   return function (dispatch) {
@@ -25639,8 +25654,9 @@ var newPost = exports.newPost = function newPost(post) {
         method: "POST",
         credentials: 'include',
         headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json'
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          "X-CSRFToken": getCookie("csrftoken")
         },
         body: JSON.stringify(post)
       }).then(function (response) {
@@ -25694,8 +25710,9 @@ var newComment = exports.newComment = function newComment(comment, uuid) {
       method: "POST",
       credentials: 'include',
       headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json'
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        "X-CSRFToken": getCookie("csrftoken")
       },
       body: JSON.stringify(comment)
     }).then(function (response) {
@@ -26120,6 +26137,21 @@ var setUserInfo = exports.setUserInfo = function setUserInfo(userInfo) {
   return { type: 'SET_USER_INFO', userInfo: userInfo };
 };
 
+var getCookie = function getCookie(name) {
+  var cookieValue = null;
+  if (document.cookie && document.cookie !== '') {
+    var cookies = document.cookie.split(';');
+    for (var i = 0; i < cookies.length; i++) {
+      var cookie = cookies[i].trim();
+      if (cookie.substring(0, name.length + 1) === name + '=') {
+        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+        break;
+      }
+    }
+  }
+  return cookieValue;
+};
+
 var checkAuthentication = exports.checkAuthentication = function checkAuthentication() {
   return function (dispatch) {
     var isAuthenticated = false;
@@ -26127,7 +26159,8 @@ var checkAuthentication = exports.checkAuthentication = function checkAuthentica
       method: 'POST',
       credentials: 'include',
       headers: {
-        Accept: 'application/json',
+        'Accept': 'application/json',
+        "X-CSRFToken": getCookie("csrftoken"),
         'Content-Type': 'application/json'
       }
     }).then(function (response) {
@@ -26161,8 +26194,9 @@ var signOut = exports.signOut = function signOut() {
       method: 'POST',
       credentials: 'include',
       headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json'
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        "X-CSRFToken": getCookie("csrftoken")
       }
     }).then(function () {
       dispatch(setUserInfo(userInfo));
@@ -26190,7 +26224,8 @@ var signUp = exports.signUp = function signUp(username, email, password1, passwo
         method: 'POST',
         credentials: 'include',
         headers: {
-          Accept: 'application/json',
+          'Accept': 'application/json',
+          "X-CSRFToken": getCookie("csrftoken"),
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({ username: username, email: email, password1: password1, password2: password2 })
@@ -26199,7 +26234,7 @@ var signUp = exports.signUp = function signUp(username, email, password1, passwo
           isAuthenticated = true;
           return response.json();
         } else {
-          return {};
+          return response.json();
         }
       }).then(function (userInfo) {
         if (isAuthenticated === true) {
@@ -26208,7 +26243,7 @@ var signUp = exports.signUp = function signUp(username, email, password1, passwo
           dispatch(setUserInfo(userInfo));
           dispatch(displaySignUp(false));
         } else {
-          dispatch(setSignUpError('Email already existed'));
+          dispatch(setSignUpError(userInfo.email));
         }
       }).catch(function () {
         dispatch(setSignUpError('Email already existed'));
@@ -26217,27 +26252,27 @@ var signUp = exports.signUp = function signUp(username, email, password1, passwo
   };
 };
 
-var signIn = exports.signIn = function signIn(email, password) {
+var signIn = exports.signIn = function signIn(username, password) {
   return function (dispatch) {
     var isAuthenticated = false;
     fetch('/api/accounts/sign-in/', {
       method: 'POST',
       credentials: 'include',
       headers: {
-        Accept: 'application/json',
+        'Accept': 'application/json',
+        "X-CSRFToken": getCookie("csrftoken"),
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ email: email, password: password })
+      body: JSON.stringify({ username: username, password: password })
     }).then(function (response) {
       if (response.status === 200) {
         isAuthenticated = true;
-      }
-      if (response.ok) {
         return response.json();
       } else {
-        return {};
+        return response.json();
       }
     }).then(function (userInfo) {
+      console.log(userInfo);
       if (isAuthenticated === true) {
         userInfo.isAuthenticated = isAuthenticated;
         dispatch(setSignInError(''));
@@ -26295,16 +26330,16 @@ var SignIn = exports.SignIn = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, (SignIn.__proto__ || Object.getPrototypeOf(SignIn)).call(this));
 
     _this.props = props;
-    _this.email = '';
+    _this.username = '';
     _this.password = '';
-    _this.handleEmail = function (email) {
-      _this.email = email.target.value;
+    _this.handleUsername = function (username) {
+      _this.username = username.target.value;
     };
     _this.handlePassword = function (password) {
       _this.password = password.target.value;
     };
     _this.handleSubmit = function () {
-      _this.props.actions.signIn(_this.email, _this.password);
+      _this.props.actions.signIn(_this.username, _this.password);
     };
     _this.handleClose = function () {
       _this.props.actions.displaySignIn(false);
@@ -26325,10 +26360,10 @@ var SignIn = exports.SignIn = function (_React$Component) {
           _react2.default.createElement(
             'p',
             null,
-            _react2.default.createElement('input', { id: 'sign-in-email',
+            _react2.default.createElement('input', { id: 'sign-in-username',
               type: 'text',
-              placeholder: 'email address',
-              onChange: this.handleEmail })
+              placeholder: 'username',
+              onChange: this.handleUsername })
           ),
           _react2.default.createElement(
             'p',

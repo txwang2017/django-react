@@ -2,15 +2,31 @@ export const setUserInfo = (userInfo) => {
   return {type: 'SET_USER_INFO', userInfo};
 };
 
+const getCookie = name => {
+  let cookieValue = null;
+  if (document.cookie && document.cookie !== '') {
+    let cookies = document.cookie.split(';');
+    for (let i = 0; i < cookies.length; i++) {
+      let cookie = cookies[i].trim();
+      if (cookie.substring(0, name.length + 1) === (name + '=')) {
+        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+        break;
+      }
+    }
+  }
+  return cookieValue;
+};
+
 export const checkAuthentication = () => dispatch => {
   let isAuthenticated = false;
   fetch('/api/accounts/check-authentication/', {
     method: 'POST',
     credentials: 'include',
     headers: {
-      Accept: 'application/json',
+      'Accept': 'application/json',
+      "X-CSRFToken": getCookie("csrftoken"),
       'Content-Type': 'application/json'
-    }
+    },
   }).then(
     response => {
       if (response.status === 200) {
@@ -30,7 +46,7 @@ export const checkAuthentication = () => dispatch => {
 
 const redirectToIndex = () => {
   let curr_url = window.location.hash;
-  if(curr_url === "#/new-post"){
+  if (curr_url === "#/new-post") {
     window.location.hash = "#";
   }
 };
@@ -44,8 +60,9 @@ export const signOut = () => dispatch => {
     method: 'POST',
     credentials: 'include',
     headers: {
-      Accept: 'application/json',
+      'Accept': 'application/json',
       'Content-Type': 'application/json',
+      "X-CSRFToken": getCookie("csrftoken"),
     },
   }).then(
     () => {
@@ -76,7 +93,8 @@ export const signUp = (username, email, password1, password2) => dispatch => {
       method: 'POST',
       credentials: 'include',
       headers: {
-        Accept: 'application/json',
+        'Accept': 'application/json',
+        "X-CSRFToken": getCookie("csrftoken"),
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({username, email, password1, password2})
@@ -86,7 +104,7 @@ export const signUp = (username, email, password1, password2) => dispatch => {
           isAuthenticated = true;
           return response.json();
         } else {
-          return {};
+          return response.json();
         }
       }
     ).then(
@@ -97,7 +115,7 @@ export const signUp = (username, email, password1, password2) => dispatch => {
           dispatch(setUserInfo(userInfo));
           dispatch(displaySignUp(false));
         } else {
-          dispatch(setSignUpError('Email already existed'));
+          dispatch(setSignUpError(userInfo.email));
         }
       }
     ).catch(
@@ -108,29 +126,29 @@ export const signUp = (username, email, password1, password2) => dispatch => {
   }
 };
 
-export const signIn = (email, password) => dispatch => {
+export const signIn = (username, password) => dispatch => {
   let isAuthenticated = false;
   fetch('/api/accounts/sign-in/', {
     method: 'POST',
     credentials: 'include',
     headers: {
-      Accept: 'application/json',
+      'Accept': 'application/json',
+      "X-CSRFToken": getCookie("csrftoken"),
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({email, password})
+    body: JSON.stringify({username, password})
   }).then(
     response => {
       if (response.status === 200) {
         isAuthenticated = true;
-      }
-      if (response.ok) {
         return response.json();
       } else {
-        return {};
+        return response.json();
       }
     }
   ).then(
     userInfo => {
+      console.log(userInfo);
       if (isAuthenticated === true) {
         userInfo.isAuthenticated = isAuthenticated;
         dispatch(setSignInError(''));
