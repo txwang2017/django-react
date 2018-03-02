@@ -2,22 +2,11 @@
 from __future__ import unicode_literals
 
 from rest_framework.views import APIView, Response
-from rest_framework.permissions import BasePermission, AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.pagination import PageNumberPagination
 
-from users.utils import fetch_user_by_cookie
 from .serializer import PostSerializer, PostsSerializer, CommentSerializer
 from .utils import get_all_posts, get_post, get_comments_by_post
-
-
-class PostPermission(BasePermission):
-
-    def __init__(self, author):
-        super(PostPermission, self).__init__()
-        self.author = author
-
-    def has_permission(self, request, view):
-        return self.author is not None
 
 
 class PostListPagination(PageNumberPagination):
@@ -30,9 +19,10 @@ class PostAPIListView(APIView):
 
     author = None
     paginator = None
+    queryset = get_all_posts().order_by('pub_time').reverse()
 
     def initial(self, request, *args, **kwargs):
-        self.author = fetch_user_by_cookie(request=request)
+        self.author = request.user
         self.paginator = PostListPagination()
         super(PostAPIListView, self).initial(request, *args, **kwargs)
 
@@ -54,7 +44,7 @@ class PostAPIListView(APIView):
         if self.request._request.method == "GET":
             return [AllowAny()]
         elif self.request._request.method == "POST":
-            return [PostPermission(self.author)]
+            return [IsAuthenticated()]
 
     def post(self, request, *args, **kwargs):
         serializer = PostsSerializer(data=request.data)
@@ -67,7 +57,7 @@ class PostAPIListView(APIView):
             return Response(status=400)
 
     def get(self, request, *args, **kwargs):
-        query_set = get_all_posts()
+        query_set = self.queryset
         return self.get_paginate_queryset(query_set)
 
 
@@ -76,14 +66,14 @@ class PostDetailAPIView(APIView):
     author = None
 
     def initial(self, request, *args, **kwargs):
-        self.author = fetch_user_by_cookie(request=request)
+        self.author = request.user
         super(PostDetailAPIView, self).initial(request, *args, **kwargs)
 
     def get_permissions(self):
         if self.request._request.method == "GET":
             return [AllowAny()]
         elif self.request._request.method == "POST":
-            return [PostPermission(self.author)]
+            return [IsAuthenticated()]
 
     def get(self, request, *args, **kwargs):
         uuid = kwargs.get('uuid')

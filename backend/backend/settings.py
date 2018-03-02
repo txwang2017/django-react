@@ -25,7 +25,10 @@ SECRET_KEY = '*e00w3uhf9y!i)by+!#j7tx6ig@cpablw=htuld3j!ux#=baw='
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost']
+ALLOWED_HOSTS = [
+    'localhost',
+    '127.0.0.1',
+]
 
 SITE_ID = 1
 
@@ -39,9 +42,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'django.contrib.sites',
     'rest_framework',
     'rest_framework.authtoken',
+    'rest_auth',
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'rest_auth.registration',
 
     'users',
     'posts',
@@ -112,6 +119,8 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
 
 AUTH_USER_MODEL = 'users.User'
+
+ACCOUNT_EMAIL_VERIFICATION = 'optional'
 
 LANGUAGE_CODE = 'en-us'
 
