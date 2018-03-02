@@ -1,0 +1,136 @@
+#account-header #sign-in-up{
+    position: relative;
+    left: 70%;
+    width: auto;
+}
+
+#account-header #log-in-info{
+    position: relative;
+    top: 1px;
+    width: auto;
+}
+
+#account-header {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 30px;
+    font: normal 14px "Arial";
+    text-decoration: none;
+    background-color: #c7ddef;
+}
+
+#account-header a{
+    text-decoration: none;
+    color: blue
+}
+
+#user-sign{
+    z-index: 100;
+}
+
+#user-sign #sign-in{
+    width: 35%;
+    height: 150px;
+    padding-top: 30px;
+    background-color: #c7ddef;
+    position: absolute;
+    top: 30px;
+    left: 65%;
+    opacity: 0.9;
+    z-index: 100;
+}
+
+#user-sign #sign-in input{
+    position: relative;
+    left: 10%;
+    width: 70%;
+}
+
+#user-sign #sign-in #sign-in-submit{
+	position: absolute;
+	left: 70%;
+}
+
+.btn-circle {
+    width: 15px;
+    height: 15px;
+    text-align: center;
+    padding: 0 0;
+    font-size: 10px;
+    line-height: 1.428571429;
+    color: black;
+}
+
+#sign-in-cancle{
+    position: absolute;
+    left: 90%;
+    top: 5%
+}
+
+#sign-in-error-message{
+    position: absolute;
+    left: 10%;
+    width: 50%;
+    color: red;
+    font: normal 14px "Arial";
+}
+
+#user-sign #sign-up{
+    width: 35%;
+    height: 250px;
+    padding-top: 30px;
+    background-color: #c7ddef;
+    position: absolute;
+    top: 30px;
+    left: 65%;
+    opacity: 0.9;
+    z-index: 100;
+}
+
+#user-sign #sign-up input{
+    position: relative;
+    left: 10%;
+    width: 70%;
+}
+
+#user-sign #sign-up #sign-up-submit{
+	position: absolute;
+	left: 70%;
+}
+
+#sign-up-cancle{
+    position: absolute;
+    left: 90%;
+    top: 5%
+}
+
+#sign-up-error-message{
+    position: absolute;
+    left: 10%;
+    width: 50%;
+    color: red;
+    font: normal 14px "Arial";
+}
+
+#user-info{
+    position: absolute;
+    left: 70%;
+    top: 5px;
+    font: normal 14px "Helvetica";
+}
+
+#new-post-link{
+    position: absolute;
+    left: 80%;
+    top: 5px;
+    font: normal 14px "Helvetica";
+}
+
+#sign-out-submit{
+    position: absolute;
+    left: 90%;
+    top: 1px;
+    color: blue;
+    font: normal 14px "Helvetica";
+}
