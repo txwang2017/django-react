@@ -131,6 +131,31 @@ export class SignUp extends React.Component {
   }
 }
 
+export class Search extends React.Component{
+  constructor(props){
+    super(props);
+    this.props = props;
+    this.searchKeywords = '';
+
+    this.handleSearchKeywordsChange = searchKeywords => {
+      this.searchKeywords = searchKeywords.target.value;
+    };
+
+    this.handleSubmit = () => {
+      this.props.actions.search({searchKeywords: this.searchKeywords});
+    };
+  }
+
+  render() {
+    return(
+      <div id="search-bar">
+        <input type="text" id="search-content" onChange={this.handleSearchKeywordsChange}/>
+        <button className="btn" id="search-button" onClick={this.handleSubmit}>Search</button>
+      </div>
+    )
+  }
+}
+
 export class HeaderBar extends React.Component {
   constructor(props) {
     super(props);
@@ -211,6 +236,7 @@ export class HeaderBar extends React.Component {
   render() {
     return (
       <div id="account-header">
+        <Search state={this.props.state} actions={this.props.actions}/>
         {this.setContent()}
         {this.setSignOutButton()}
         {this.setNewPostButton()}

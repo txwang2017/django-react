@@ -1,3 +1,5 @@
+import {getPostList, setNextPage, setPostNum, setPreviousPage} from '../posts/actions'
+
 export const setUserInfo = (userInfo) => {
   return {type: 'SET_USER_INFO', userInfo};
 };
@@ -164,3 +166,26 @@ export const signIn = (username, password) => dispatch => {
 export const displaySignIn = displayStatus => ({type: "DISPLAY_SIGN_IN", displayStatus});
 
 export const displaySignUp = displayStatus => ({type: "DISPLAY_SIGN_UP", displayStatus});
+
+export const search = keywords => dispatch => {
+  window.location.hash = "#";
+  fetch('/api/search/', {
+    method: "POST",
+    credentials: 'include',
+    headers: {
+      'Accept': 'application/json',
+      "X-CSRFToken": getCookie("csrftoken"),
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(keywords)
+  }).then(
+    response => response.json()
+  ).then(
+      postList => {
+        dispatch(getPostList(postList.results));
+        dispatch(setNextPage(postList.next));
+        dispatch(setPreviousPage(postList.previous));
+        dispatch(setPostNum(postList.count));
+    }
+  )
+};

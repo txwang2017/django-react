@@ -21,7 +21,9 @@ export class PostList extends React.Component {
   }
 
   componentWillMount() {
-    this.props.actions.fetchPostList();
+    if(this.props.state.postList.length === 0){
+      this.props.actions.fetchPostList();
+    }
   }
 
   render() {

@@ -1,5 +1,6 @@
 import uuid
 
+from django.db.models import Q
 
 from .models import Post, Comment
 
@@ -39,6 +40,15 @@ def get_comments_by_post(post=None):
         return []
     comments = Comment.objects.all().filter(post=post)
     return comments
+
+
+def filter_posts(queryset, keywords):
+    keywords = keywords.split(' ')
+    posts_filter = Q()
+    for kw in keywords:
+        if kw:
+            posts_filter = posts_filter & Q(title__contains=kw)
+    return queryset.filter(posts_filter)
 
 
 def create_comment(**kwargs):
