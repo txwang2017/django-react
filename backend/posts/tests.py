@@ -31,7 +31,7 @@ def acc():
 #
 def acp():
     users = User.objects.all()
-    for i in xrange(1000):
+    for i in xrange(10000):
         n = randint(0, len(users) - 1)
         t = ['a' for k in range(10)]
         for j in xrange(10):

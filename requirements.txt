@@ -22,3 +22,6 @@ six==1.11.0
 typing==3.6.4
 urllib3==1.22
 Werkzeug==0.14.1
+redis==2.10.6
+django-redis==4.4.2
+APScheduler==3.1.0
