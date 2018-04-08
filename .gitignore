@@ -4,5 +4,9 @@
 /lib64/
 /node_modules/
 /frontend/node_modules/
+/backend/bin/
+/backend/include/
+/backend/lib/
+/backend/lib64/
 *.pyc
 db.sqlite3
