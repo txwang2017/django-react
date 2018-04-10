@@ -1,26 +1,26 @@
 import {getPostList, setNextPage, setPostNum, setPreviousPage} from '../posts/actions'
 
 export const setUserInfo = (userInfo) => {
-  return {type: 'SET_USER_INFO', userInfo};
-};
+  return {type: 'SET_USER_INFO', userInfo}
+}
 
 const getCookie = name => {
   let cookieValue = null;
   if (document.cookie && document.cookie !== '') {
-    let cookies = document.cookie.split(';');
+    let cookies = document.cookie.split(';')
     for (let i = 0; i < cookies.length; i++) {
-      let cookie = cookies[i].trim();
+      let cookie = cookies[i].trim()
       if (cookie.substring(0, name.length + 1) === (name + '=')) {
-        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+        cookieValue = decodeURIComponent(cookie.substring(name.length + 1))
         break;
       }
     }
   }
-  return cookieValue;
-};
+  return cookieValue
+}
 
 export const checkAuthentication = () => dispatch => {
-  let isAuthenticated = false;
+  let isAuthenticated = false
   fetch('/api/accounts/check-authentication/', {
     method: 'POST',
     credentials: 'include',
@@ -30,34 +30,31 @@ export const checkAuthentication = () => dispatch => {
       'Content-Type': 'application/json'
     },
   }).then(
-    response => {
-      if (response.status === 200) {
-        isAuthenticated = true;
-        return response.json();
-      } else {
-        return {};
-      }
-    }
+    response => response.json()
   ).then(
-    userInfo => {
-      userInfo.isAuthenticated = isAuthenticated;
-      dispatch(setUserInfo(userInfo));
+    response => {
+      if (response.err) {
+        return
+      }
+      let userInfo = response
+      userInfo.isAuthenticated = true
+      dispatch(setUserInfo(userInfo))
     }
   )
-};
+}
 
 const redirectToIndex = () => {
-  let curr_url = window.location.hash;
+  let curr_url = window.location.hash
   if (curr_url === "#/new-post") {
-    window.location.hash = "#";
+    window.location.hash = "#"
   }
-};
+}
 
 export const signOut = () => dispatch => {
   const userInfo = {
     email: '',
     isAuthenticated: false
-  };
+  }
   fetch('/api/accounts/sign-out/', {
     method: 'POST',
     credentials: 'include',
@@ -68,29 +65,28 @@ export const signOut = () => dispatch => {
     },
   }).then(
     () => {
-      dispatch(setUserInfo(userInfo));
+      dispatch(setUserInfo(userInfo))
     }
   ).then(
     () => {
-      redirectToIndex();
+      redirectToIndex()
     }
   )
-};
+}
 
 export const setSignInError = errorMessage => {
-  return {type: 'SET_SIGN_IN_ERROR', errorMessage};
-};
+  return {type: 'SET_SIGN_IN_ERROR', errorMessage}
+}
 
 export const setSignUpError = errorMessage => {
-  return {type: 'SET_SIGN_UP_ERROR', errorMessage};
-};
+  return {type: 'SET_SIGN_UP_ERROR', errorMessage}
+}
 
 export const signUp = (username, email, password1, password2) => dispatch => {
   if (password1 !== password2) {
-    dispatch(setSignUpError('Please enter the same password'));
+    dispatch(setSignUpError('Please enter the same password'))
   }
   else {
-    let isAuthenticated = false;
     fetch('/api/accounts/sign-up/', {
       method: 'POST',
       credentials: 'include',
@@ -101,35 +97,38 @@ export const signUp = (username, email, password1, password2) => dispatch => {
       },
       body: JSON.stringify({username, email, password1, password2})
     }).then(
-      response => {
-        if (response.status === 200) {
-          isAuthenticated = true;
-          return response.json();
-        } else {
-          return response.json();
-        }
-      }
+      response => response.json()
     ).then(
-      userInfo => {
-        if (isAuthenticated === true) {
-          userInfo.isAuthenticated = isAuthenticated;
-          dispatch(setSignUpError(''));
-          dispatch(setUserInfo(userInfo));
-          dispatch(displaySignUp(false));
-        } else {
-          dispatch(setSignUpError(userInfo.email));
+      response => {
+        if(response.err){
+          let error = ''
+          if(response.email){
+            error += response.email
+          }
+          if(response.username){
+            error += 'username already exists. '
+          }
+          if(response.password1){
+            error += response.password1
+          }
+          dispatch(setSignUpError(error))
+          return
         }
+        let userInfo = response
+        userInfo.isAuthenticated = true
+        dispatch(setSignUpError(''))
+        dispatch(setUserInfo(userInfo))
+        dispatch(displaySignUp(false))
       }
     ).catch(
-      () => {
-        dispatch(setSignUpError('Email already existed'));
+      err => {
+        dispatch(setSignUpError(err))
       }
     )
   }
-};
+}
 
 export const signIn = (username, password) => dispatch => {
-  let isAuthenticated = false;
   fetch('/api/accounts/sign-in/', {
     method: 'POST',
     credentials: 'include',
@@ -140,35 +139,28 @@ export const signIn = (username, password) => dispatch => {
     },
     body: JSON.stringify({username, password})
   }).then(
-    response => {
-      if (response.status === 200) {
-        isAuthenticated = true;
-        return response.json();
-      } else {
-        return response.json();
-      }
-    }
+    response => response.json()
   ).then(
-    userInfo => {
-      console.log(userInfo);
-      if (isAuthenticated === true) {
-        userInfo.isAuthenticated = isAuthenticated;
-        dispatch(setSignInError(''));
-        dispatch(setUserInfo(userInfo));
-        dispatch(displaySignIn(false));
-      } else {
-        dispatch(setSignInError('Username/Password is not correct'));
+    response => {
+      if(response.err){
+        setSignInError(response.err)
+        return
       }
+      let userInfo = response
+      userInfo.isAuthenticated = true
+      dispatch(setSignInError(''))
+      dispatch(setUserInfo(userInfo))
+      dispatch(displaySignIn(false))
     }
   )
-};
+}
 
-export const displaySignIn = displayStatus => ({type: "DISPLAY_SIGN_IN", displayStatus});
+export const displaySignIn = displayStatus => ({type: "DISPLAY_SIGN_IN", displayStatus})
 
-export const displaySignUp = displayStatus => ({type: "DISPLAY_SIGN_UP", displayStatus});
+export const displaySignUp = displayStatus => ({type: "DISPLAY_SIGN_UP", displayStatus})
 
 export const search = keywords => dispatch => {
-  window.location.hash = "#";
+  window.location.hash = "#"
   fetch('/api/search/', {
     method: "POST",
     credentials: 'include',
@@ -181,11 +173,11 @@ export const search = keywords => dispatch => {
   }).then(
     response => response.json()
   ).then(
-      postList => {
-        dispatch(getPostList(postList.results));
-        dispatch(setNextPage(postList.next));
-        dispatch(setPreviousPage(postList.previous));
-        dispatch(setPostNum(postList.count));
+    postList => {
+      dispatch(getPostList(postList.results))
+      dispatch(setNextPage(postList.next))
+      dispatch(setPreviousPage(postList.previous))
+      dispatch(setPostNum(postList.count))
     }
   )
-};
+}
