@@ -1,6 +1,6 @@
 import React from 'react'
 
-import {SignIn, SignUp} from "./components";
+import {SignIn, SignUp, Search} from "./components";
 
 class SignPanel extends React.Component {
   constructor(props) {
@@ -21,7 +21,7 @@ class SignPanel extends React.Component {
     return (
       <div>
         <button type='button'
-                className="btn btn-success"
+                className="btn btn-outline-info my-2 my-sm-0"
                 data-toggle="modal"
                 data-target="#popUpWindow">sign in
         </button>
@@ -40,12 +40,22 @@ export default class HeaderBar extends React.Component {
   constructor(props) {
     super(props)
     this.props = props
-
   }
 
   render() {
     return (
-      <SignPanel state={this.props.state} actions={this.props.actions}/>
+
+      <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+        <Search state={this.props.state} actions={this.props.actions}/>
+        <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01"
+                aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+          <span className="navbar-toggler-icon"/>
+        </button>
+        <div className="collapse navbar-collapse">
+          <SignPanel state={this.props.state} actions={this.props.actions}/>
+        </div>
+      </nav>
+
     )
   }
 }

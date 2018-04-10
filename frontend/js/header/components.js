@@ -170,10 +170,10 @@ export class Search extends React.Component {
 
   render() {
     return (
-      <div id="search-bar">
-        <input type="text" id="search-content" onChange={this.handleSearchKeywordsChange}/>
-        <button className="btn" id="search-button" onClick={this.handleSubmit}>Search</button>
-      </div>
+      <form className="form-inline">
+        <input type="text" className="form-control mr-sm-2" onChange={this.handleSearchKeywordsChange}/>
+        <button className="btn btn-outline-info my-2 my-sm-0" onClick={this.handleSubmit}>Search</button>
+      </form>
     )
   }
 }

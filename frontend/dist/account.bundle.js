@@ -26378,7 +26378,7 @@ var SignPanel = function (_React$Component) {
         _react2.default.createElement(
           'button',
           { type: 'button',
-            className: 'btn btn-success',
+            className: 'btn btn-outline-info my-2 my-sm-0',
             'data-toggle': 'modal',
             'data-target': '#popUpWindow' },
           'sign in'
@@ -26408,14 +26408,28 @@ var HeaderBar = function (_React$Component2) {
     var _this2 = _possibleConstructorReturn(this, (HeaderBar.__proto__ || Object.getPrototypeOf(HeaderBar)).call(this, props));
 
     _this2.props = props;
-
     return _this2;
   }
 
   _createClass(HeaderBar, [{
     key: 'render',
     value: function render() {
-      return _react2.default.createElement(SignPanel, { state: this.props.state, actions: this.props.actions });
+      return _react2.default.createElement(
+        'nav',
+        { className: 'navbar navbar-expand-lg navbar-dark bg-dark' },
+        _react2.default.createElement(_components.Search, { state: this.props.state, actions: this.props.actions }),
+        _react2.default.createElement(
+          'button',
+          { className: 'navbar-toggler', type: 'button', 'data-toggle': 'collapse', 'data-target': '#navbarColor01',
+            'aria-controls': 'navbarColor01', 'aria-expanded': 'false', 'aria-label': 'Toggle navigation' },
+          _react2.default.createElement('span', { className: 'navbar-toggler-icon' })
+        ),
+        _react2.default.createElement(
+          'div',
+          { className: 'collapse navbar-collapse' },
+          _react2.default.createElement(SignPanel, { state: this.props.state, actions: this.props.actions })
+        )
+      );
     }
   }]);
 
@@ -26724,12 +26738,12 @@ var Search = exports.Search = function (_React$Component3) {
     key: 'render',
     value: function render() {
       return _react2.default.createElement(
-        'div',
-        { id: 'search-bar' },
-        _react2.default.createElement('input', { type: 'text', id: 'search-content', onChange: this.handleSearchKeywordsChange }),
+        'form',
+        { className: 'form-inline' },
+        _react2.default.createElement('input', { type: 'text', className: 'form-control mr-sm-2', onChange: this.handleSearchKeywordsChange }),
         _react2.default.createElement(
           'button',
-          { className: 'btn', id: 'search-button', onClick: this.handleSubmit },
+          { className: 'btn btn-outline-info my-2 my-sm-0', onClick: this.handleSubmit },
           'Search'
         )
       );
