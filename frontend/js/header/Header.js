@@ -3,7 +3,7 @@ import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 
 import * as Actions from "./actions";
-import {HeaderBar} from './components';
+import HeaderBar from './container';
 
 const Header = ({state, actions}) => {
   const signInPath = "/accounts/sign-in";

@@ -3587,11 +3587,11 @@ var _Header = __webpack_require__(115);
 
 var _Header2 = _interopRequireDefault(_Header);
 
-var _reducers = __webpack_require__(118);
+var _reducers = __webpack_require__(119);
 
 var _reducers2 = _interopRequireDefault(_reducers);
 
-var _reducers3 = __webpack_require__(119);
+var _reducers3 = __webpack_require__(120);
 
 var _reducers4 = _interopRequireDefault(_reducers3);
 
@@ -26093,7 +26093,9 @@ var _actions = __webpack_require__(116);
 
 var Actions = _interopRequireWildcard(_actions);
 
-var _components = __webpack_require__(117);
+var _container = __webpack_require__(117);
+
+var _container2 = _interopRequireDefault(_container);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -26105,7 +26107,7 @@ var Header = function Header(_ref) {
 
   var signInPath = "/accounts/sign-in";
   var signUpPath = "/accounts/sign-up";
-  return _react2.default.createElement(_components.HeaderBar, { state: state.header,
+  return _react2.default.createElement(_container2.default, { state: state.header,
     actions: actions,
     signInPath: signInPath,
     signUpPath: signUpPath });
@@ -26135,7 +26137,7 @@ exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.search = exports.displaySignUp = exports.displaySignIn = exports.signIn = exports.signUp = exports.setSignUpError = exports.setSignInError = exports.signOut = exports.checkAuthentication = exports.setUserInfo = undefined;
+exports.search = exports.setDisplay = exports.signIn = exports.signUp = exports.setSignUpError = exports.setSignInError = exports.signOut = exports.checkAuthentication = exports.setUserInfo = undefined;
 
 var _actions = __webpack_require__(49);
 
@@ -26255,6 +26257,7 @@ var signUp = exports.signUp = function signUp(username, email, password1, passwo
         dispatch(setSignUpError(''));
         dispatch(setUserInfo(userInfo));
         dispatch(displaySignUp(false));
+        $('#popUpWindow').modal('hide');
       }).catch(function (err) {
         dispatch(setSignUpError(err));
       });
@@ -26277,7 +26280,7 @@ var signIn = exports.signIn = function signIn(username, password) {
       return response.json();
     }).then(function (response) {
       if (response.err) {
-        setSignInError(response.err);
+        dispatch(setSignInError(response.err));
         return;
       }
       var userInfo = response;
@@ -26285,16 +26288,13 @@ var signIn = exports.signIn = function signIn(username, password) {
       dispatch(setSignInError(''));
       dispatch(setUserInfo(userInfo));
       dispatch(displaySignIn(false));
+      $('#popUpWindow').modal('hide');
     });
   };
 };
 
-var displaySignIn = exports.displaySignIn = function displaySignIn(displayStatus) {
-  return { type: "DISPLAY_SIGN_IN", displayStatus: displayStatus };
-};
-
-var displaySignUp = exports.displaySignUp = function displaySignUp(displayStatus) {
-  return { type: "DISPLAY_SIGN_UP", displayStatus: displayStatus };
+var setDisplay = exports.setDisplay = function setDisplay(content) {
+  return { type: "DISPLAY_CONTENT", content: content };
 };
 
 var search = exports.search = function search(keywords) {
@@ -26330,6 +26330,110 @@ var search = exports.search = function search(keywords) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _components = __webpack_require__(118);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var SignPanel = function (_React$Component) {
+  _inherits(SignPanel, _React$Component);
+
+  function SignPanel(props) {
+    _classCallCheck(this, SignPanel);
+
+    var _this = _possibleConstructorReturn(this, (SignPanel.__proto__ || Object.getPrototypeOf(SignPanel)).call(this, props));
+
+    _this.props = props;
+    _this.setContent = function () {
+      switch (_this.props.state.displayContent) {
+        case 'sign-in':
+          return _react2.default.createElement(_components.SignIn, { state: _this.props.state, actions: _this.props.actions });
+        case 'sign-up':
+          return _react2.default.createElement(_components.SignUp, { state: _this.props.state, actions: _this.props.actions });
+        default:
+          return null;
+      }
+    };
+    return _this;
+  }
+
+  _createClass(SignPanel, [{
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        'div',
+        null,
+        _react2.default.createElement(
+          'button',
+          { type: 'button',
+            className: 'btn btn-success',
+            'data-toggle': 'modal',
+            'data-target': '#popUpWindow' },
+          'sign in'
+        ),
+        _react2.default.createElement(
+          'div',
+          { className: 'modal fade', tabIndex: '-1', role: 'dialog', 'aria-hidden': 'true', id: 'popUpWindow' },
+          _react2.default.createElement(
+            'div',
+            { className: 'modal-dialog', role: 'document' },
+            this.setContent()
+          )
+        )
+      );
+    }
+  }]);
+
+  return SignPanel;
+}(_react2.default.Component);
+
+var HeaderBar = function (_React$Component2) {
+  _inherits(HeaderBar, _React$Component2);
+
+  function HeaderBar(props) {
+    _classCallCheck(this, HeaderBar);
+
+    var _this2 = _possibleConstructorReturn(this, (HeaderBar.__proto__ || Object.getPrototypeOf(HeaderBar)).call(this, props));
+
+    _this2.props = props;
+
+    return _this2;
+  }
+
+  _createClass(HeaderBar, [{
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(SignPanel, { state: this.props.state, actions: this.props.actions });
+    }
+  }]);
+
+  return HeaderBar;
+}(_react2.default.Component);
+
+exports.default = HeaderBar;
+
+/***/ }),
+/* 118 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 exports.HeaderBar = exports.Search = exports.SignUp = exports.SignIn = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -26354,7 +26458,7 @@ var SignIn = exports.SignIn = function (_React$Component) {
   function SignIn(props) {
     _classCallCheck(this, SignIn);
 
-    var _this = _possibleConstructorReturn(this, (SignIn.__proto__ || Object.getPrototypeOf(SignIn)).call(this));
+    var _this = _possibleConstructorReturn(this, (SignIn.__proto__ || Object.getPrototypeOf(SignIn)).call(this, props));
 
     _this.props = props;
     _this.username = '';
@@ -26365,12 +26469,12 @@ var SignIn = exports.SignIn = function (_React$Component) {
     _this.handlePassword = function (password) {
       _this.password = password.target.value;
     };
-    _this.handleSubmit = function () {
-      _this.props.actions.signIn(_this.username, _this.password);
+    _this.handleSwitch = function () {
+      _this.props.actions.setDisplay('sign-up');
     };
-    _this.handleClose = function () {
-      _this.props.actions.displaySignIn(false);
-      _this.props.actions.displaySignUp(false);
+    _this.handleSubmit = function () {
+      console.log(_this.props.state);
+      _this.props.actions.signIn(_this.username, _this.password);
     };
     return _this;
   }
@@ -26383,41 +26487,72 @@ var SignIn = exports.SignIn = function (_React$Component) {
       } else {
         return _react2.default.createElement(
           'div',
-          { id: 'sign-in' },
+          { className: 'modal-content' },
           _react2.default.createElement(
-            'p',
-            null,
-            _react2.default.createElement('input', { id: 'sign-in-username',
-              type: 'text',
-              placeholder: 'username',
-              onChange: this.handleUsername })
-          ),
-          _react2.default.createElement(
-            'p',
-            null,
-            _react2.default.createElement('input', { id: 'sign-in-password',
-              type: 'password',
-              placeholder: 'password',
-              onChange: this.handlePassword })
+            'div',
+            { className: 'modal-header' },
+            _react2.default.createElement(
+              'h5',
+              { className: 'modal-title' },
+              'sign in'
+            ),
+            _react2.default.createElement('button', { type: 'button', id: 'sign-in-close', className: 'close', 'data-dismiss': 'modal', 'aria-label': 'Close' }),
+            _react2.default.createElement(
+              'span',
+              { 'aria-hidden': 'true' },
+              '\xD7'
+            )
           ),
           _react2.default.createElement(
             'div',
-            { id: 'sign-in-error-message' },
-            this.props.state.signInError.errorMessage
-          ),
-          _react2.default.createElement(
-            'button',
-            { className: 'btn btn-primary',
-              id: 'sign-in-submit',
-              onClick: this.handleSubmit },
-            'Sign In'
-          ),
-          _react2.default.createElement(
-            'button',
-            { id: 'sign-in-cancle',
-              className: 'btn btn-warning btn-circle',
-              onClick: this.handleClose },
-            'X'
+            { className: 'modal-body' },
+            _react2.default.createElement(
+              'form',
+              null,
+              _react2.default.createElement(
+                'div',
+                { className: 'form-group' },
+                _react2.default.createElement(
+                  'p',
+                  null,
+                  _react2.default.createElement('input', { id: 'sign-in-username',
+                    type: 'text',
+                    className: 'form-control',
+                    placeholder: 'username',
+                    onChange: this.handleUsername })
+                ),
+                _react2.default.createElement(
+                  'p',
+                  null,
+                  _react2.default.createElement('input', { id: 'sign-in-password',
+                    type: 'password',
+                    className: 'form-control',
+                    placeholder: 'password',
+                    onChange: this.handlePassword })
+                ),
+                _react2.default.createElement(
+                  'label',
+                  { className: 'col-form-label', id: 'sign-in-error' },
+                  this.props.state.signInError
+                )
+              )
+            ),
+            _react2.default.createElement(
+              'div',
+              { className: 'modal-footer' },
+              _react2.default.createElement(
+                'button',
+                { className: 'btn btn-primary',
+                  id: 'sign-in-submit',
+                  onClick: this.handleSubmit },
+                'Sign In'
+              ),
+              _react2.default.createElement(
+                'button',
+                { className: 'btn btn-link', onClick: this.handleSwitch },
+                'Don\'t have an account? Sign up here.'
+              )
+            )
           )
         );
       }
@@ -26457,14 +26592,13 @@ var SignUp = exports.SignUp = function (_React$Component2) {
       _this2.username = username.target.value;
     };
 
+    _this2.handleSwitch = function () {
+      _this2.props.actions.setDisplay('sign-in');
+    };
     _this2.handleSubmit = function () {
       _this2.props.actions.signUp(_this2.username, _this2.email, _this2.password1, _this2.password2);
     };
 
-    _this2.handleClose = function () {
-      _this2.props.actions.displaySignIn(false);
-      _this2.props.actions.displaySignUp(false);
-    };
     return _this2;
   }
 
@@ -26476,57 +26610,86 @@ var SignUp = exports.SignUp = function (_React$Component2) {
       } else {
         return _react2.default.createElement(
           'div',
-          { id: 'sign-up' },
+          { className: 'modal-content' },
           _react2.default.createElement(
-            'p',
-            null,
-            _react2.default.createElement('input', { id: 'sign-up-username',
-              type: 'text',
-              placeholder: 'username',
-              onChange: this.handleUsername })
-          ),
-          _react2.default.createElement(
-            'p',
-            null,
-            _react2.default.createElement('input', { id: 'sign-up-email',
-              type: 'text',
-              placeholder: 'email',
-              onChange: this.handleEmail })
-          ),
-          _react2.default.createElement(
-            'p',
-            null,
-            _react2.default.createElement('input', { id: 'sign-up-password1',
-              type: 'password',
-              placeholder: 'password',
-              onChange: this.handlePassword1 })
-          ),
-          _react2.default.createElement(
-            'p',
-            null,
-            _react2.default.createElement('input', { id: 'sign-up-password2',
-              type: 'password',
-              placeholder: 'password enter again',
-              onChange: this.handlePassword2 })
+            'div',
+            { className: 'modal-header' },
+            _react2.default.createElement(
+              'h5',
+              { className: 'modal-title' },
+              'sign up'
+            ),
+            _react2.default.createElement('button', { type: 'button', id: 'sign-up-close', className: 'close', 'data-dismiss': 'modal', 'aria-label': 'Close' }),
+            _react2.default.createElement(
+              'span',
+              { 'aria-hidden': 'true' },
+              '\xD7'
+            )
           ),
           _react2.default.createElement(
             'div',
-            { id: 'sign-up-error-message' },
-            this.props.state.signUpError.errorMessage
+            { className: 'modal-body' },
+            _react2.default.createElement(
+              'form',
+              null,
+              _react2.default.createElement(
+                'p',
+                null,
+                _react2.default.createElement('input', { id: 'sign-up-username',
+                  type: 'text',
+                  className: 'form-control',
+                  placeholder: 'username',
+                  onChange: this.handleUsername })
+              ),
+              _react2.default.createElement(
+                'p',
+                null,
+                _react2.default.createElement('input', { id: 'sign-up-email',
+                  type: 'text',
+                  className: 'form-control',
+                  placeholder: 'email',
+                  onChange: this.handleEmail })
+              ),
+              _react2.default.createElement(
+                'p',
+                null,
+                _react2.default.createElement('input', { id: 'sign-up-password1',
+                  type: 'password',
+                  className: 'form-control',
+                  placeholder: 'password',
+                  onChange: this.handlePassword1 })
+              ),
+              _react2.default.createElement(
+                'p',
+                null,
+                _react2.default.createElement('input', { id: 'sign-up-password2',
+                  type: 'password',
+                  className: 'form-control',
+                  placeholder: 'enter password again',
+                  onChange: this.handlePassword2 })
+              ),
+              _react2.default.createElement(
+                'label',
+                { className: 'col-form-label', id: 'sign-up-error' },
+                this.props.state.signUpError
+              )
+            )
           ),
           _react2.default.createElement(
-            'button',
-            { className: 'btn btn-primary',
-              id: 'sign-up-submit',
-              onClick: this.handleSubmit },
-            'Sign Up'
-          ),
-          _react2.default.createElement(
-            'button',
-            { id: 'sign-up-cancle',
-              className: 'btn btn-warning btn-circle',
-              onClick: this.handleClose },
-            'X'
+            'div',
+            { className: 'modal-footer' },
+            _react2.default.createElement(
+              'button',
+              { className: 'btn btn-primary',
+                id: 'sign-up-submit',
+                onClick: this.handleSubmit },
+              'Sign Up'
+            ),
+            _react2.default.createElement(
+              'button',
+              { className: 'btn btn-link', onClick: this.handleSwitch },
+              'Already have an account? Sign up here.'
+            )
           )
         );
       }
@@ -26592,33 +26755,7 @@ var HeaderBar = exports.HeaderBar = function (_React$Component4) {
           _this4.props.state.userInfo.email
         );
       } else {
-        return _react2.default.createElement(
-          'ul',
-          { className: 'inline', id: 'sign-in-up' },
-          _react2.default.createElement(
-            'li',
-            { id: 'log-in-info' },
-            'Please log in'
-          ),
-          _react2.default.createElement(
-            'li',
-            { id: 'sign-in-link' },
-            _react2.default.createElement(
-              'button',
-              { className: 'btn btn-link', onClick: _this4.handleSignIn },
-              'sign in'
-            )
-          ),
-          _react2.default.createElement(
-            'li',
-            { id: 'sign-up-link' },
-            _react2.default.createElement(
-              'button',
-              { className: 'btn btn-link', onClick: _this4.handleSignUp },
-              'sign up'
-            )
-          )
-        );
+        return 111;
       }
     };
 
@@ -26647,14 +26784,6 @@ var HeaderBar = exports.HeaderBar = function (_React$Component4) {
             'new post'
           )
         );
-      } else {
-        return null;
-      }
-    };
-
-    _this4.setSignInPanel = function () {
-      if (_this4.props.state.signInDisplay === true) {
-        return _react2.default.createElement(SignIn, { state: _this4.props.state, actions: _this4.props.actions });
       } else {
         return null;
       }
@@ -26698,7 +26827,6 @@ var HeaderBar = exports.HeaderBar = function (_React$Component4) {
         _react2.default.createElement(
           'div',
           { id: 'user-sign' },
-          this.setSignInPanel(),
           this.setSignUpPanel()
         )
       );
@@ -26709,7 +26837,7 @@ var HeaderBar = exports.HeaderBar = function (_React$Component4) {
 }(_react2.default.Component);
 
 /***/ }),
-/* 118 */
+/* 119 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26782,7 +26910,7 @@ var postReducer = function postReducer() {
 exports.default = postReducer;
 
 /***/ }),
-/* 119 */
+/* 120 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26796,14 +26924,9 @@ var initialState = {
     email: '',
     isAuthenticated: false
   },
-  signInError: {
-    errorMessage: ''
-  },
-  signUpError: {
-    errorMessage: ''
-  },
-  signUpDisplay: false,
-  signInDisplay: false
+  signInError: '',
+  signUpError: '',
+  displayContent: 'sign-in'
 };
 
 var setUserInfo = function setUserInfo(newState, userInfo) {
@@ -26812,19 +26935,15 @@ var setUserInfo = function setUserInfo(newState, userInfo) {
 };
 
 var setSignInError = function setSignInError(newState, errorMessage) {
-  newState.signInError.errorMessage = errorMessage;
+  newState.signInError = errorMessage;
 };
 
 var setSignUpError = function setSignUpError(newState, errorMessage) {
-  newState.signUpError.errorMessage = errorMessage;
+  newState.signUpError = errorMessage;
 };
 
-var setSignInDisplay = function setSignInDisplay(newState, status) {
-  newState.signInDisplay = status;
-};
-
-var setSignUpDisplay = function setSignUpDisplay(newState, status) {
-  newState.signUpDisplay = status;
+var setDisplayContent = function setDisplayContent(newState, content) {
+  newState.displayContent = content;
 };
 
 var headerReducer = function headerReducer() {
@@ -26843,11 +26962,8 @@ var headerReducer = function headerReducer() {
     case 'SET_SIGN_IN_ERROR':
       setSignInError(newState, actions.errorMessage);
       break;
-    case 'DISPLAY_SIGN_IN':
-      setSignInDisplay(newState, actions.displayStatus);
-      break;
-    case 'DISPLAY_SIGN_UP':
-      setSignUpDisplay(newState, actions.displayStatus);
+    case 'DISPLAY_CONTENT':
+      setDisplayContent(newState, actions.content);
       break;
     default:
       break;

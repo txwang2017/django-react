@@ -3,60 +3,48 @@ const initialState = {
     email: '',
     isAuthenticated: false,
   },
-  signInError: {
-    errorMessage: ''
-  },
-  signUpError: {
-    errorMessage: ''
-  },
-  signUpDisplay: false,
-  signInDisplay: false
-};
+  signInError: '',
+  signUpError: '',
+  displayContent: 'sign-in'
+}
 
 const setUserInfo = (newState, userInfo) => {
-  newState.userInfo.email = userInfo.email;
-  newState.userInfo.isAuthenticated = userInfo.isAuthenticated;
-};
+  newState.userInfo.email = userInfo.email
+  newState.userInfo.isAuthenticated = userInfo.isAuthenticated
+}
 
 const setSignInError = (newState, errorMessage) => {
-  newState.signInError.errorMessage = errorMessage;
-};
+  newState.signInError = errorMessage
+}
 
 const setSignUpError = (newState, errorMessage) => {
-  newState.signUpError.errorMessage = errorMessage;
-};
+  newState.signUpError = errorMessage
+}
 
-const setSignInDisplay = (newState, status) => {
-  newState.signInDisplay = status;
-};
-
-const setSignUpDisplay = (newState, status) => {
-  newState.signUpDisplay = status;
-};
+const setDisplayContent = (newState, content) => {
+  newState.displayContent = content
+}
 
 const headerReducer = (state = initialState, actions) => {
-  let newState = {};
-  Object.assign(newState, state);
+  let newState = {}
+  Object.assign(newState, state)
   switch (actions.type) {
     case 'SET_USER_INFO':
-      setUserInfo(newState, actions.userInfo);
-      break;
+      setUserInfo(newState, actions.userInfo)
+      break
     case 'SET_SIGN_UP_ERROR':
-      setSignUpError(newState, actions.errorMessage);
-      break;
+      setSignUpError(newState, actions.errorMessage)
+      break
     case 'SET_SIGN_IN_ERROR':
-      setSignInError(newState, actions.errorMessage);
-      break;
-    case 'DISPLAY_SIGN_IN':
-      setSignInDisplay(newState, actions.displayStatus);
-      break;
-    case 'DISPLAY_SIGN_UP':
-      setSignUpDisplay(newState, actions.displayStatus);
-      break;
+      setSignInError(newState, actions.errorMessage)
+      break
+    case 'DISPLAY_CONTENT':
+      setDisplayContent(newState, actions.content)
+      break
     default:
-      break;
+      break
   }
-  return newState;
-};
+  return newState
+}
 
-export default headerReducer;
+export default headerReducer

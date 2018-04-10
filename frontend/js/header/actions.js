@@ -119,6 +119,7 @@ export const signUp = (username, email, password1, password2) => dispatch => {
         dispatch(setSignUpError(''))
         dispatch(setUserInfo(userInfo))
         dispatch(displaySignUp(false))
+        $('#popUpWindow').modal('hide')
       }
     ).catch(
       err => {
@@ -143,7 +144,7 @@ export const signIn = (username, password) => dispatch => {
   ).then(
     response => {
       if(response.err){
-        setSignInError(response.err)
+        dispatch(setSignInError(response.err))
         return
       }
       let userInfo = response
@@ -151,13 +152,12 @@ export const signIn = (username, password) => dispatch => {
       dispatch(setSignInError(''))
       dispatch(setUserInfo(userInfo))
       dispatch(displaySignIn(false))
+      $('#popUpWindow').modal('hide')
     }
   )
 }
 
-export const displaySignIn = displayStatus => ({type: "DISPLAY_SIGN_IN", displayStatus})
-
-export const displaySignUp = displayStatus => ({type: "DISPLAY_SIGN_UP", displayStatus})
+export const setDisplay = content => ({type: "DISPLAY_CONTENT", content})
 
 export const search = keywords => dispatch => {
   window.location.hash = "#"

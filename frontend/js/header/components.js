@@ -4,7 +4,7 @@ import {Link} from 'react-router-dom';
 export class SignIn extends React.Component {
 
   constructor(props) {
-    super();
+    super(props);
     this.props = props;
     this.username = '';
     this.password = '';
@@ -14,13 +14,13 @@ export class SignIn extends React.Component {
     this.handlePassword = password => {
       this.password = password.target.value;
     };
+    this.handleSwitch = () => {
+      this.props.actions.setDisplay('sign-up')
+    }
     this.handleSubmit = () => {
+      console.log(this.props.state)
       this.props.actions.signIn(this.username, this.password);
     };
-    this.handleClose = () => {
-      this.props.actions.displaySignIn(false);
-      this.props.actions.displaySignUp(false);
-    }
   }
 
   render() {
@@ -28,27 +28,38 @@ export class SignIn extends React.Component {
       return null;
     } else {
       return (
-        <div id="sign-in">
-          <p><input id="sign-in-username"
-                    type="text"
-                    placeholder="username"
-                    onChange={this.handleUsername}/>
-          </p>
-          <p><input id="sign-in-password"
-                    type="password"
-                    placeholder="password"
-                    onChange={this.handlePassword}/>
-          </p>
-          <div id="sign-in-error-message">{this.props.state.signInError.errorMessage}</div>
-          <button className="btn btn-primary"
-                  id="sign-in-submit"
-                  onClick={this.handleSubmit}>Sign In
-          </button>
-          <button id="sign-in-cancle"
-                  className="btn btn-warning btn-circle"
-                  onClick={this.handleClose}>
-            X
-          </button>
+        <div className="modal-content">
+          <div className="modal-header">
+            <h5 className="modal-title">sign in</h5>
+            <button type="button" id="sign-in-close" className="close" data-dismiss="modal" aria-label="Close"/>
+            <span aria-hidden="true">&times;</span>
+          </div>
+          <div className="modal-body">
+            <form>
+              <div className="form-group">
+                <p><input id="sign-in-username"
+                          type="text"
+                          className="form-control"
+                          placeholder="username"
+                          onChange={this.handleUsername}/>
+                </p>
+                <p><input id="sign-in-password"
+                          type="password"
+                          className="form-control"
+                          placeholder="password"
+                          onChange={this.handlePassword}/>
+                </p>
+                <label className="col-form-label" id="sign-in-error">{this.props.state.signInError}</label>
+              </div>
+            </form>
+            <div className="modal-footer">
+              <button className="btn btn-primary"
+                      id="sign-in-submit"
+                      onClick={this.handleSubmit}>Sign In
+              </button>
+              <button className="btn btn-link" onClick={this.handleSwitch}>Don't have an account? Sign up here.</button>
+            </div>
+          </div>
         </div>
       )
     }
@@ -80,14 +91,13 @@ export class SignUp extends React.Component {
       this.username = username.target.value;
     };
 
+    this.handleSwitch = () => {
+      this.props.actions.setDisplay('sign-in')
+    }
     this.handleSubmit = () => {
       this.props.actions.signUp(this.username, this.email, this.password1, this.password2);
     };
 
-    this.handleClose = () => {
-      this.props.actions.displaySignIn(false);
-      this.props.actions.displaySignUp(false);
-    }
   }
 
   render() {
@@ -95,44 +105,56 @@ export class SignUp extends React.Component {
       return null;
     } else {
       return (
-        <div id="sign-up">
-          <p><input id="sign-up-username"
-                    type="text"
-                    placeholder="username"
-                    onChange={this.handleUsername}/>
-          </p>
-          <p><input id="sign-up-email"
-                    type="text"
-                    placeholder="email"
-                    onChange={this.handleEmail}/>
-          </p>
-          <p><input id="sign-up-password1"
-                    type="password"
-                    placeholder="password"
-                    onChange={this.handlePassword1}/>
-          </p>
-          <p><input id="sign-up-password2"
-                    type="password"
-                    placeholder="password enter again"
-                    onChange={this.handlePassword2}/>
-          </p>
-          <div id="sign-up-error-message">{this.props.state.signUpError.errorMessage}</div>
-          <button className="btn btn-primary"
-                  id="sign-up-submit"
-                  onClick={this.handleSubmit}>Sign Up
-          </button>
-          <button id="sign-up-cancle"
-                  className="btn btn-warning btn-circle"
-                  onClick={this.handleClose}>X
-          </button>
+        <div className="modal-content">
+          <div className="modal-header">
+            <h5 className="modal-title">sign up</h5>
+            <button type="button" id="sign-up-close" className="close" data-dismiss="modal" aria-label="Close"/>
+            <span aria-hidden="true">&times;</span>
+          </div>
+          <div className="modal-body">
+            <form>
+              <p><input id="sign-up-username"
+                        type="text"
+                        className="form-control"
+                        placeholder="username"
+                        onChange={this.handleUsername}/>
+              </p>
+              <p><input id="sign-up-email"
+                        type="text"
+                        className="form-control"
+                        placeholder="email"
+                        onChange={this.handleEmail}/>
+              </p>
+              <p><input id="sign-up-password1"
+                        type="password"
+                        className="form-control"
+                        placeholder="password"
+                        onChange={this.handlePassword1}/>
+              </p>
+              <p><input id="sign-up-password2"
+                        type="password"
+                        className="form-control"
+                        placeholder="enter password again"
+                        onChange={this.handlePassword2}/>
+              </p>
+              <label className="col-form-label" id="sign-up-error">{this.props.state.signUpError}</label>
+            </form>
+          </div>
+          <div className="modal-footer">
+            <button className="btn btn-primary"
+                    id="sign-up-submit"
+                    onClick={this.handleSubmit}>Sign Up
+            </button>
+            <button className="btn btn-link" onClick={this.handleSwitch}>Already have an account? Sign up here.</button>
+          </div>
         </div>
       )
     }
   }
 }
 
-export class Search extends React.Component{
-  constructor(props){
+export class Search extends React.Component {
+  constructor(props) {
     super(props);
     this.props = props;
     this.searchKeywords = '';
@@ -147,7 +169,7 @@ export class Search extends React.Component{
   }
 
   render() {
-    return(
+    return (
       <div id="search-bar">
         <input type="text" id="search-content" onChange={this.handleSearchKeywordsChange}/>
         <button className="btn" id="search-button" onClick={this.handleSubmit}>Search</button>
@@ -166,15 +188,7 @@ export class HeaderBar extends React.Component {
         );
       } else {
         return (
-          <ul className="inline" id="sign-in-up">
-            <li id="log-in-info">Please log in</li>
-            <li id="sign-in-link">
-              <button className="btn btn-link" onClick={this.handleSignIn}>sign in</button>
-            </li>
-            <li id="sign-up-link">
-              <button className="btn btn-link" onClick={this.handleSignUp}>sign up</button>
-            </li>
-          </ul>
+          111
         );
       }
     };
@@ -197,14 +211,6 @@ export class HeaderBar extends React.Component {
             <Link to="/new-post">new post</Link>
           </div>
         )
-      } else {
-        return null;
-      }
-    };
-
-    this.setSignInPanel = () => {
-      if (this.props.state.signInDisplay === true) {
-        return (<SignIn state={this.props.state} actions={this.props.actions}/>);
       } else {
         return null;
       }
@@ -241,7 +247,6 @@ export class HeaderBar extends React.Component {
         {this.setSignOutButton()}
         {this.setNewPostButton()}
         <div id="user-sign">
-          {this.setSignInPanel()}
           {this.setSignUpPanel()}
         </div>
       </div>
