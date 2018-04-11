@@ -21,6 +21,7 @@ class SignPanel extends React.Component {
     return (
       <div>
         <button type='button'
+                id="sign-in-btn"
                 className="btn btn-outline-info my-2 my-sm-0"
                 data-toggle="modal"
                 data-target="#popUpWindow">sign in
@@ -35,24 +36,67 @@ class SignPanel extends React.Component {
   }
 }
 
+class AccountInfo extends React.Component{
+  constructor(props){
+    super(props)
+    this.props = props
+
+    this.handleSignOut = () => {
+      this.props.actions.signOut()
+    }
+  }
+
+  render(){
+    return(
+      <div className="btn-group">
+        <button type="button" className="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="false">
+          {this.props.state.userInfo.email}
+        </button>
+        <div className="dropdown-menu dropdown-menu-right">
+          <button className="dropdown-item" type="button">account</button>
+          <button className="dropdown-item" type="button">my posts</button>
+          <div className="dropdown-divider"/>
+          <button className="dropdown-item" type="button" onClick={this.handleSignOut}>sign out</button>
+        </div>
+      </div>
+    )
+  }
+}
 
 export default class HeaderBar extends React.Component {
   constructor(props) {
     super(props)
     this.props = props
+
+    this.setContent = () => {
+      if(this.props.state.userInfo.isAuthenticated){
+        return(<AccountInfo state={this.props.state} actions={this.props.actions}/>)
+      } else{
+        return(<SignPanel state={this.props.state} actions={this.props.actions}/>)
+      }
+    }
+  }
+
+  componentWillMount(){
+    this.props.actions.checkAuthentication()
   }
 
   render() {
     return (
 
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a className="navbar-brand" href="#">
+          <img src='https://s3.amazonaws.com/django-react/icon.png' width="30" height="30" className="d-inline-block align-top" alt=""/>
+          TX-Wang Blog
+        </a>
         <Search state={this.props.state} actions={this.props.actions}/>
         <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01"
                 aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
           <span className="navbar-toggler-icon"/>
         </button>
         <div className="collapse navbar-collapse">
-          <SignPanel state={this.props.state} actions={this.props.actions}/>
+          {this.setContent()}
         </div>
       </nav>
 

@@ -82,7 +82,28 @@ export const setSignUpError = errorMessage => {
   return {type: 'SET_SIGN_UP_ERROR', errorMessage}
 }
 
-export const signUp = (username, email, password1, password2) => dispatch => {
+const uploadAvatar = (username, avatar) => {
+  fetch('/api/accounts/upload-avatar/', {
+    method: 'POST',
+    credentials: 'include',
+    headers: {
+      'Content-Disposition': `attachment; filename=${username}`,
+      'Accept': 'application/json',
+      "X-CSRFToken": getCookie("csrftoken"),
+      'Content-Type': 'application/octet-stream'
+    },
+    body: avatar,
+  }).then(
+    response => response.json()
+  ).then(
+    response => {
+      console.log(response)
+    }
+  )
+}
+
+export const signUp = (username, email, password1, password2, avatar) => dispatch => {
+  const signUpClose = document.getElementById('sign-up-close')
   if (password1 !== password2) {
     dispatch(setSignUpError('Please enter the same password'))
   }
@@ -100,26 +121,26 @@ export const signUp = (username, email, password1, password2) => dispatch => {
       response => response.json()
     ).then(
       response => {
-        if(response.err){
+        if (response.err) {
           let error = ''
-          if(response.email){
+          if (response.email) {
             error += response.email
           }
-          if(response.username){
+          if (response.username) {
             error += 'username already exists. '
           }
-          if(response.password1){
+          if (response.password1) {
             error += response.password1
           }
           dispatch(setSignUpError(error))
           return
         }
+        signUpClose.click()
         let userInfo = response
         userInfo.isAuthenticated = true
         dispatch(setSignUpError(''))
         dispatch(setUserInfo(userInfo))
-        dispatch(displaySignUp(false))
-        $('#popUpWindow').modal('hide')
+        dispatch(uploadAvatar(username, avatar))
       }
     ).catch(
       err => {
@@ -130,6 +151,7 @@ export const signUp = (username, email, password1, password2) => dispatch => {
 }
 
 export const signIn = (username, password) => dispatch => {
+  const signInClose = document.getElementById('sign-in-close')
   fetch('/api/accounts/sign-in/', {
     method: 'POST',
     credentials: 'include',
@@ -143,16 +165,15 @@ export const signIn = (username, password) => dispatch => {
     response => response.json()
   ).then(
     response => {
-      if(response.err){
+      if (response.err) {
         dispatch(setSignInError(response.err))
         return
       }
+      signInClose.click()
       let userInfo = response
       userInfo.isAuthenticated = true
       dispatch(setSignInError(''))
       dispatch(setUserInfo(userInfo))
-      dispatch(displaySignIn(false))
-      $('#popUpWindow').modal('hide')
     }
   )
 }
@@ -181,3 +202,5 @@ export const search = keywords => dispatch => {
     }
   )
 }
+
+export const setAvatarName = avatarName => ({type: 'SET_AVATAR_NAME', avatarName})

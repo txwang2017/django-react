@@ -4,13 +4,13 @@ from __future__ import unicode_literals
 from django.contrib.auth.models import AnonymousUser
 
 from rest_framework.views import APIView, Response
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.parsers import FileUploadParser
 from rest_auth.views import LoginView, LogoutView
 from rest_auth.registration.views import RegisterView
 
-from .serializers import (
-    UserSerializer,
-)
+from .serializers import UserSerializer
+from .utils import upload_avatar
 
 
 class SignUpView(RegisterView):
@@ -58,12 +58,23 @@ class CheckAuthentication(APIView):
 
     def post(self, request, *args, **kwargs):
         user = request.user
-        if user.__class__ is not AnonymousUser:
+        if user.__class__ is AnonymousUser:
+            return Response({'err': True})
+        else:
             serializer = UserSerializer(user)
             return Response(status=200, data=serializer.data)
-        else:
-            return Response({'err': True})
 
 
 class SignOutView(LogoutView):
     pass
+
+
+class UploadAvatarView(APIView):
+
+    parser_classes = (FileUploadParser,)
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, *args, **kwargs):
+        avatar = request.data.get('file')
+        upload_avatar(avatar=avatar, user=request.user)
+        return Response(status=200)

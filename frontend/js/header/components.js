@@ -68,41 +68,51 @@ export class SignIn extends React.Component {
 
 export class SignUp extends React.Component {
   constructor(props) {
-    super();
-    this.props = props;
-    this.username = '';
-    this.email = '';
-    this.password1 = '';
-    this.password2 = '';
+    super()
+    this.props = props
+    this.username = ''
+    this.email = ''
+    this.password1 = ''
+    this.password2 = ''
+    this.avatar = null
 
     this.handleEmail = email => {
-      this.email = email.target.value;
-    };
+      this.email = email.target.value
+    }
 
     this.handlePassword1 = password1 => {
-      this.password1 = password1.target.value;
-    };
+      this.password1 = password1.target.value
+    }
 
     this.handlePassword2 = password2 => {
-      this.password2 = password2.target.value;
-    };
+      this.password2 = password2.target.value
+    }
 
     this.handleUsername = username => {
-      this.username = username.target.value;
-    };
+      this.username = username.target.value
+    }
+    this.handleAvatar = avatar => {
+      this.avatar = avatar.target.files[0]
+      this.props.actions.setAvatarName(this.avatar.name)
+      const reader = new FileReader()
+      reader.onloadend = () => {
+        this.avatar = reader.result
+      }
+      reader.readAsArrayBuffer(this.avatar)
+    }
 
     this.handleSwitch = () => {
       this.props.actions.setDisplay('sign-in')
     }
     this.handleSubmit = () => {
-      this.props.actions.signUp(this.username, this.email, this.password1, this.password2);
-    };
+      this.props.actions.signUp(this.username, this.email, this.password1, this.password2, this.avatar)
+    }
 
   }
 
   render() {
     if (this.props.state.userInfo.isAuthenticated) {
-      return null;
+      return null
     } else {
       return (
         <div className="modal-content">
@@ -137,6 +147,14 @@ export class SignUp extends React.Component {
                         placeholder="enter password again"
                         onChange={this.handlePassword2}/>
               </p>
+              <div className="custom-file">
+                <input type="file"
+                       className="custom-file-input"
+                       id="customFile"
+                       accept="image/png, image/jpeg"
+                       onChange={this.handleAvatar}/>
+                <label className="custom-file-label" htmlFor="customFile">{this.props.state.avatarName || 'upload avatar'}</label>
+              </div>
               <label className="col-form-label" id="sign-up-error">{this.props.state.signUpError}</label>
             </form>
           </div>
@@ -155,22 +173,22 @@ export class SignUp extends React.Component {
 
 export class Search extends React.Component {
   constructor(props) {
-    super(props);
-    this.props = props;
-    this.searchKeywords = '';
+    super(props)
+    this.props = props
+    this.searchKeywords = ''
 
     this.handleSearchKeywordsChange = searchKeywords => {
-      this.searchKeywords = searchKeywords.target.value;
-    };
+      this.searchKeywords = searchKeywords.target.value
+    }
 
     this.handleSubmit = () => {
-      this.props.actions.search({searchKeywords: this.searchKeywords});
-    };
+      this.props.actions.search({searchKeywords: this.searchKeywords})
+    }
   }
 
   render() {
     return (
-      <form className="form-inline">
+      <form className="form-inline my-2 my-lg-0">
         <input type="text" className="form-control mr-sm-2" onChange={this.handleSearchKeywordsChange}/>
         <button className="btn btn-outline-info my-2 my-sm-0" onClick={this.handleSubmit}>Search</button>
       </form>
@@ -180,16 +198,16 @@ export class Search extends React.Component {
 
 export class HeaderBar extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.setContent = () => {
       if (this.props.state.userInfo.isAuthenticated === true) {
         return (
           <span id="user-info">{this.props.state.userInfo.email}</span>
-        );
+        )
       } else {
         return (
           111
-        );
+        )
       }
     };
 

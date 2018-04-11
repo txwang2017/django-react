@@ -5,7 +5,8 @@ const initialState = {
   },
   signInError: '',
   signUpError: '',
-  displayContent: 'sign-in'
+  displayContent: 'sign-in',
+  avatarName: 'Upload avatar (optional)'
 }
 
 const setUserInfo = (newState, userInfo) => {
@@ -25,6 +26,10 @@ const setDisplayContent = (newState, content) => {
   newState.displayContent = content
 }
 
+const setAvatarName = (newState, avatarName) => {
+  newState.avatarName = avatarName
+}
+
 const headerReducer = (state = initialState, actions) => {
   let newState = {}
   Object.assign(newState, state)
@@ -40,6 +45,9 @@ const headerReducer = (state = initialState, actions) => {
       break
     case 'DISPLAY_CONTENT':
       setDisplayContent(newState, actions.content)
+      break
+    case 'SET_AVATAR_NAME':
+      setAvatarName(newState, actions.avatarName)
       break
     default:
       break

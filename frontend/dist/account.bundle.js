@@ -26137,7 +26137,7 @@ exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.search = exports.setDisplay = exports.signIn = exports.signUp = exports.setSignUpError = exports.setSignInError = exports.signOut = exports.checkAuthentication = exports.setUserInfo = undefined;
+exports.setAvatarName = exports.search = exports.setDisplay = exports.signIn = exports.signUp = exports.setSignUpError = exports.setSignInError = exports.signOut = exports.checkAuthentication = exports.setUserInfo = undefined;
 
 var _actions = __webpack_require__(49);
 
@@ -26221,8 +26221,27 @@ var setSignUpError = exports.setSignUpError = function setSignUpError(errorMessa
   return { type: 'SET_SIGN_UP_ERROR', errorMessage: errorMessage };
 };
 
-var signUp = exports.signUp = function signUp(username, email, password1, password2) {
+var uploadAvatar = function uploadAvatar(username, avatar) {
+  fetch('/api/accounts/upload-avatar/', {
+    method: 'POST',
+    credentials: 'include',
+    headers: {
+      'Content-Disposition': 'attachment; filename=' + username,
+      'Accept': 'application/json',
+      "X-CSRFToken": getCookie("csrftoken"),
+      'Content-Type': 'application/octet-stream'
+    },
+    body: avatar
+  }).then(function (response) {
+    return response.json();
+  }).then(function (response) {
+    console.log(response);
+  });
+};
+
+var signUp = exports.signUp = function signUp(username, email, password1, password2, avatar) {
   return function (dispatch) {
+    var signUpClose = document.getElementById('sign-up-close');
     if (password1 !== password2) {
       dispatch(setSignUpError('Please enter the same password'));
     } else {
@@ -26252,12 +26271,12 @@ var signUp = exports.signUp = function signUp(username, email, password1, passwo
           dispatch(setSignUpError(error));
           return;
         }
+        signUpClose.click();
         var userInfo = response;
         userInfo.isAuthenticated = true;
         dispatch(setSignUpError(''));
         dispatch(setUserInfo(userInfo));
-        dispatch(displaySignUp(false));
-        $('#popUpWindow').modal('hide');
+        dispatch(uploadAvatar(username, avatar));
       }).catch(function (err) {
         dispatch(setSignUpError(err));
       });
@@ -26267,6 +26286,7 @@ var signUp = exports.signUp = function signUp(username, email, password1, passwo
 
 var signIn = exports.signIn = function signIn(username, password) {
   return function (dispatch) {
+    var signInClose = document.getElementById('sign-in-close');
     fetch('/api/accounts/sign-in/', {
       method: 'POST',
       credentials: 'include',
@@ -26283,12 +26303,11 @@ var signIn = exports.signIn = function signIn(username, password) {
         dispatch(setSignInError(response.err));
         return;
       }
+      signInClose.click();
       var userInfo = response;
       userInfo.isAuthenticated = true;
       dispatch(setSignInError(''));
       dispatch(setUserInfo(userInfo));
-      dispatch(displaySignIn(false));
-      $('#popUpWindow').modal('hide');
     });
   };
 };
@@ -26318,6 +26337,10 @@ var search = exports.search = function search(keywords) {
       dispatch((0, _actions.setPostNum)(postList.count));
     });
   };
+};
+
+var setAvatarName = exports.setAvatarName = function setAvatarName(avatarName) {
+  return { type: 'SET_AVATAR_NAME', avatarName: avatarName };
 };
 
 /***/ }),
@@ -26378,6 +26401,7 @@ var SignPanel = function (_React$Component) {
         _react2.default.createElement(
           'button',
           { type: 'button',
+            id: 'sign-in-btn',
             className: 'btn btn-outline-info my-2 my-sm-0',
             'data-toggle': 'modal',
             'data-target': '#popUpWindow' },
@@ -26399,24 +26423,98 @@ var SignPanel = function (_React$Component) {
   return SignPanel;
 }(_react2.default.Component);
 
-var HeaderBar = function (_React$Component2) {
-  _inherits(HeaderBar, _React$Component2);
+var AccountInfo = function (_React$Component2) {
+  _inherits(AccountInfo, _React$Component2);
+
+  function AccountInfo(props) {
+    _classCallCheck(this, AccountInfo);
+
+    var _this2 = _possibleConstructorReturn(this, (AccountInfo.__proto__ || Object.getPrototypeOf(AccountInfo)).call(this, props));
+
+    _this2.props = props;
+
+    _this2.handleSignOut = function () {
+      _this2.props.actions.signOut();
+    };
+    return _this2;
+  }
+
+  _createClass(AccountInfo, [{
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        'div',
+        { className: 'btn-group' },
+        _react2.default.createElement(
+          'button',
+          { type: 'button', className: 'btn btn-secondary dropdown-toggle', 'data-toggle': 'dropdown', 'aria-haspopup': 'true',
+            'aria-expanded': 'false' },
+          this.props.state.userInfo.email
+        ),
+        _react2.default.createElement(
+          'div',
+          { className: 'dropdown-menu dropdown-menu-right' },
+          _react2.default.createElement(
+            'button',
+            { className: 'dropdown-item', type: 'button' },
+            'account'
+          ),
+          _react2.default.createElement(
+            'button',
+            { className: 'dropdown-item', type: 'button' },
+            'my posts'
+          ),
+          _react2.default.createElement('div', { className: 'dropdown-divider' }),
+          _react2.default.createElement(
+            'button',
+            { className: 'dropdown-item', type: 'button', onClick: this.handleSignOut },
+            'sign out'
+          )
+        )
+      );
+    }
+  }]);
+
+  return AccountInfo;
+}(_react2.default.Component);
+
+var HeaderBar = function (_React$Component3) {
+  _inherits(HeaderBar, _React$Component3);
 
   function HeaderBar(props) {
     _classCallCheck(this, HeaderBar);
 
-    var _this2 = _possibleConstructorReturn(this, (HeaderBar.__proto__ || Object.getPrototypeOf(HeaderBar)).call(this, props));
+    var _this3 = _possibleConstructorReturn(this, (HeaderBar.__proto__ || Object.getPrototypeOf(HeaderBar)).call(this, props));
 
-    _this2.props = props;
-    return _this2;
+    _this3.props = props;
+
+    _this3.setContent = function () {
+      if (_this3.props.state.userInfo.isAuthenticated) {
+        return _react2.default.createElement(AccountInfo, { state: _this3.props.state, actions: _this3.props.actions });
+      } else {
+        return _react2.default.createElement(SignPanel, { state: _this3.props.state, actions: _this3.props.actions });
+      }
+    };
+    return _this3;
   }
 
   _createClass(HeaderBar, [{
+    key: 'componentWillMount',
+    value: function componentWillMount() {
+      this.props.actions.checkAuthentication();
+    }
+  }, {
     key: 'render',
     value: function render() {
       return _react2.default.createElement(
         'nav',
         { className: 'navbar navbar-expand-lg navbar-dark bg-dark' },
+        _react2.default.createElement(
+          'a',
+          { className: 'navbar-brand', href: '#' },
+          _react2.default.createElement('img', { src: 'https://s3.amazonaws.com/django-react/icon.png', width: '30', height: '30', className: 'd-inline-block align-top', alt: '' }),
+          'TX-Wang Blog'
+        ),
         _react2.default.createElement(_components.Search, { state: this.props.state, actions: this.props.actions }),
         _react2.default.createElement(
           'button',
@@ -26427,7 +26525,7 @@ var HeaderBar = function (_React$Component2) {
         _react2.default.createElement(
           'div',
           { className: 'collapse navbar-collapse' },
-          _react2.default.createElement(SignPanel, { state: this.props.state, actions: this.props.actions })
+          this.setContent()
         )
       );
     }
@@ -26589,6 +26687,7 @@ var SignUp = exports.SignUp = function (_React$Component2) {
     _this2.email = '';
     _this2.password1 = '';
     _this2.password2 = '';
+    _this2.avatar = null;
 
     _this2.handleEmail = function (email) {
       _this2.email = email.target.value;
@@ -26605,12 +26704,21 @@ var SignUp = exports.SignUp = function (_React$Component2) {
     _this2.handleUsername = function (username) {
       _this2.username = username.target.value;
     };
+    _this2.handleAvatar = function (avatar) {
+      _this2.avatar = avatar.target.files[0];
+      _this2.props.actions.setAvatarName(_this2.avatar.name);
+      var reader = new FileReader();
+      reader.onloadend = function () {
+        _this2.avatar = reader.result;
+      };
+      reader.readAsArrayBuffer(_this2.avatar);
+    };
 
     _this2.handleSwitch = function () {
       _this2.props.actions.setDisplay('sign-in');
     };
     _this2.handleSubmit = function () {
-      _this2.props.actions.signUp(_this2.username, _this2.email, _this2.password1, _this2.password2);
+      _this2.props.actions.signUp(_this2.username, _this2.email, _this2.password1, _this2.password2, _this2.avatar);
     };
 
     return _this2;
@@ -26683,6 +26791,20 @@ var SignUp = exports.SignUp = function (_React$Component2) {
                   onChange: this.handlePassword2 })
               ),
               _react2.default.createElement(
+                'div',
+                { className: 'custom-file' },
+                _react2.default.createElement('input', { type: 'file',
+                  className: 'custom-file-input',
+                  id: 'customFile',
+                  accept: 'image/png, image/jpeg',
+                  onChange: this.handleAvatar }),
+                _react2.default.createElement(
+                  'label',
+                  { className: 'custom-file-label', htmlFor: 'customFile' },
+                  this.props.state.avatarName || 'upload avatar'
+                )
+              ),
+              _react2.default.createElement(
                 'label',
                 { className: 'col-form-label', id: 'sign-up-error' },
                 this.props.state.signUpError
@@ -26739,7 +26861,7 @@ var Search = exports.Search = function (_React$Component3) {
     value: function render() {
       return _react2.default.createElement(
         'form',
-        { className: 'form-inline' },
+        { className: 'form-inline my-2 my-lg-0' },
         _react2.default.createElement('input', { type: 'text', className: 'form-control mr-sm-2', onChange: this.handleSearchKeywordsChange }),
         _react2.default.createElement(
           'button',
@@ -26940,7 +27062,8 @@ var initialState = {
   },
   signInError: '',
   signUpError: '',
-  displayContent: 'sign-in'
+  displayContent: 'sign-in',
+  avatarName: 'Upload avatar (optional)'
 };
 
 var setUserInfo = function setUserInfo(newState, userInfo) {
@@ -26958,6 +27081,10 @@ var setSignUpError = function setSignUpError(newState, errorMessage) {
 
 var setDisplayContent = function setDisplayContent(newState, content) {
   newState.displayContent = content;
+};
+
+var setAvatarName = function setAvatarName(newState, avatarName) {
+  newState.avatarName = avatarName;
 };
 
 var headerReducer = function headerReducer() {
@@ -26978,6 +27105,9 @@ var headerReducer = function headerReducer() {
       break;
     case 'DISPLAY_CONTENT':
       setDisplayContent(newState, actions.content);
+      break;
+    case 'SET_AVATAR_NAME':
+      setAvatarName(newState, actions.avatarName);
       break;
     default:
       break;
