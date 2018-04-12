@@ -1,7 +1,24 @@
-.navbar-brand{
+.navbar-brand {
     margin-right: 30%;
 }
 
-#sign-in-btn{
-    margin-left: 1000%;
+#sign-in-btn {
+    margin-left: 750%;
+}
+
+#new-post-btn{
+    text-decoration: none;
+}
+
+#account-info{
+    margin-left: 70%;
+}
+
+#search-bar{
+    max-width: 20%;
+    margin-left: 5%;
+}
+
+#search-btn{
+    margin-left: 0.2%;
 }

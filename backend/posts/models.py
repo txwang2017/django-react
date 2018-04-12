@@ -11,6 +11,9 @@ class Post(models.Model):
     title = models.TextField()
     content = models.TextField()
     pub_time = models.DateTimeField(auto_now=True)
+    comment_num = models.IntegerField(default=0)
+    like_num = models.IntegerField(default=0)
+    dislike_num = models.IntegerField(default=0)
     uuid = models.CharField(max_length=36, unique=True)
 
 

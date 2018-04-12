@@ -6,13 +6,8 @@ import * as Actions from "./actions";
 import HeaderBar from './container';
 
 const Header = ({state, actions}) => {
-  const signInPath = "/accounts/sign-in";
-  const signUpPath = "/accounts/sign-up";
   return (
-    <HeaderBar state={state.header}
-               actions={actions}
-               signInPath={signInPath}
-               signUpPath={signUpPath}/>
+    <HeaderBar state={state.header} actions={actions}/>
   )
 };
 

@@ -1,8 +1,10 @@
 import uuid
+import boto3
 
 from django.db.models import Q
 
 from .models import Post, Comment
+from backend.settings import AWS_BUCKET_NAME
 
 
 def get_all_posts():
@@ -53,3 +55,10 @@ def filter_posts(queryset, keywords):
 
 def create_comment(**kwargs):
     return Comment.objects.create(**kwargs)
+
+
+def upload_post_icon(icon, uuid):
+    s3 = boto3.resource('s3')
+    key = 'post-icon-' + uuid
+    obj = s3.Bucket(AWS_BUCKET_NAME).put_object(Key=key, Body=icon)
+    obj.Acl().put(ACL='public-read')

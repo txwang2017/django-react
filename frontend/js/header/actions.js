@@ -1,5 +1,7 @@
 import {getPostList, setNextPage, setPostNum, setPreviousPage} from '../posts/actions'
 
+const awsBucket = 'https://s3.amazonaws.com/django-react/'
+
 export const setUserInfo = (userInfo) => {
   return {type: 'SET_USER_INFO', userInfo}
 }
@@ -38,6 +40,10 @@ export const checkAuthentication = () => dispatch => {
       }
       let userInfo = response
       userInfo.isAuthenticated = true
+      if(userInfo.avatar === '' || userInfo.avatar === null){
+        userInfo.avatar = 'default-avatar.jpg'
+      }
+      userInfo.avatar = awsBucket + userInfo.avatar
       dispatch(setUserInfo(userInfo))
     }
   )
@@ -95,10 +101,6 @@ const uploadAvatar = (username, avatar) => {
     body: avatar,
   }).then(
     response => response.json()
-  ).then(
-    response => {
-      console.log(response)
-    }
   )
 }
 
@@ -138,6 +140,7 @@ export const signUp = (username, email, password1, password2, avatar) => dispatc
         signUpClose.click()
         let userInfo = response
         userInfo.isAuthenticated = true
+        userInfo.avatar = awsBucket + userInfo.avatar
         dispatch(setSignUpError(''))
         dispatch(setUserInfo(userInfo))
         dispatch(uploadAvatar(username, avatar))
@@ -172,6 +175,7 @@ export const signIn = (username, password) => dispatch => {
       signInClose.click()
       let userInfo = response
       userInfo.isAuthenticated = true
+      userInfo.avatar = awsBucket + userInfo.avatar
       dispatch(setSignInError(''))
       dispatch(setUserInfo(userInfo))
     }

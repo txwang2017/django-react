@@ -25,6 +25,7 @@ class CommentSerializer(serializers.ModelSerializer):
 
 class PostSerializer(serializers.ModelSerializer):
     comments = CommentSerializer(many=True, read_only=True)
+    author_avatar = serializers.CharField(read_only=True, max_length=36)
 
     class Meta:
         model = Post
@@ -34,11 +35,19 @@ class PostSerializer(serializers.ModelSerializer):
             'content',
             'pub_time',
             'comments',
+            'comment_num',
+            'like_num',
+            'dislike_num',
+            'author_avatar',
+            'uuid',
         )
-        read_only_fields = ['author', 'pub_time']
+        read_only_fields = ('author', 'pub_time', 'link_num', 'dislike_num', 'uuid')
 
 
 class PostsSerializer(serializers.ModelSerializer):
+
+    author_avatar = serializers.CharField(max_length=36, read_only=True)
+
     class Meta:
         model = Post
         fields = (
@@ -46,10 +55,13 @@ class PostsSerializer(serializers.ModelSerializer):
             'title',
             'pub_time',
             'content',
-            'uuid'
+            'uuid',
+            'comment_num',
+            'like_num',
+            'dislike_num',
+            'author_avatar',
         )
         read_only_fields = ('author', 'pub_time', 'uuid')
-        extra_kwargs = {'content': {'write_only': True}}
 
     def create(self, validated_data):
         validated_data.update({'author': self.author})

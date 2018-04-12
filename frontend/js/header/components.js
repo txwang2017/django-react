@@ -18,7 +18,6 @@ export class SignIn extends React.Component {
       this.props.actions.setDisplay('sign-up')
     }
     this.handleSubmit = () => {
-      console.log(this.props.state)
       this.props.actions.signIn(this.username, this.password);
     };
   }
@@ -153,7 +152,8 @@ export class SignUp extends React.Component {
                        id="customFile"
                        accept="image/png, image/jpeg"
                        onChange={this.handleAvatar}/>
-                <label className="custom-file-label" htmlFor="customFile">{this.props.state.avatarName || 'upload avatar'}</label>
+                <label className="custom-file-label"
+                       htmlFor="customFile">{this.props.state.avatarName || 'upload avatar'}</label>
               </div>
               <label className="col-form-label" id="sign-up-error">{this.props.state.signUpError}</label>
             </form>
@@ -176,97 +176,31 @@ export class Search extends React.Component {
     super(props)
     this.props = props
     this.searchKeywords = ''
+    this.searchType = 'title'
 
-    this.handleSearchKeywordsChange = searchKeywords => {
+    this.handleSearchKeywords = searchKeywords => {
       this.searchKeywords = searchKeywords.target.value
     }
 
     this.handleSubmit = () => {
-      this.props.actions.search({searchKeywords: this.searchKeywords})
+      this.props.actions.search({
+        searchKeywords: this.searchKeywords,
+        searchType: this.searchType
+      })
+    }
+
+    this.handleSearchType = searchType => {
+      this.searchType = searchType.target.value
     }
   }
 
   render() {
     return (
-      <form className="form-inline my-2 my-lg-0">
-        <input type="text" className="form-control mr-sm-2" onChange={this.handleSearchKeywordsChange}/>
-        <button className="btn btn-outline-info my-2 my-sm-0" onClick={this.handleSubmit}>Search</button>
-      </form>
-    )
-  }
-}
-
-export class HeaderBar extends React.Component {
-  constructor(props) {
-    super(props)
-    this.setContent = () => {
-      if (this.props.state.userInfo.isAuthenticated === true) {
-        return (
-          <span id="user-info">{this.props.state.userInfo.email}</span>
-        )
-      } else {
-        return (
-          111
-        )
-      }
-    };
-
-    this.setSignOutButton = () => {
-      let signOutButton = '';
-      if (this.props.state.userInfo.isAuthenticated) {
-        signOutButton =
-          <button className="btn btn-link" id="sign-out-submit" onClick={this.props.actions.signOut}>sign out</button>
-      } else {
-        signOutButton = null;
-      }
-      return signOutButton;
-    };
-
-    this.setNewPostButton = () => {
-      if (this.props.state.userInfo.isAuthenticated === true) {
-        return (
-          <div id="new-post-link">
-            <Link to="/new-post">new post</Link>
-          </div>
-        )
-      } else {
-        return null;
-      }
-    };
-
-    this.setSignUpPanel = () => {
-      if (this.props.state.signUpDisplay === true) {
-        return (<SignUp state={this.props.state} actions={this.props.actions}/>);
-      } else {
-        return null;
-      }
-    };
-
-    this.handleSignIn = () => {
-      this.props.actions.displaySignUp(false);
-      this.props.actions.displaySignIn(true);
-    };
-
-    this.handleSignUp = () => {
-      this.props.actions.displaySignUp(true);
-      this.props.actions.displaySignIn(false);
-    };
-  }
-
-  componentWillMount() {
-    this.props.actions.checkAuthentication();
-  }
-
-  render() {
-    return (
-      <div id="account-header">
-        <Search state={this.props.state} actions={this.props.actions}/>
-        {this.setContent()}
-        {this.setSignOutButton()}
-        {this.setNewPostButton()}
-        <div id="user-sign">
-          {this.setSignUpPanel()}
-        </div>
+      <div className="input-group" id="search-bar">
+        <input type="text" className="form-control" onChange={this.handleSearchKeywords} placeholder="Search"/>
+        <button onClick={this.handleSubmit} id="search-btn">
+          <img src='https://s3.amazonaws.com/django-react/search.png' height="36" width="36"/>
+        </button>
       </div>
     )
   }

@@ -18,6 +18,7 @@ def get_avatar_uuid():
 def upload_avatar(avatar, user):
     s3 = boto3.resource('s3')
     uid = get_avatar_uuid()
-    s3.Bucket(AWS_BUCKET_NAME).put_object(Key=uid, Body=avatar)
+    obj = s3.Bucket(AWS_BUCKET_NAME).put_object(Key=uid, Body=avatar)
+    obj.Acl().put(ACL='public-read')
     user.avatar = uid
     user.save()

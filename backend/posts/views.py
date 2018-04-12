@@ -6,9 +6,10 @@ from django.views.decorators.cache import cache_page
 from rest_framework.views import APIView, Response
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.pagination import PageNumberPagination
+from rest_framework.parsers import FileUploadParser
 
 from .serializer import PostSerializer, PostsSerializer, CommentSerializer
-from .utils import get_all_posts, get_post, get_comments_by_post
+from .utils import get_all_posts, get_post, get_comments_by_post, upload_post_icon
 
 
 class PostListPagination(PageNumberPagination):
@@ -37,8 +38,12 @@ class PostAPIListView(APIView):
     def get_paginate_queryset(self, queryset):
         page = self.paginate_queryset(queryset)
         if page is not None:
+            for post in page:
+                post.author_avatar = post.author.avatar
             serializer = PostsSerializer(page, many=True)
             return self.get_paginated_response(serializer.data)
+        for post in queryset:
+            post.author_avatar = post.author.avatar
         serializer = PostsSerializer(queryset, many=True)
         return Response(serializer.data)
 
@@ -80,11 +85,13 @@ class PostDetailAPIView(APIView):
     def get(self, request, *args, **kwargs):
         uuid = kwargs.get('uuid')
         post = get_post(post_uuid=uuid)
+        post.author_avatar = post.author.avatar
         if post is None:
             return Response(status=204)
         comments = get_comments_by_post(post=post)
         post.comments = comments
         serializer = PostSerializer(post)
+        print serializer
         return Response(status=200, data=serializer.data)
 
     def post(self, request, *args, **kwargs):
@@ -102,6 +109,18 @@ class PostDetailAPIView(APIView):
         else:
             return Response(status=400)
 
+
+class PostIconUploadView(APIView):
+    parser_classes = (FileUploadParser,)
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, *args, **kwargs):
+        print "************"
+        uuid = kwargs.get('uuid')
+        icon = request.data.get('file')
+        print uuid
+        upload_post_icon(icon=icon, uuid=uuid)
+        return Response(status=200, data={'success': True})
 
 
 

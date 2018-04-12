@@ -1,10 +1,11 @@
-import React from 'react';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import React from 'react'
+import {connect} from 'react-redux'
+import {bindActionCreators} from 'redux'
 
-import * as Actions from './actions';
-import {PostList, NewPost, PostDetail, NewComment} from "./components";
-import {Route, Switch, HashRouter} from 'react-router-dom';
+import * as Actions from './actions'
+import {PostDetail, NewComment} from "./components"
+import {NewPost, PostList} from './container'
+import {Route, Switch, HashRouter} from 'react-router-dom'
 
 const Post = ({state, actions}) => {
   return (
@@ -31,15 +32,15 @@ const Post = ({state, actions}) => {
       </div>
     </HashRouter>
   )
-};
+}
 
 const mapStateToProps = state => ({
   state: state
-});
+})
 
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(Actions, dispatch)
-});
+})
 
 export default connect(
   mapStateToProps,

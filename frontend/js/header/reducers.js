@@ -2,16 +2,18 @@ const initialState = {
   userInfo: {
     email: '',
     isAuthenticated: false,
+    avatar: null,
   },
   signInError: '',
   signUpError: '',
   displayContent: 'sign-in',
-  avatarName: 'Upload avatar (optional)'
+  avatarName: 'Upload avatar (optional)',
 }
 
 const setUserInfo = (newState, userInfo) => {
   newState.userInfo.email = userInfo.email
   newState.userInfo.isAuthenticated = userInfo.isAuthenticated
+  newState.userInfo.avatar = userInfo.avatar
 }
 
 const setSignInError = (newState, errorMessage) => {

@@ -9,5 +9,6 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = (
             'email',
+            'avatar',
         )
-        read_only_fields = ('email',)
+        read_only_fields = ('email', 'avatar')

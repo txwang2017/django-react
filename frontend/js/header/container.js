@@ -1,4 +1,5 @@
 import React from 'react'
+import {Link} from 'react-router-dom'
 
 import {SignIn, SignUp, Search} from "./components";
 
@@ -17,6 +18,7 @@ class SignPanel extends React.Component {
       }
     }
   }
+
   render() {
     return (
       <div>
@@ -36,8 +38,8 @@ class SignPanel extends React.Component {
   }
 }
 
-class AccountInfo extends React.Component{
-  constructor(props){
+class AccountInfo extends React.Component {
+  constructor(props) {
     super(props)
     this.props = props
 
@@ -46,18 +48,26 @@ class AccountInfo extends React.Component{
     }
   }
 
-  render(){
-    return(
-      <div className="btn-group">
-        <button type="button" className="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
-                aria-expanded="false">
-          {this.props.state.userInfo.email}
-        </button>
-        <div className="dropdown-menu dropdown-menu-right">
-          <button className="dropdown-item" type="button">account</button>
-          <button className="dropdown-item" type="button">my posts</button>
-          <div className="dropdown-divider"/>
-          <button className="dropdown-item" type="button" onClick={this.handleSignOut}>sign out</button>
+  render() {
+    return (
+      <div id="account-info">
+        <img id="avatar" src={this.props.state.userInfo.avatar} height="40" width="40"/>
+        <div className="btn-group">
+
+          <button type="button" className="btn btn-secondary dropdown-toggle" data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false">
+            {this.props.state.userInfo.email}
+          </button>
+          <div className="dropdown-menu dropdown-menu-right">
+            <button className="dropdown-item" type="button">
+              <Link style={{textDecoration: 'none', color: 'black'}} to="/new-post">New post</Link>
+            </button>
+            <div className="dropdown-divider"/>
+            <button className="dropdown-item" type="button" onClick={this.handleSignOut}>
+              <a href="#" style={{textDecoration: 'none', color: 'black'}}>Sign out</a>
+            </button>
+          </div>
         </div>
       </div>
     )
@@ -70,15 +80,15 @@ export default class HeaderBar extends React.Component {
     this.props = props
 
     this.setContent = () => {
-      if(this.props.state.userInfo.isAuthenticated){
-        return(<AccountInfo state={this.props.state} actions={this.props.actions}/>)
-      } else{
-        return(<SignPanel state={this.props.state} actions={this.props.actions}/>)
+      if (this.props.state.userInfo.isAuthenticated) {
+        return (<AccountInfo state={this.props.state} actions={this.props.actions}/>)
+      } else {
+        return (<SignPanel state={this.props.state} actions={this.props.actions}/>)
       }
     }
   }
 
-  componentWillMount(){
+  componentWillMount() {
     this.props.actions.checkAuthentication()
   }
 
@@ -87,7 +97,8 @@ export default class HeaderBar extends React.Component {
 
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
         <a className="navbar-brand" href="#">
-          <img src='https://s3.amazonaws.com/django-react/icon.png' width="30" height="30" className="d-inline-block align-top" alt=""/>
+          <img src='https://s3.amazonaws.com/django-react/icon.png' width="30" height="30"
+               className="d-inline-block align-top" alt=""/>
           TX-Wang Blog
         </a>
         <Search state={this.props.state} actions={this.props.actions}/>
