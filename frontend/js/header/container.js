@@ -51,9 +51,9 @@ class AccountInfo extends React.Component {
   render() {
     return (
       <div id="account-info">
-        <img id="avatar" src={this.props.state.userInfo.avatar} height="40" width="40"/>
+        <img id="avatar" src={this.props.state.userInfo.avatar} className="rounded-circle" height="40" width="40"/>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         <div className="btn-group">
-
           <button type="button" className="btn btn-secondary dropdown-toggle" data-toggle="dropdown"
                   aria-haspopup="true"
                   aria-expanded="false">

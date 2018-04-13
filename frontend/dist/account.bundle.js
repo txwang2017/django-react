@@ -3595,7 +3595,7 @@ var setCurrPage = exports.setCurrPage = function setCurrPage(currPage) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.PostPagination = exports.NewComment = exports.PostCard = undefined;
+exports.PostDetail = exports.PostPagination = exports.NewComment = exports.PostCard = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -3878,6 +3878,38 @@ var PostPagination = exports.PostPagination = function (_React$Component3) {
   }]);
 
   return PostPagination;
+}(_react2.default.Component);
+
+var PostDetail = exports.PostDetail = function (_React$Component4) {
+  _inherits(PostDetail, _React$Component4);
+
+  function PostDetail(props) {
+    _classCallCheck(this, PostDetail);
+
+    var _this4 = _possibleConstructorReturn(this, (PostDetail.__proto__ || Object.getPrototypeOf(PostDetail)).call(this, props));
+
+    _this4.props = props;
+    _this4.uuid = _this4.props.uuid;
+    return _this4;
+  }
+
+  _createClass(PostDetail, [{
+    key: 'componentWillMount',
+    value: function componentWillMount() {
+      this.props.actions.fetchPostDetail(this.uuid);
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        'h1',
+        null,
+        'xxx'
+      );
+    }
+  }]);
+
+  return PostDetail;
 }(_react2.default.Component);
 
 /***/ }),
@@ -26667,7 +26699,8 @@ var AccountInfo = function (_React$Component2) {
       return _react2.default.createElement(
         'div',
         { id: 'account-info' },
-        _react2.default.createElement('img', { id: 'avatar', src: this.props.state.userInfo.avatar, height: '40', width: '40' }),
+        _react2.default.createElement('img', { id: 'avatar', src: this.props.state.userInfo.avatar, className: 'rounded-circle', height: '40', width: '40' }),
+        '\xA0\xA0\xA0\xA0\xA0\xA0',
         _react2.default.createElement(
           'div',
           { className: 'btn-group' },
@@ -27056,7 +27089,7 @@ var SignUp = exports.SignUp = function (_React$Component2) {
             _react2.default.createElement(
               'button',
               { className: 'btn btn-link', onClick: this.handleSwitch },
-              'Already have an account? Sign up here.'
+              'Already have an account? Sign in here.'
             )
           )
         );

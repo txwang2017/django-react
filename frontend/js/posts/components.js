@@ -187,3 +187,21 @@ export class PostPagination extends React.Component {
     )
   }
 }
+
+export class PostDetail extends React.Component{
+  constructor(props){
+    super(props)
+    this.props = props
+    this.uuid = this.props.uuid
+  }
+
+  componentWillMount() {
+    this.props.actions.fetchPostDetail(this.uuid)
+  }
+
+  render(){
+    return(
+      <h1>xxx</h1>
+    )
+  }
+}

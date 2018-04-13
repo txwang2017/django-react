@@ -163,7 +163,7 @@ export class SignUp extends React.Component {
                     id="sign-up-submit"
                     onClick={this.handleSubmit}>Sign Up
             </button>
-            <button className="btn btn-link" onClick={this.handleSwitch}>Already have an account? Sign up here.</button>
+            <button className="btn btn-link" onClick={this.handleSwitch}>Already have an account? Sign in here.</button>
           </div>
         </div>
       )

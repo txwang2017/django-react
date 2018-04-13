@@ -5,7 +5,6 @@ from django.db.models import Q
 from django.conf import settings
 
 from .models import Post, Comment
-from backend.settings import AWS_BUCKET_NAME
 
 
 def get_all_posts():

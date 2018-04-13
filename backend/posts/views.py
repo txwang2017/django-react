@@ -91,7 +91,6 @@ class PostDetailAPIView(APIView):
         comments = get_comments_by_post(post=post)
         post.comments = comments
         serializer = PostSerializer(post)
-        print serializer
         return Response(status=200, data=serializer.data)
 
     def post(self, request, *args, **kwargs):
