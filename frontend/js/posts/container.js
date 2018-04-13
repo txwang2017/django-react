@@ -1,5 +1,5 @@
 import React from "react"
-import {PostCard, PostPagination} from "./components"
+import {PostCard, PostPagination, PostDetail} from "./components"
 
 export class PostList extends React.Component {
 
@@ -81,7 +81,7 @@ export class NewPost extends React.Component {
   }
 }
 
-export class PostDetail extends React.Component {
+export class Post extends React.Component {
 
   constructor(props) {
     super(props)
@@ -94,33 +94,10 @@ export class PostDetail extends React.Component {
   }
 
   render() {
-    let publishTime = new Date(this.props.state.postDetail.pub_time)
-    publishTime = publishTime.toLocaleDateString() + "  " + publishTime.toLocaleTimeString()
-    const comments = this.props.state.postDetail.comments
     return (
-      <div id="post-detail">
-  <pre id="post-detail-info">
-  <div id="post-detail-title">{this.props.state.postDetail.title}</div>
-  <div id="post-detail-author">{this.props.state.postDetail.author}</div>
-  <div id="post-detail-publish-time">published at: {publishTime}</div>
-  <div id="post-detail-content">{this.props.state.postDetail.content}</div>
-  </pre>
-        <div id="post-detail-comments">
-          {comments.map(comment => {
-            let commentTime = new Date(comment.pub_time)
-            commentTime = commentTime.toLocaleDateString() + "  " + commentTime.toLocaleTimeString()
-            return (
-              <div className="well" key={comment.uuid} id={`comment-${comment.uuid}`}>
-                <ul className="inline">
-                  <li className="comment-author">{comment.author}</li>
-                  <li className="comment-time">{commentTime}</li>
-                </ul>
-                <div className="comment-content">{comment.content}</div>
-              </div>
-            )
-          })}
-        </div>
-      </div>
+      <span>
+        <PostDetail state={this.props.state} actions={this.props.actions}/>
+      </span>
     )
   }
 }

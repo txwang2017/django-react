@@ -188,8 +188,8 @@ export class PostPagination extends React.Component {
   }
 }
 
-export class PostDetail extends React.Component{
-  constructor(props){
+export class PostDetail extends React.Component {
+  constructor(props) {
     super(props)
     this.props = props
     this.uuid = this.props.uuid
@@ -199,9 +199,34 @@ export class PostDetail extends React.Component{
     this.props.actions.fetchPostDetail(this.uuid)
   }
 
-  render(){
-    return(
-      <h1>xxx</h1>
+  render() {
+    return (
+      <div className="media">
+        <div className="media-body">
+          <div className="media-heading">
+            {this.props.state.postDetail.title}
+          </div>
+        </div>
+        <div className="info">
+          <img src={this.authorAvatar} height="30" width="30" className="rounded post-author-avatar"/>
+          {this.postDetail.author}
+          <img src="https://s3.amazonaws.com/django-react/clock.jpeg" height="25" width="25"
+               className="post-info"/>
+          {this.setPubTime(this.postDetail.pub_time)}
+          <img src="https://s3.amazonaws.com/django-react/thumb.png" height="25" width="25"
+               className="post-info"/>
+          {this.postDetail.like_num}
+          <img src="https://s3.amazonaws.com/django-react/read.jpeg" height="25" width="25"
+               className="post-info"/>
+          {this.postDetail.read_num}
+          <img src="https://s3.amazonaws.com/django-react/comment.png" height="25" width="25"
+               className="post-info"/>
+          {this.postDetail.comment_num}
+        </div>
+        <div className="description">
+          {this.props.state.postDetail.content}
+        </div>
+      </div>
     )
   }
 }
