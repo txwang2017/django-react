@@ -66,7 +66,8 @@ export class NewPost extends React.Component {
           <input type="text" className="form-control" placeholder="Title" onChange={this.handlePostTitleChange}/>
         </p>
         <p>
-          <textarea id="new-post-content" className="form-control" placeholder="Content" onChange={this.handlePostContentChange}/>
+          <textarea id="new-post-content" className="form-control" placeholder="Content"
+                    onChange={this.handlePostContentChange}/>
         </p>
         <p>
           <input type="file" id="upload-icon" className="form-control" accept="image/png, image/jpeg"

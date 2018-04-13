@@ -14,7 +14,7 @@ from .utils import get_comment_uuid, get_post_uuid
 def acc():
     users = User.objects.all()
     posts = Post.objects.all()
-    for i in xrange(1000):
+    for i in xrange(300):
         nu = randint(0, len(users) - 1)
         np = randint(0, len(posts) - 1)
         c = ['a' for k in range(20)]
@@ -31,7 +31,7 @@ def acc():
 #
 def acp():
     users = User.objects.all()
-    for i in xrange(10000):
+    for i in xrange(300):
         n = randint(0, len(users) - 1)
         t = ['a' for k in range(10)]
         for j in xrange(10):

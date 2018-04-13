@@ -25,9 +25,9 @@ export const fetchPostList = (path = '/api/posts/list/') => dispatch => {
   ).then(
     postList => {
       dispatch(getPostList(postList.results))
+      dispatch(setPostNum(postList.count))
       dispatch(setNextPage(postList.next))
       dispatch(setPreviousPage(postList.previous))
-      dispatch(setPostNum(postList.count))
     }
   )
 }
@@ -71,7 +71,6 @@ export const newPost = (post, icon) => dispatch => {
       post => {
         if (success === true) {
           dispatch(addPost(post))
-          console.log(icon)
           if(icon){
             dispatch(uploadPostIcon(icon, post.uuid))
           }
@@ -155,3 +154,5 @@ export const uploadPostIcon = (icon, uuid) => dispatch => {
     response => response.json()
   )
 }
+
+export const setCurrPage = currPage => ({type: 'SET_CURR_PAGE', currPage})

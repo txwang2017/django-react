@@ -17,6 +17,7 @@ const initialState = {
   commentError: "",
   nextPage: null,
   previousPage: null,
+  currPage: 1,
   postNum: 0,
 }
 
@@ -56,6 +57,9 @@ const postReducer = (state = initialState, actions) => {
       break
     case "SET_POST_ICON_NAME":
       newState.postIconName = actions.iconName
+      break
+    case "SET_CURR_PAGE":
+      newState.currPage = actions.currPage
       break
     default:
       break

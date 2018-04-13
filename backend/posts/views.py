@@ -13,7 +13,7 @@ from .utils import get_all_posts, get_post, get_comments_by_post, upload_post_ic
 
 
 class PostListPagination(PageNumberPagination):
-    page_size = 2
+    page_size = 10
     page_size_query_param = 'page_size'
     max_page_size = 100
 

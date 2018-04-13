@@ -4,18 +4,6 @@ import {Link} from 'react-router-dom'
 const awsBucket = 'https://s3.amazonaws.com/django-react/'
 const defaultAvatar = 'default-avatar.jpg'
 
-const getCurrPage = () => {
-  const query = window.location.search.substring(1);
-  const vars = query.split("&");
-  for (let i = 0; i < vars.length; i++) {
-    let pair = vars[i].split("=");
-    if (pair[0] === 'page') {
-      return pair[1]
-    }
-  }
-  return 1
-}
-
 export class PostCard extends React.Component {
   constructor(props) {
     super(props)
@@ -24,7 +12,6 @@ export class PostCard extends React.Component {
     this.postIcon = awsBucket + 'post-icon-' + this.postDetail.uuid
     this.authorAvatar = awsBucket + (this.postDetail.author_avatar || defaultAvatar)
     this.pubTime = new Date(this.postDetail.pub_time)
-    console.log(this.postDetail)
 
     this.setPubTime = pubTime => {
       let date = new Date(pubTime)
@@ -130,42 +117,73 @@ export class PostPagination extends React.Component {
     super(props)
     this.props = props
 
-    console.log(this.props.state.postNum)
-    console.log(this.props.state.previousPage)
-
-    this.currPage = getCurrPage()
-    const pageSize = 2
-    this.pageNum = Math.ceil(this.props.state.count / pageSize)
-
     this.handleNextPage = () => {
       if (this.props.state.nextPage !== null) {
         this.props.actions.fetchPostList(this.props.state.nextPage)
+        this.props.actions.setCurrPage(this.props.state.currPage + 1)
       }
     }
 
     this.handlePreviousPage = () => {
       if (this.props.state.previousPage !== null) {
         this.props.actions.fetchPostList(this.props.state.previousPage)
+        this.props.actions.setCurrPage(this.props.state.currPage - 1)
       }
     }
 
-    this.setPagination = () => {
-      const lowerBound = Math.max(1, this.currPage - 3)
-      const higherBound = Math.min(this.pageNum, this.currPage + 3)
+    this.handlePage = (page) => {
+      let pageUrl = `/api/posts/list?page=${page}`
+      this.props.actions.fetchPostList(pageUrl)
+      this.props.actions.setCurrPage(page)
+    }
 
+    this.setPagination = () => {
+      let pages = []
+      const pageSize = 10
+      const lowerBound = Math.max(1, this.props.state.currPage - 3)
+      const upperBound = Math.min(Math.ceil(this.props.state.postNum / pageSize), this.props.state.currPage + 3)
+      if (lowerBound > 1) {
+        pages.push(1)
+      }
+      if (lowerBound > 2) {
+        pages.push('...')
+      }
+      for (let i = lowerBound; i <= upperBound; i++) {
+        pages.push(i)
+      }
+      if (upperBound < Math.ceil(this.props.state.postNum / pageSize) - 1) {
+        pages.push('...')
+      }
+      if (upperBound < Math.ceil(this.props.state.postNum / pageSize)) {
+        pages.push(Math.ceil(this.props.state.postNum / pageSize))
+      }
+      const setPage = page => {
+        if (typeof page === 'number') {
+          return <a className="page-link" href="#" onClick={() => this.handlePage(page)}>{page}</a>
+        } else {
+          return <span className="page-link">{page}</span>
+        }
+      }
+      return (
+        <ul className="pagination justify-content-center">
+          <li className="page-item"><a className="page-link" href="#" onClick={this.handlePreviousPage}>Previous</a>
+          </li>
+          {pages.map((page, index) => (
+            <li className="page-item" key={index}>
+              {setPage(page)}
+            </li>
+          ))}
+          <li className="page-item"><a className="page-link" href="#" onClick={this.handleNextPage}>Next</a></li>
+        </ul>
+      )
     }
   }
 
   render() {
     return (
-      <ul id="pagination" className="inline">
-        <li id="previous-page">
-          <button className="btn" onClick={this.handlePreviousPage}>&laquo</button>
-        </li>
-        <li id="next-page">
-          <button className="btn" onClick={this.handleNextPage}>&raquo</button>
-        </li>
-      </ul>
+      <div>
+        {this.setPagination()}
+      </div>
     )
   }
 }
