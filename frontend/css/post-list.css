@@ -1,68 +1,28 @@
-#post-list {
-    position: absolute;
-    top: 40px;
-    z-index: 0;
-    width: 100%;
+.media{
+    max-width: 60%;
+    margin-left: 20%;
+    margin-top: 40px;
+    min-height: 150px;
+    border-bottom: #99ccff solid 1px;
+}
+
+.media-heading{
+    font-weight: bold;
+}
+
+.media-left{
+    margin-right: 2%;
+}
+
+.media .info{
+    margin-top: 15px;
 }
 
 .post-info{
-    width: 100%;
+    margin-left: 1%;
+    margin-right: 0.5%;
 }
 
-#post-list .post-author {
-    width: 20%;
-}
-
-#post-list .post-title {
-    width: 65%;
-}
-
-#post-list .post-pub-time {
-    width: 15%;
-}
-
-#new-post {
-    position: fixed;
-    top: 80px;
-    left: 20%;
-    width: 60%;
-}
-
-#new-post #new-post-title {
-    width: 90%;
-}
-
-#new-post #new-post-content {
-    width: 90%;
-    height: 200px;
-}
-
-#new-post input::-webkit-input-placeholder {
-    text-align: center;
-}
-
-#new-post textarea::-webkit-input-placeholder {
-    text-align: center;
-    padding-top: 80px;
-}
-
-#new-post #new-post-submit {
-    position: absolute;
-    left: 83%;
-}
-
-#pagination {
-    position: fixed;
-    top: 450px;
-    width: 100%;
-}
-
-#pagination #previous-page {
-    position: absolute;
-    left: 40%;
-}
-
-#pagination #next-page {
-    position: absolute;
-    left: 60%;
+.post-author-avatar{
+    margin-right: 1%;
 }

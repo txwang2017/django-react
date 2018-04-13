@@ -3,8 +3,8 @@ import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 
 import * as Actions from './actions'
-import {PostDetail, NewComment} from "./components"
-import {NewPost, PostList} from './container'
+import {NewComment} from "./components"
+import {NewPost, PostList, PostDetail} from './container'
 import {Route, Switch, HashRouter} from 'react-router-dom'
 
 const Post = ({state, actions}) => {

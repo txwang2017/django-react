@@ -1,77 +1,110 @@
-import React from 'react';
+import React from 'react'
+import {Link} from 'react-router-dom'
+
+const awsBucket = 'https://s3.amazonaws.com/django-react/'
+const defaultAvatar = 'default-avatar.jpg'
+
+const getCurrPage = () => {
+  const query = window.location.search.substring(1);
+  const vars = query.split("&");
+  for (let i = 0; i < vars.length; i++) {
+    let pair = vars[i].split("=");
+    if (pair[0] === 'page') {
+      return pair[1]
+    }
+  }
+  return 1
+}
 
 export class PostCard extends React.Component {
   constructor(props) {
     super(props)
     this.props = props
     this.postDetail = this.props.postDetail
+    this.postIcon = awsBucket + 'post-icon-' + this.postDetail.uuid
+    this.authorAvatar = awsBucket + (this.postDetail.author_avatar || defaultAvatar)
+    this.pubTime = new Date(this.postDetail.pub_time)
     console.log(this.postDetail)
+
+    this.setPubTime = pubTime => {
+      let date = new Date(pubTime)
+      return date.getMonth() + '-' + date.getDate() + '-' + date.getFullYear()
+    }
+
+    this.setContent = content => {
+      let temp = content.split(' ')
+      const textLength = 45
+      if (temp.length < textLength) {
+        return content
+      } else {
+        return temp.splice(0, textLength).join(' ') + '.......'
+      }
+    }
+
+    this.setIcon = () => {
+      if (this.postDetail.icon) {
+        return (
+          <div className="media-left">
+            <img src={this.postIcon} height="140" width="200" className="rounded"/>
+          </div>
+        )
+      } else {
+        return null
+      }
+    }
   }
 
   render() {
-    return (<h1>xxx</h1>)
-  }
-
-}
-
-export class PostDetail extends React.Component {
-
-  constructor(props) {
-    super(props);
-    this.props = props;
-    this.uuid = this.props.uuid;
-  }
-
-  componentWillMount() {
-    this.props.actions.fetchPostDetail(this.uuid);
-  }
-
-  render() {
-    let publishTime = new Date(this.props.state.postDetail.pub_time);
-    publishTime = publishTime.toLocaleDateString() + "  " + publishTime.toLocaleTimeString();
-    const comments = this.props.state.postDetail.comments;
     return (
-      <div id="post-detail">
-  <pre id="post-detail-info">
-  <div id="post-detail-title">{this.props.state.postDetail.title}</div>
-  <div id="post-detail-author">{this.props.state.postDetail.author}</div>
-  <div id="post-detail-publish-time">published at: {publishTime}</div>
-  <div id="post-detail-content">{this.props.state.postDetail.content}</div>
-  </pre>
-        <div id="post-detail-comments">
-          {comments.map(comment => {
-            let commentTime = new Date(comment.pub_time);
-            commentTime = commentTime.toLocaleDateString() + "  " + commentTime.toLocaleTimeString();
-            return (
-              <div className="well" key={comment.uuid} id={`comment-${comment.uuid}`}>
-                <ul className="inline">
-                  <li className="comment-author">{comment.author}</li>
-                  <li className="comment-time">{commentTime}</li>
-                </ul>
-                <div className="comment-content">{comment.content}</div>
-              </div>
-            )
-          })}
+      <div className="media">
+        {this.setIcon()}
+
+        <div className="media-body">
+          <Link to={`/post-detail/${this.postDetail.uuid}`} style={{textDecoration: 'none', color: 'black'}}>
+            <div className="media-heading">
+              <h3>{this.postDetail.title}</h3>
+            </div>
+          </Link>
+          <div className="description" style={{color: 'grey'}}>
+            {this.setContent(this.postDetail.content)}
+          </div>
+          <div className="info">
+            <img src={this.authorAvatar} height="30" width="30" className="rounded post-author-avatar"/>
+            {this.postDetail.author}
+            <img src="https://s3.amazonaws.com/django-react/clock.jpeg" height="25" width="25"
+                 className="post-info"/>
+            {this.setPubTime(this.postDetail.pub_time)}
+            <img src="https://s3.amazonaws.com/django-react/thumb.png" height="25" width="25"
+                 className="post-info"/>
+            {this.postDetail.like_num}
+            <img src="https://s3.amazonaws.com/django-react/read.jpeg" height="25" width="25"
+                 className="post-info"/>
+            {this.postDetail.read_num}
+            <img src="https://s3.amazonaws.com/django-react/comment.png" height="25" width="25"
+                 className="post-info"/>
+            {this.postDetail.comment_num}
+          </div>
         </div>
       </div>
+
     )
   }
 }
 
 export class NewComment extends React.Component {
   constructor(props) {
-    super(props);
-    this.props = props;
-    this.uuid = this.props.uuid;
+    super(props)
+    this.props = props
+    this.uuid = this.props.uuid
     this.comment = {
       content: ""
-    };
+    }
     this.handleContentChange = content => {
-      this.comment.content = content.target.value;
-    };
+      this.comment.content = content.target.value
+    }
 
     this.handleSubmit = () => {
-      this.props.actions.newComment(this.comment, this.uuid);
+      this.props.actions.newComment(this.comment, this.uuid)
     }
   }
 
@@ -87,7 +120,52 @@ export class NewComment extends React.Component {
         </div>
       )
     } else {
-      return null;
+      return null
     }
+  }
+}
+
+export class PostPagination extends React.Component {
+  constructor(props) {
+    super(props)
+    this.props = props
+
+    console.log(this.props.state.postNum)
+    console.log(this.props.state.previousPage)
+
+    this.currPage = getCurrPage()
+    const pageSize = 2
+    this.pageNum = Math.ceil(this.props.state.count / pageSize)
+
+    this.handleNextPage = () => {
+      if (this.props.state.nextPage !== null) {
+        this.props.actions.fetchPostList(this.props.state.nextPage)
+      }
+    }
+
+    this.handlePreviousPage = () => {
+      if (this.props.state.previousPage !== null) {
+        this.props.actions.fetchPostList(this.props.state.previousPage)
+      }
+    }
+
+    this.setPagination = () => {
+      const lowerBound = Math.max(1, this.currPage - 3)
+      const higherBound = Math.min(this.pageNum, this.currPage + 3)
+
+    }
+  }
+
+  render() {
+    return (
+      <ul id="pagination" className="inline">
+        <li id="previous-page">
+          <button className="btn" onClick={this.handlePreviousPage}>&laquo</button>
+        </li>
+        <li id="next-page">
+          <button className="btn" onClick={this.handleNextPage}>&raquo</button>
+        </li>
+      </ul>
+    )
   }
 }

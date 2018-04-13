@@ -2,6 +2,7 @@ import uuid
 import boto3
 
 from django.db.models import Q
+from django.conf import settings
 
 from .models import Post, Comment
 from backend.settings import AWS_BUCKET_NAME
@@ -57,8 +58,17 @@ def create_comment(**kwargs):
     return Comment.objects.create(**kwargs)
 
 
-def upload_post_icon(icon, uuid):
+def upload_post_icon(icon, uid):
     s3 = boto3.resource('s3')
-    key = 'post-icon-' + uuid
-    obj = s3.Bucket(AWS_BUCKET_NAME).put_object(Key=key, Body=icon)
+    key = 'post-icon-' + uid
+    obj = s3.Bucket(settings.AWS_BUCKET_NAME).put_object(Key=key, Body=icon)
     obj.Acl().put(ACL='public-read')
+    post = get_post(post_uuid=uid)
+    if post:
+        post.icon = True
+        post.save()
+
+
+def get_post_comment_num(post):
+    comment_num = Comment.objects.filter(post=post).count()
+    return comment_num

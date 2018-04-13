@@ -1,23 +1,11 @@
 import React from "react"
-import {PostCard} from "./components"
+import {PostCard, PostPagination} from "./components"
 
 export class PostList extends React.Component {
 
   constructor(props) {
     super(props)
     this.props = props
-
-    this.handleNextPage = () => {
-      if (this.props.state.nextPage !== null) {
-        this.props.actions.fetchPostList(this.props.state.nextPage)
-      }
-    }
-
-    this.handlePreviousPage = () => {
-      if (this.props.state.previousPage !== null) {
-        this.props.actions.fetchPostList(this.props.state.previousPage)
-      }
-    }
   }
 
   componentWillMount() {
@@ -32,14 +20,7 @@ export class PostList extends React.Component {
         {this.props.state.postList.map(post => (
           <PostCard postDetail={post} key={post.uuid}/>
         ))}
-        <ul id="pagination" className="inline">
-          <li id="previous-page">
-            <button className="btn" onClick={this.handlePreviousPage}>&laquo</button>
-          </li>
-          <li id="next-page">
-            <button className="btn" onClick={this.handleNextPage}>&raquo</button>
-          </li>
-        </ul>
+        <PostPagination state={this.props.state} actions={this.props.actions}/>
       </div>
     )
   }
@@ -95,6 +76,50 @@ export class NewPost extends React.Component {
         <button className="btn btn-primary" onClick={this.handleSubmit}>publish
         </button>
       </form>
+    )
+  }
+}
+
+export class PostDetail extends React.Component {
+
+  constructor(props) {
+    super(props)
+    this.props = props
+    this.uuid = this.props.uuid
+  }
+
+  componentWillMount() {
+    this.props.actions.fetchPostDetail(this.uuid)
+  }
+
+  render() {
+    let publishTime = new Date(this.props.state.postDetail.pub_time)
+    publishTime = publishTime.toLocaleDateString() + "  " + publishTime.toLocaleTimeString()
+    const comments = this.props.state.postDetail.comments
+    return (
+      <div id="post-detail">
+  <pre id="post-detail-info">
+  <div id="post-detail-title">{this.props.state.postDetail.title}</div>
+  <div id="post-detail-author">{this.props.state.postDetail.author}</div>
+  <div id="post-detail-publish-time">published at: {publishTime}</div>
+  <div id="post-detail-content">{this.props.state.postDetail.content}</div>
+  </pre>
+        <div id="post-detail-comments">
+          {comments.map(comment => {
+            let commentTime = new Date(comment.pub_time)
+            commentTime = commentTime.toLocaleDateString() + "  " + commentTime.toLocaleTimeString()
+            return (
+              <div className="well" key={comment.uuid} id={`comment-${comment.uuid}`}>
+                <ul className="inline">
+                  <li className="comment-author">{comment.author}</li>
+                  <li className="comment-time">{commentTime}</li>
+                </ul>
+                <div className="comment-content">{comment.content}</div>
+              </div>
+            )
+          })}
+        </div>
+      </div>
     )
   }
 }

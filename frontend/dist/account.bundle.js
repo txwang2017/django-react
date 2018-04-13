@@ -3493,7 +3493,10 @@ var newPost = exports.newPost = function newPost(post, icon) {
       }).then(function (post) {
         if (success === true) {
           dispatch(addPost(post));
-          dispatch(uploadPostIcon(icon, post.uuid));
+          console.log(icon);
+          if (icon) {
+            dispatch(uploadPostIcon(icon, post.uuid));
+          }
           window.location.hash = '#';
         } else {
           dispatch(setNewPostError("please log in first"));
@@ -3589,13 +3592,15 @@ var uploadPostIcon = exports.uploadPostIcon = function uploadPostIcon(icon, uuid
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.NewComment = exports.PostDetail = exports.PostCard = undefined;
+exports.PostPagination = exports.NewComment = exports.PostCard = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
+
+var _reactRouterDom = __webpack_require__(13);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -3604,6 +3609,21 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var awsBucket = 'https://s3.amazonaws.com/django-react/';
+var defaultAvatar = 'default-avatar.jpg';
+
+var getCurrPage = function getCurrPage() {
+  var query = window.location.search.substring(1);
+  var vars = query.split("&");
+  for (var i = 0; i < vars.length; i++) {
+    var pair = vars[i].split("=");
+    if (pair[0] === 'page') {
+      return pair[1];
+    }
+  }
+  return 1;
+};
 
 var PostCard = exports.PostCard = function (_React$Component) {
   _inherits(PostCard, _React$Component);
@@ -3615,17 +3635,87 @@ var PostCard = exports.PostCard = function (_React$Component) {
 
     _this.props = props;
     _this.postDetail = _this.props.postDetail;
+    _this.postIcon = awsBucket + 'post-icon-' + _this.postDetail.uuid;
+    _this.authorAvatar = awsBucket + (_this.postDetail.author_avatar || defaultAvatar);
+    _this.pubTime = new Date(_this.postDetail.pub_time);
     console.log(_this.postDetail);
+
+    _this.setPubTime = function (pubTime) {
+      var date = new Date(pubTime);
+      return date.getMonth() + '-' + date.getDate() + '-' + date.getFullYear();
+    };
+
+    _this.setContent = function (content) {
+      var temp = content.split(' ');
+      var textLength = 45;
+      if (temp.length < textLength) {
+        return content;
+      } else {
+        return temp.splice(0, textLength).join(' ') + '.......';
+      }
+    };
+
+    _this.setIcon = function () {
+      if (_this.postDetail.icon) {
+        return _react2.default.createElement(
+          'div',
+          { className: 'media-left' },
+          _react2.default.createElement('img', { src: _this.postIcon, height: '140', width: '200', className: 'rounded' })
+        );
+      } else {
+        return null;
+      }
+    };
     return _this;
   }
 
   _createClass(PostCard, [{
-    key: "render",
+    key: 'render',
     value: function render() {
       return _react2.default.createElement(
-        "h1",
-        null,
-        "xxx"
+        'div',
+        { className: 'media' },
+        this.setIcon(),
+        _react2.default.createElement(
+          'div',
+          { className: 'media-body' },
+          _react2.default.createElement(
+            _reactRouterDom.Link,
+            { to: '/post-detail/' + this.postDetail.uuid, style: { textDecoration: 'none', color: 'black' } },
+            _react2.default.createElement(
+              'div',
+              { className: 'media-heading' },
+              _react2.default.createElement(
+                'h3',
+                null,
+                this.postDetail.title
+              )
+            )
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'description', style: { color: 'grey' } },
+            this.setContent(this.postDetail.content)
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'info' },
+            _react2.default.createElement('img', { src: this.authorAvatar, height: '30', width: '30', className: 'rounded post-author-avatar' }),
+            this.postDetail.author,
+            _react2.default.createElement('img', { src: 'https://s3.amazonaws.com/django-react/clock.jpeg', height: '25', width: '25',
+              className: 'post-info' }),
+            this.setPubTime(this.postDetail.pub_time),
+            _react2.default.createElement('img', { src: 'https://s3.amazonaws.com/django-react/thumb.png', height: '25', width: '25',
+              className: 'post-info' }),
+            this.postDetail.like_num,
+            _react2.default.createElement('img', { src: 'https://s3.amazonaws.com/django-react/read.jpeg', height: '25', width: '25',
+              className: 'post-info' }),
+            this.postDetail.read_num,
+            _react2.default.createElement('img', { src: 'https://s3.amazonaws.com/django-react/comment.png', height: '25', width: '25',
+              className: 'post-info' }),
+            this.postDetail.comment_num
+          )
+        )
       );
     }
   }]);
@@ -3633,138 +3723,48 @@ var PostCard = exports.PostCard = function (_React$Component) {
   return PostCard;
 }(_react2.default.Component);
 
-var PostDetail = exports.PostDetail = function (_React$Component2) {
-  _inherits(PostDetail, _React$Component2);
-
-  function PostDetail(props) {
-    _classCallCheck(this, PostDetail);
-
-    var _this2 = _possibleConstructorReturn(this, (PostDetail.__proto__ || Object.getPrototypeOf(PostDetail)).call(this, props));
-
-    _this2.props = props;
-    _this2.uuid = _this2.props.uuid;
-    return _this2;
-  }
-
-  _createClass(PostDetail, [{
-    key: "componentWillMount",
-    value: function componentWillMount() {
-      this.props.actions.fetchPostDetail(this.uuid);
-    }
-  }, {
-    key: "render",
-    value: function render() {
-      var publishTime = new Date(this.props.state.postDetail.pub_time);
-      publishTime = publishTime.toLocaleDateString() + "  " + publishTime.toLocaleTimeString();
-      var comments = this.props.state.postDetail.comments;
-      return _react2.default.createElement(
-        "div",
-        { id: "post-detail" },
-        _react2.default.createElement(
-          "pre",
-          { id: "post-detail-info" },
-          _react2.default.createElement(
-            "div",
-            { id: "post-detail-title" },
-            this.props.state.postDetail.title
-          ),
-          _react2.default.createElement(
-            "div",
-            { id: "post-detail-author" },
-            this.props.state.postDetail.author
-          ),
-          _react2.default.createElement(
-            "div",
-            { id: "post-detail-publish-time" },
-            "published at: ",
-            publishTime
-          ),
-          _react2.default.createElement(
-            "div",
-            { id: "post-detail-content" },
-            this.props.state.postDetail.content
-          )
-        ),
-        _react2.default.createElement(
-          "div",
-          { id: "post-detail-comments" },
-          comments.map(function (comment) {
-            var commentTime = new Date(comment.pub_time);
-            commentTime = commentTime.toLocaleDateString() + "  " + commentTime.toLocaleTimeString();
-            return _react2.default.createElement(
-              "div",
-              { className: "well", key: comment.uuid, id: "comment-" + comment.uuid },
-              _react2.default.createElement(
-                "ul",
-                { className: "inline" },
-                _react2.default.createElement(
-                  "li",
-                  { className: "comment-author" },
-                  comment.author
-                ),
-                _react2.default.createElement(
-                  "li",
-                  { className: "comment-time" },
-                  commentTime
-                )
-              ),
-              _react2.default.createElement(
-                "div",
-                { className: "comment-content" },
-                comment.content
-              )
-            );
-          })
-        )
-      );
-    }
-  }]);
-
-  return PostDetail;
-}(_react2.default.Component);
-
-var NewComment = exports.NewComment = function (_React$Component3) {
-  _inherits(NewComment, _React$Component3);
+var NewComment = exports.NewComment = function (_React$Component2) {
+  _inherits(NewComment, _React$Component2);
 
   function NewComment(props) {
     _classCallCheck(this, NewComment);
 
-    var _this3 = _possibleConstructorReturn(this, (NewComment.__proto__ || Object.getPrototypeOf(NewComment)).call(this, props));
+    var _this2 = _possibleConstructorReturn(this, (NewComment.__proto__ || Object.getPrototypeOf(NewComment)).call(this, props));
 
-    _this3.props = props;
-    _this3.uuid = _this3.props.uuid;
-    _this3.comment = {
+    _this2.props = props;
+    _this2.uuid = _this2.props.uuid;
+    _this2.comment = {
       content: ""
     };
-    _this3.handleContentChange = function (content) {
-      _this3.comment.content = content.target.value;
+    _this2.handleContentChange = function (content) {
+      _this2.comment.content = content.target.value;
     };
 
-    _this3.handleSubmit = function () {
-      _this3.props.actions.newComment(_this3.comment, _this3.uuid);
+    _this2.handleSubmit = function () {
+      _this2.props.actions.newComment(_this2.comment, _this2.uuid);
     };
-    return _this3;
+    return _this2;
   }
 
   _createClass(NewComment, [{
-    key: "render",
+    key: 'render',
     value: function render() {
       if (this.props.state.header.userInfo.isAuthenticated === true) {
         return _react2.default.createElement(
-          "div",
-          { id: "new-comment" },
-          _react2.default.createElement("textarea", { id: "comment-content",
-            placeholder: "comment.....",
+          'div',
+          { id: 'new-comment' },
+          _react2.default.createElement('textarea', { id: 'comment-content',
+            placeholder: 'comment.....',
             onChange: this.handleContentChange }),
           _react2.default.createElement(
-            "p",
-            { id: "comment-error" },
+            'p',
+            { id: 'comment-error' },
             this.props.state.post.commentError
           ),
           _react2.default.createElement(
-            "button",
-            { id: "submit-comment", className: "btn", onClick: this.handleSubmit },
-            "comment"
+            'button',
+            { id: 'submit-comment', className: 'btn', onClick: this.handleSubmit },
+            'comment'
           )
         );
       } else {
@@ -3774,6 +3774,73 @@ var NewComment = exports.NewComment = function (_React$Component3) {
   }]);
 
   return NewComment;
+}(_react2.default.Component);
+
+var PostPagination = exports.PostPagination = function (_React$Component3) {
+  _inherits(PostPagination, _React$Component3);
+
+  function PostPagination(props) {
+    _classCallCheck(this, PostPagination);
+
+    var _this3 = _possibleConstructorReturn(this, (PostPagination.__proto__ || Object.getPrototypeOf(PostPagination)).call(this, props));
+
+    _this3.props = props;
+
+    console.log(_this3.props.state.postNum);
+    console.log(_this3.props.state.previousPage);
+
+    _this3.currPage = getCurrPage();
+    var pageSize = 2;
+    _this3.pageNum = Math.ceil(_this3.props.state.count / pageSize);
+
+    _this3.handleNextPage = function () {
+      if (_this3.props.state.nextPage !== null) {
+        _this3.props.actions.fetchPostList(_this3.props.state.nextPage);
+      }
+    };
+
+    _this3.handlePreviousPage = function () {
+      if (_this3.props.state.previousPage !== null) {
+        _this3.props.actions.fetchPostList(_this3.props.state.previousPage);
+      }
+    };
+
+    _this3.setPagination = function () {
+      var lowerBound = Math.max(1, _this3.currPage - 3);
+      var higherBound = Math.min(_this3.pageNum, _this3.currPage + 3);
+    };
+    return _this3;
+  }
+
+  _createClass(PostPagination, [{
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        'ul',
+        { id: 'pagination', className: 'inline' },
+        _react2.default.createElement(
+          'li',
+          { id: 'previous-page' },
+          _react2.default.createElement(
+            'button',
+            { className: 'btn', onClick: this.handlePreviousPage },
+            '&laquo'
+          )
+        ),
+        _react2.default.createElement(
+          'li',
+          { id: 'next-page' },
+          _react2.default.createElement(
+            'button',
+            { className: 'btn', onClick: this.handleNextPage },
+            '&raquo'
+          )
+        )
+      );
+    }
+  }]);
+
+  return PostPagination;
 }(_react2.default.Component);
 
 /***/ }),
@@ -25919,7 +25986,7 @@ var Post = function Post(_ref) {
             return _react2.default.createElement(
               'div',
               null,
-              _react2.default.createElement(_components.PostDetail, { state: state.post,
+              _react2.default.createElement(_container.PostDetail, { state: state.post,
                 actions: actions,
                 uuid: uuid.match.params.uuid }),
               _react2.default.createElement(_components.NewComment, { state: state,
@@ -25962,7 +26029,7 @@ exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.NewPost = exports.PostList = undefined;
+exports.PostDetail = exports.NewPost = exports.PostList = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -25989,18 +26056,6 @@ var PostList = exports.PostList = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, (PostList.__proto__ || Object.getPrototypeOf(PostList)).call(this, props));
 
     _this.props = props;
-
-    _this.handleNextPage = function () {
-      if (_this.props.state.nextPage !== null) {
-        _this.props.actions.fetchPostList(_this.props.state.nextPage);
-      }
-    };
-
-    _this.handlePreviousPage = function () {
-      if (_this.props.state.previousPage !== null) {
-        _this.props.actions.fetchPostList(_this.props.state.previousPage);
-      }
-    };
     return _this;
   }
 
@@ -26020,28 +26075,7 @@ var PostList = exports.PostList = function (_React$Component) {
         this.props.state.postList.map(function (post) {
           return _react2.default.createElement(_components.PostCard, { postDetail: post, key: post.uuid });
         }),
-        _react2.default.createElement(
-          "ul",
-          { id: "pagination", className: "inline" },
-          _react2.default.createElement(
-            "li",
-            { id: "previous-page" },
-            _react2.default.createElement(
-              "button",
-              { className: "btn", onClick: this.handlePreviousPage },
-              "&laquo"
-            )
-          ),
-          _react2.default.createElement(
-            "li",
-            { id: "next-page" },
-            _react2.default.createElement(
-              "button",
-              { className: "btn", onClick: this.handleNextPage },
-              "&raquo"
-            )
-          )
-        )
+        _react2.default.createElement(_components.PostPagination, { state: this.props.state, actions: this.props.actions })
       );
     }
   }]);
@@ -26125,6 +26159,96 @@ var NewPost = exports.NewPost = function (_React$Component2) {
   }]);
 
   return NewPost;
+}(_react2.default.Component);
+
+var PostDetail = exports.PostDetail = function (_React$Component3) {
+  _inherits(PostDetail, _React$Component3);
+
+  function PostDetail(props) {
+    _classCallCheck(this, PostDetail);
+
+    var _this3 = _possibleConstructorReturn(this, (PostDetail.__proto__ || Object.getPrototypeOf(PostDetail)).call(this, props));
+
+    _this3.props = props;
+    _this3.uuid = _this3.props.uuid;
+    return _this3;
+  }
+
+  _createClass(PostDetail, [{
+    key: "componentWillMount",
+    value: function componentWillMount() {
+      this.props.actions.fetchPostDetail(this.uuid);
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var publishTime = new Date(this.props.state.postDetail.pub_time);
+      publishTime = publishTime.toLocaleDateString() + "  " + publishTime.toLocaleTimeString();
+      var comments = this.props.state.postDetail.comments;
+      return _react2.default.createElement(
+        "div",
+        { id: "post-detail" },
+        _react2.default.createElement(
+          "pre",
+          { id: "post-detail-info" },
+          _react2.default.createElement(
+            "div",
+            { id: "post-detail-title" },
+            this.props.state.postDetail.title
+          ),
+          _react2.default.createElement(
+            "div",
+            { id: "post-detail-author" },
+            this.props.state.postDetail.author
+          ),
+          _react2.default.createElement(
+            "div",
+            { id: "post-detail-publish-time" },
+            "published at: ",
+            publishTime
+          ),
+          _react2.default.createElement(
+            "div",
+            { id: "post-detail-content" },
+            this.props.state.postDetail.content
+          )
+        ),
+        _react2.default.createElement(
+          "div",
+          { id: "post-detail-comments" },
+          comments.map(function (comment) {
+            var commentTime = new Date(comment.pub_time);
+            commentTime = commentTime.toLocaleDateString() + "  " + commentTime.toLocaleTimeString();
+            return _react2.default.createElement(
+              "div",
+              { className: "well", key: comment.uuid, id: "comment-" + comment.uuid },
+              _react2.default.createElement(
+                "ul",
+                { className: "inline" },
+                _react2.default.createElement(
+                  "li",
+                  { className: "comment-author" },
+                  comment.author
+                ),
+                _react2.default.createElement(
+                  "li",
+                  { className: "comment-time" },
+                  commentTime
+                )
+              ),
+              _react2.default.createElement(
+                "div",
+                { className: "comment-content" },
+                comment.content
+              )
+            );
+          })
+        )
+      );
+    }
+  }]);
+
+  return PostDetail;
 }(_react2.default.Component);
 
 /***/ }),

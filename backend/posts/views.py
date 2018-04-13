@@ -13,7 +13,7 @@ from .utils import get_all_posts, get_post, get_comments_by_post, upload_post_ic
 
 
 class PostListPagination(PageNumberPagination):
-    page_size = 10
+    page_size = 2
     page_size_query_param = 'page_size'
     max_page_size = 100
 
@@ -115,11 +115,9 @@ class PostIconUploadView(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request, *args, **kwargs):
-        print "************"
         uuid = kwargs.get('uuid')
         icon = request.data.get('file')
-        print uuid
-        upload_post_icon(icon=icon, uuid=uuid)
+        upload_post_icon(icon=icon, uid=uuid)
         return Response(status=200, data={'success': True})
 
 
