@@ -12,6 +12,7 @@ const initialState = {
     comment_num: null,
     comments: [],
   },
+  like_active: {},
   postIconName: 'upload an picture for your post',
   postDetailError: "",
   commentError: "",
@@ -60,6 +61,10 @@ const postReducer = (state = initialState, actions) => {
       break
     case "SET_CURR_PAGE":
       newState.currPage = actions.currPage
+      break
+    case "SET_LIKE_POST":
+      newState.postDetail.like_num += 1
+      newState.like_active[actions.uuid] = true
       break
     default:
       break

@@ -3585,6 +3585,26 @@ var setCurrPage = exports.setCurrPage = function setCurrPage(currPage) {
   return { type: 'SET_CURR_PAGE', currPage: currPage };
 };
 
+var setLikePost = exports.setLikePost = function setLikePost(uuid) {
+  return { type: 'SET_LIKE_POST', uuid: uuid };
+};
+
+var likePost = exports.likePost = function likePost(uuid) {
+  return function (dispatch) {
+    fetch('/api/posts/' + uuid + '/like/', {
+      method: "POST",
+      credentials: 'include',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        "X-CSRFToken": getCookie("csrftoken")
+      }
+    }).then(function (response) {
+      return response.json();
+    }).then(dispatch(setLikePost(uuid)));
+  };
+};
+
 /***/ }),
 /* 50 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -3616,6 +3636,11 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var awsBucket = 'https://s3.amazonaws.com/django-react/';
 var defaultAvatar = 'default-avatar.jpg';
 
+var setPubTime = function setPubTime(pubTime) {
+  var date = new Date(pubTime);
+  return date.getMonth() + '-' + date.getDate() + '-' + date.getFullYear();
+};
+
 var PostCard = exports.PostCard = function (_React$Component) {
   _inherits(PostCard, _React$Component);
 
@@ -3629,11 +3654,6 @@ var PostCard = exports.PostCard = function (_React$Component) {
     _this.postIcon = awsBucket + 'post-icon-' + _this.postDetail.uuid;
     _this.authorAvatar = awsBucket + (_this.postDetail.author_avatar || defaultAvatar);
     _this.pubTime = new Date(_this.postDetail.pub_time);
-
-    _this.setPubTime = function (pubTime) {
-      var date = new Date(pubTime);
-      return date.getMonth() + '-' + date.getDate() + '-' + date.getFullYear();
-    };
 
     _this.setContent = function (content) {
       var temp = content.split(' ');
@@ -3694,7 +3714,7 @@ var PostCard = exports.PostCard = function (_React$Component) {
             this.postDetail.author,
             _react2.default.createElement('img', { src: 'https://s3.amazonaws.com/django-react/clock.jpeg', height: '25', width: '25',
               className: 'post-info' }),
-            this.setPubTime(this.postDetail.pub_time),
+            setPubTime(this.postDetail.pub_time),
             _react2.default.createElement('img', { src: 'https://s3.amazonaws.com/django-react/thumb.png', height: '25', width: '25',
               className: 'post-info' }),
             this.postDetail.like_num,
@@ -3733,6 +3753,7 @@ var NewComment = exports.NewComment = function (_React$Component2) {
     _this2.handleSubmit = function () {
       _this2.props.actions.newComment(_this2.comment, _this2.uuid);
     };
+
     return _this2;
   }
 
@@ -3889,52 +3910,109 @@ var PostDetail = exports.PostDetail = function (_React$Component4) {
     var _this4 = _possibleConstructorReturn(this, (PostDetail.__proto__ || Object.getPrototypeOf(PostDetail)).call(this, props));
 
     _this4.props = props;
-    _this4.uuid = _this4.props.uuid;
+    _this4.setContent = function (content) {
+      var paragraphs = content.split('\n');
+      return paragraphs.map(function (paragraph, index) {
+        return _react2.default.createElement(
+          'p',
+          { key: index },
+          paragraph
+        );
+      });
+    };
+    _this4.handleLike = function () {
+      _this4.props.actions.likePost(_this4.props.state.postDetail.uuid);
+    };
+    _this4.setLikeButton = function () {
+      if (_this4.props.state.like_active[_this4.props.state.postDetail.uuid]) {
+        return _react2.default.createElement('button', { className: 'btn like-button disabled' });
+      } else {
+        return _react2.default.createElement('button', { onClick: _this4.handleLike, className: 'btn like-button' });
+      }
+    };
     return _this4;
   }
 
   _createClass(PostDetail, [{
-    key: 'componentWillMount',
-    value: function componentWillMount() {
-      this.props.actions.fetchPostDetail(this.uuid);
-    }
-  }, {
     key: 'render',
     value: function render() {
+      var authorAvatar = awsBucket + (this.props.state.postDetail.author_avatar || defaultAvatar);
       return _react2.default.createElement(
         'div',
-        { className: 'media' },
+        { className: 'post-detail' },
         _react2.default.createElement(
           'div',
-          { className: 'media-body' },
+          { className: 'post-meta' },
           _react2.default.createElement(
             'div',
-            { className: 'media-heading' },
-            this.props.state.postDetail.title
+            { className: 'post-title' },
+            _react2.default.createElement(
+              'h1',
+              null,
+              this.props.state.postDetail.title
+            )
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'header' },
+            _react2.default.createElement('img', { src: authorAvatar, height: '30', width: '30', className: 'rounded post-author-avatar' }),
+            this.props.state.postDetail.author,
+            _react2.default.createElement('img', { src: 'https://s3.amazonaws.com/django-react/clock.jpeg', height: '25', width: '25',
+              className: 'post-info' }),
+            setPubTime(this.props.state.postDetail.pub_time),
+            _react2.default.createElement('img', { src: 'https://s3.amazonaws.com/django-react/thumb.png', height: '25', width: '25',
+              className: 'post-info' }),
+            this.props.state.postDetail.like_num,
+            _react2.default.createElement('img', { src: 'https://s3.amazonaws.com/django-react/read.jpeg', height: '25', width: '25',
+              className: 'post-info' }),
+            this.props.state.postDetail.read_num,
+            _react2.default.createElement('img', { src: 'https://s3.amazonaws.com/django-react/comment.png', height: '25', width: '25',
+              className: 'post-info' }),
+            this.props.state.postDetail.comment_num
           )
         ),
         _react2.default.createElement(
           'div',
-          { className: 'info' },
-          _react2.default.createElement('img', { src: this.authorAvatar, height: '30', width: '30', className: 'rounded post-author-avatar' }),
-          this.postDetail.author,
-          _react2.default.createElement('img', { src: 'https://s3.amazonaws.com/django-react/clock.jpeg', height: '25', width: '25',
-            className: 'post-info' }),
-          this.setPubTime(this.postDetail.pub_time),
-          _react2.default.createElement('img', { src: 'https://s3.amazonaws.com/django-react/thumb.png', height: '25', width: '25',
-            className: 'post-info' }),
-          this.postDetail.like_num,
-          _react2.default.createElement('img', { src: 'https://s3.amazonaws.com/django-react/read.jpeg', height: '25', width: '25',
-            className: 'post-info' }),
-          this.postDetail.read_num,
-          _react2.default.createElement('img', { src: 'https://s3.amazonaws.com/django-react/comment.png', height: '25', width: '25',
-            className: 'post-info' }),
-          this.postDetail.comment_num
+          { className: 'article container' },
+          _react2.default.createElement(
+            'div',
+            { className: 'row' },
+            _react2.default.createElement(
+              'div',
+              { className: 'col-md-15 col-md-offset-2' },
+              _react2.default.createElement(
+                'div',
+                { className: 'markdown' },
+                _react2.default.createElement(
+                  'h4',
+                  null,
+                  this.setContent(this.props.state.postDetail.content)
+                )
+              )
+            )
+          )
         ),
         _react2.default.createElement(
           'div',
-          { className: 'description' },
-          this.props.state.postDetail.content
+          { className: 'like-post' },
+          _react2.default.createElement(
+            'ul',
+            { className: 'list-inline' },
+            _react2.default.createElement(
+              'li',
+              { className: 'list-inline-item' },
+              this.setLikeButton()
+            ),
+            _react2.default.createElement(
+              'li',
+              { className: 'list-inline-item' },
+              _react2.default.createElement(
+                'h5',
+                null,
+                'Like it!'
+              )
+            )
+          )
         )
       );
     }
@@ -26086,7 +26164,7 @@ var Post = function Post(_ref) {
             return _react2.default.createElement(
               'div',
               null,
-              _react2.default.createElement(_container.PostDetail, { state: state.post,
+              _react2.default.createElement(_container.PostComments, { state: state.post,
                 actions: actions,
                 uuid: uuid.match.params.uuid }),
               _react2.default.createElement(_components.NewComment, { state: state,
@@ -26129,7 +26207,7 @@ exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.Post = exports.NewPost = exports.PostList = undefined;
+exports.PostComments = exports.NewPost = exports.PostList = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -26262,20 +26340,20 @@ var NewPost = exports.NewPost = function (_React$Component2) {
   return NewPost;
 }(_react2.default.Component);
 
-var Post = exports.Post = function (_React$Component3) {
-  _inherits(Post, _React$Component3);
+var PostComments = exports.PostComments = function (_React$Component3) {
+  _inherits(PostComments, _React$Component3);
 
-  function Post(props) {
-    _classCallCheck(this, Post);
+  function PostComments(props) {
+    _classCallCheck(this, PostComments);
 
-    var _this3 = _possibleConstructorReturn(this, (Post.__proto__ || Object.getPrototypeOf(Post)).call(this, props));
+    var _this3 = _possibleConstructorReturn(this, (PostComments.__proto__ || Object.getPrototypeOf(PostComments)).call(this, props));
 
     _this3.props = props;
     _this3.uuid = _this3.props.uuid;
     return _this3;
   }
 
-  _createClass(Post, [{
+  _createClass(PostComments, [{
     key: "componentWillMount",
     value: function componentWillMount() {
       this.props.actions.fetchPostDetail(this.uuid);
@@ -26284,14 +26362,14 @@ var Post = exports.Post = function (_React$Component3) {
     key: "render",
     value: function render() {
       return _react2.default.createElement(
-        "span",
+        "div",
         null,
-        _react2.default.createElement(_components.PostDetail, { state: this.props.state, actions: this.props.actions })
+        _react2.default.createElement(_components.PostDetail, { state: this.props.state, actions: this.props.actions, uuid: this.uuid })
       );
     }
   }]);
 
-  return Post;
+  return PostComments;
 }(_react2.default.Component);
 
 /***/ }),
@@ -27145,6 +27223,7 @@ var initialState = {
     comment_num: null,
     comments: []
   },
+  like_active: {},
   postIconName: 'upload an picture for your post',
   postDetailError: "",
   commentError: "",
@@ -27196,6 +27275,10 @@ var postReducer = function postReducer() {
       break;
     case "SET_CURR_PAGE":
       newState.currPage = actions.currPage;
+      break;
+    case "SET_LIKE_POST":
+      newState.postDetail.like_num += 1;
+      newState.like_active[actions.uuid] = true;
       break;
     default:
       break;

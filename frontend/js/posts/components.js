@@ -4,6 +4,11 @@ import {Link} from 'react-router-dom'
 const awsBucket = 'https://s3.amazonaws.com/django-react/'
 const defaultAvatar = 'default-avatar.jpg'
 
+const setPubTime = pubTime => {
+  let date = new Date(pubTime)
+  return date.getMonth() + '-' + date.getDate() + '-' + date.getFullYear()
+}
+
 export class PostCard extends React.Component {
   constructor(props) {
     super(props)
@@ -12,11 +17,6 @@ export class PostCard extends React.Component {
     this.postIcon = awsBucket + 'post-icon-' + this.postDetail.uuid
     this.authorAvatar = awsBucket + (this.postDetail.author_avatar || defaultAvatar)
     this.pubTime = new Date(this.postDetail.pub_time)
-
-    this.setPubTime = pubTime => {
-      let date = new Date(pubTime)
-      return date.getMonth() + '-' + date.getDate() + '-' + date.getFullYear()
-    }
 
     this.setContent = content => {
       let temp = content.split(' ')
@@ -45,7 +45,6 @@ export class PostCard extends React.Component {
     return (
       <div className="media">
         {this.setIcon()}
-
         <div className="media-body">
           <Link to={`/post-detail/${this.postDetail.uuid}`} style={{textDecoration: 'none', color: 'black'}}>
             <div className="media-heading">
@@ -60,7 +59,7 @@ export class PostCard extends React.Component {
             {this.postDetail.author}
             <img src="https://s3.amazonaws.com/django-react/clock.jpeg" height="25" width="25"
                  className="post-info"/>
-            {this.setPubTime(this.postDetail.pub_time)}
+            {setPubTime(this.postDetail.pub_time)}
             <img src="https://s3.amazonaws.com/django-react/thumb.png" height="25" width="25"
                  className="post-info"/>
             {this.postDetail.like_num}
@@ -93,6 +92,7 @@ export class NewComment extends React.Component {
     this.handleSubmit = () => {
       this.props.actions.newComment(this.comment, this.uuid)
     }
+
   }
 
   render() {
@@ -192,39 +192,74 @@ export class PostDetail extends React.Component {
   constructor(props) {
     super(props)
     this.props = props
-    this.uuid = this.props.uuid
-  }
-
-  componentWillMount() {
-    this.props.actions.fetchPostDetail(this.uuid)
+    this.setContent = content => {
+      let paragraphs = content.split('\n')
+      return (
+        paragraphs.map((paragraph, index) => (
+          <p key={index}>
+            {paragraph}
+          </p>
+        ))
+      )
+    }
+    this.handleLike = () => {
+      this.props.actions.likePost(this.props.state.postDetail.uuid)
+    }
+    this.setLikeButton = () => {
+      if (this.props.state.like_active[this.props.state.postDetail.uuid]) {
+        return (
+          <button className="btn like-button disabled"/>
+        )
+      } else {
+        return (
+          <button onClick={this.handleLike} className="btn like-button"/>
+        )
+      }
+    }
   }
 
   render() {
+    let authorAvatar = awsBucket + (this.props.state.postDetail.author_avatar || defaultAvatar)
     return (
-      <div className="media">
-        <div className="media-body">
-          <div className="media-heading">
-            {this.props.state.postDetail.title}
+      <div className="post-detail">
+        <div className="post-meta">
+          <div className="post-title">
+            <h1>{this.props.state.postDetail.title}</h1>
+          </div>
+          <div className="header">
+            <img src={authorAvatar} height="30" width="30" className="rounded post-author-avatar"/>
+            {this.props.state.postDetail.author}
+            <img src="https://s3.amazonaws.com/django-react/clock.jpeg" height="25" width="25"
+                 className="post-info"/>
+            {setPubTime(this.props.state.postDetail.pub_time)}
+            <img src="https://s3.amazonaws.com/django-react/thumb.png" height="25" width="25"
+                 className="post-info"/>
+            {this.props.state.postDetail.like_num}
+            <img src="https://s3.amazonaws.com/django-react/read.jpeg" height="25" width="25"
+                 className="post-info"/>
+            {this.props.state.postDetail.read_num}
+            <img src="https://s3.amazonaws.com/django-react/comment.png" height="25" width="25"
+                 className="post-info"/>
+            {this.props.state.postDetail.comment_num}
           </div>
         </div>
-        <div className="info">
-          <img src={this.authorAvatar} height="30" width="30" className="rounded post-author-avatar"/>
-          {this.postDetail.author}
-          <img src="https://s3.amazonaws.com/django-react/clock.jpeg" height="25" width="25"
-               className="post-info"/>
-          {this.setPubTime(this.postDetail.pub_time)}
-          <img src="https://s3.amazonaws.com/django-react/thumb.png" height="25" width="25"
-               className="post-info"/>
-          {this.postDetail.like_num}
-          <img src="https://s3.amazonaws.com/django-react/read.jpeg" height="25" width="25"
-               className="post-info"/>
-          {this.postDetail.read_num}
-          <img src="https://s3.amazonaws.com/django-react/comment.png" height="25" width="25"
-               className="post-info"/>
-          {this.postDetail.comment_num}
+
+        <div className="article container">
+          <div className="row">
+            <div className="col-md-15 col-md-offset-2">
+              <div className="markdown">
+                <h4>
+                  {this.setContent(this.props.state.postDetail.content)}
+                </h4>
+              </div>
+            </div>
+          </div>
         </div>
-        <div className="description">
-          {this.props.state.postDetail.content}
+        <div className="like-post">
+          <ul className="list-inline">
+            <li className="list-inline-item">{this.setLikeButton()}</li>
+            <li className="list-inline-item"><h5>Like it!</h5></li>
+          </ul>
         </div>
       </div>
     )

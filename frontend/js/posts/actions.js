@@ -156,3 +156,21 @@ export const uploadPostIcon = (icon, uuid) => dispatch => {
 }
 
 export const setCurrPage = currPage => ({type: 'SET_CURR_PAGE', currPage})
+
+export const setLikePost = uuid => ({type: 'SET_LIKE_POST', uuid})
+
+export const likePost = uuid => dispatch => {
+  fetch(`/api/posts/${uuid}/like/`, {
+    method: "POST",
+    credentials: 'include',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      "X-CSRFToken": getCookie("csrftoken"),
+    },
+  }).then(
+    response => response.json()
+  ).then(
+    dispatch(setLikePost(uuid))
+  )
+}

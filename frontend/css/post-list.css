@@ -1,4 +1,4 @@
-.media{
+.media {
     max-width: 60%;
     margin-left: 20%;
     margin-top: 40px;
@@ -6,23 +6,56 @@
     border-bottom: #99ccff solid 1px;
 }
 
-.media-heading{
+.media-heading {
     font-weight: bold;
 }
 
-.media-left{
+.media-left {
     margin-right: 2%;
 }
 
-.media .info{
+.media .info {
     margin-top: 15px;
 }
 
-.post-info{
+.post-info {
     margin-left: 1%;
     margin-right: 0.5%;
 }
 
-.post-author-avatar{
+.post-author-avatar {
     margin-right: 1%;
+}
+
+.markdown {
+    overflow: hidden;
+    line-height: 2;
+    word-wrap: break-word;
+    margin-top: 50px;
+    text-align: justify;
+}
+
+.post-title {
+    text-align: center;
+    margin-top: 30px;
+    font-weight: bold;
+}
+
+.header {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.like-post{
+    margin-top: 30px;
+    text-align: center;
+}
+
+.like-button {
+    background-image: url('https://s3.amazonaws.com/django-react/like.jpeg');
+    background-size: 50px 50px;
+    cursor: pointer;
+    border: none;
+    width: 50px;
+    height: 50px;
 }

@@ -9,7 +9,13 @@ from rest_framework.pagination import PageNumberPagination
 from rest_framework.parsers import FileUploadParser
 
 from .serializer import PostSerializer, PostsSerializer, CommentSerializer
-from .utils import get_all_posts, get_post, get_comments_by_post, upload_post_icon
+from .utils import (
+    get_all_posts,
+    get_post,
+    get_comments_by_post,
+    upload_post_icon,
+    inc_post_link_num,
+)
 
 
 class PostListPagination(PageNumberPagination):
@@ -84,7 +90,8 @@ class PostDetailAPIView(APIView):
 
     def get(self, request, *args, **kwargs):
         uuid = kwargs.get('uuid')
-        post = get_post(post_uuid=uuid)
+        # TODO: there might be bug on updating read_num
+        post = get_post(post_uuid=uuid, read_inc=True)
         post.author_avatar = post.author.avatar
         if post is None:
             return Response(status=204)
@@ -120,4 +127,9 @@ class PostIconUploadView(APIView):
         return Response(status=200, data={'success': True})
 
 
+class PostLikeNumIncView(APIView):
 
+    def post(self, request, *args, **kwargs):
+        uuid = kwargs.get('uuid')
+        inc_post_link_num(post_uuid=uuid)
+        return Response(status=200, data={'success': True})

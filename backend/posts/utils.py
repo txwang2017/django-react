@@ -3,6 +3,7 @@ import boto3
 
 from django.db.models import Q
 from django.conf import settings
+from django.db import transaction
 
 from .models import Post, Comment
 
@@ -27,14 +28,16 @@ def get_comment_uuid():
             return _uuid
 
 
-def get_post(post_uuid=None):
-    if post_uuid is None:
-        return None
-    try:
-        post = Post.objects.get(uuid=post_uuid)
-        return post
-    except Post.DoesNotExist:
-        return None
+def get_post(post_uuid=None, read_inc=False):
+    if read_inc:
+        with transaction.atomic():
+            post = Post.objects.select_for_update().filter(uuid=post_uuid).first()
+            if post:
+                post.read_num += 1
+                post.save()
+    else:
+        post = Post.objects.filter(uuid=post_uuid).first()
+    return post
 
 
 def get_comments_by_post(post=None):
@@ -71,3 +74,10 @@ def upload_post_icon(icon, uid):
 def get_post_comment_num(post):
     comment_num = Comment.objects.filter(post=post).count()
     return comment_num
+
+
+def inc_post_link_num(post_uuid):
+    with transaction.atomic():
+        post = Post.objects.select_for_update().filter(uuid=post_uuid).first()
+        post.like_num += 1
+        post.save()

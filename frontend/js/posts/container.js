@@ -81,7 +81,7 @@ export class NewPost extends React.Component {
   }
 }
 
-export class Post extends React.Component {
+export class PostComments extends React.Component {
 
   constructor(props) {
     super(props)
@@ -95,9 +95,9 @@ export class Post extends React.Component {
 
   render() {
     return (
-      <span>
-        <PostDetail state={this.props.state} actions={this.props.actions}/>
-      </span>
+      <div>
+        <PostDetail state={this.props.state} actions={this.props.actions} uuid={this.uuid}/>
+      </div>
     )
   }
 }

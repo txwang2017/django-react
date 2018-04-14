@@ -4,7 +4,7 @@ import {bindActionCreators} from 'redux'
 
 import * as Actions from './actions'
 import {NewComment} from "./components"
-import {NewPost, PostList, PostDetail} from './container'
+import {NewPost, PostList, PostComments} from './container'
 import {Route, Switch, HashRouter} from 'react-router-dom'
 
 const Post = ({state, actions}) => {
@@ -14,7 +14,7 @@ const Post = ({state, actions}) => {
         <Switch>
           <Route path="/post-detail/:uuid" render={(uuid) => (
             <div>
-              <PostDetail state={state.post}
+              <PostComments state={state.post}
                           actions={actions}
                           uuid={uuid.match.params.uuid}/>
               <NewComment state={state}
