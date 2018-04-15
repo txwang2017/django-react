@@ -3438,6 +3438,8 @@ var fetchPostList = exports.fetchPostList = function fetchPostList() {
       dispatch(setPostNum(postList.count));
       dispatch(setNextPage(postList.next));
       dispatch(setPreviousPage(postList.previous));
+      dispatch(clearComments());
+      dispatch(setPostListUrl('/api/posts/list/'));
     });
   };
 };
@@ -3516,11 +3518,17 @@ var fetchPostDetail = exports.fetchPostDetail = function fetchPostDetail(uuid) {
     }).then(function (postDetail) {
       if (success) {
         dispatch(setPostDetail(postDetail));
+        dispatch(fetchComments(postDetail.uuid));
+        dispatch(clearComments());
       } else {
         dispatch(setPostDetailError("the post no longer exist"));
       }
     });
   };
+};
+
+var clearComments = exports.clearComments = function clearComments() {
+  return { type: 'CLEAR_COMMENTS' };
 };
 
 var addComment = exports.addComment = function addComment(comment) {
@@ -3605,6 +3613,33 @@ var likePost = exports.likePost = function likePost(uuid) {
   };
 };
 
+var setCommentList = exports.setCommentList = function setCommentList(comments) {
+  return { type: 'SET_COMMENTS', comments: comments };
+};
+
+var setCommentNextPage = exports.setCommentNextPage = function setCommentNextPage(commentNext) {
+  return { type: 'SET_COMMENT_NEXT', commentNext: commentNext };
+};
+
+var fetchComments = exports.fetchComments = function fetchComments(uuid) {
+  var path = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+  return function (dispatch) {
+    var fetchUrl = path || '/api/posts/' + uuid + '/comment-list/';
+    fetch(fetchUrl, {
+      method: 'GET'
+    }).then(function (response) {
+      return response.json();
+    }).then(function (response) {
+      dispatch(setCommentList(response.results));
+      dispatch(setCommentNextPage(response.next));
+    });
+  };
+};
+
+var setPostListUrl = exports.setPostListUrl = function setPostListUrl(url) {
+  return { type: "SET_POSTLIST_URL", url: url };
+};
+
 /***/ }),
 /* 50 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -3615,7 +3650,7 @@ var likePost = exports.likePost = function likePost(uuid) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.PostDetail = exports.PostPagination = exports.NewComment = exports.PostCard = undefined;
+exports.CommentCard = exports.PostDetail = exports.PostPagination = exports.NewComment = exports.PostCard = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -3639,6 +3674,13 @@ var defaultAvatar = 'default-avatar.jpg';
 var setPubTime = function setPubTime(pubTime) {
   var date = new Date(pubTime);
   return date.getMonth() + '-' + date.getDate() + '-' + date.getFullYear();
+};
+
+var setUrl = function setUrl(url) {
+  var temp = url.split('?');
+  var host = temp[0];
+  var params = temp.splice(1, temp.length);
+  return host + "?" + params.join("&");
 };
 
 var PostCard = exports.PostCard = function (_React$Component) {
@@ -3684,7 +3726,7 @@ var PostCard = exports.PostCard = function (_React$Component) {
     value: function render() {
       return _react2.default.createElement(
         'div',
-        { className: 'media' },
+        { className: 'media post' },
         this.setIcon(),
         _react2.default.createElement(
           'div',
@@ -3751,7 +3793,8 @@ var NewComment = exports.NewComment = function (_React$Component2) {
     };
 
     _this2.handleSubmit = function () {
-      _this2.props.actions.newComment(_this2.comment, _this2.uuid);
+      _this2.props.actions.newComment(_this2.comment, _this2.props.uuid);
+      document.getElementById("comment-content").value = '';
     };
 
     return _this2;
@@ -3762,20 +3805,25 @@ var NewComment = exports.NewComment = function (_React$Component2) {
     value: function render() {
       if (this.props.state.header.userInfo.isAuthenticated === true) {
         return _react2.default.createElement(
-          'div',
-          { id: 'new-comment' },
-          _react2.default.createElement('textarea', { id: 'comment-content',
-            placeholder: 'comment.....',
-            onChange: this.handleContentChange }),
+          'form',
+          { className: 'new-comment-form' },
           _react2.default.createElement(
-            'p',
-            { id: 'comment-error' },
-            this.props.state.post.commentError
+            'div',
+            { className: 'form-group align-items-center new-comment' },
+            _react2.default.createElement('textarea', { className: 'form-control new-comment-content',
+              onChange: this.handleContentChange,
+              placeholder: 'Comment...',
+              id: 'comment-content',
+              rows: '3' })
           ),
           _react2.default.createElement(
-            'button',
-            { id: 'submit-comment', className: 'btn', onClick: this.handleSubmit },
-            'comment'
+            'div',
+            { className: 'text-right' },
+            _react2.default.createElement(
+              'button',
+              { type: 'button', onClick: this.handleSubmit, className: 'btn btn-primary btn-lg' },
+              'Comment'
+            )
           )
         );
       } else {
@@ -3812,9 +3860,41 @@ var PostPagination = exports.PostPagination = function (_React$Component3) {
     };
 
     _this3.handlePage = function (page) {
-      var pageUrl = '/api/posts/list?page=' + page;
+      var pageUrl = setUrl(_this3.props.state.postListUrl + '?page=' + page);
       _this3.props.actions.fetchPostList(pageUrl);
       _this3.props.actions.setCurrPage(page);
+    };
+
+    _this3.setNextPage = function () {
+      if (_this3.props.state.nextPage !== null) {
+        return _react2.default.createElement(
+          'li',
+          { className: 'page-item' },
+          _react2.default.createElement(
+            'a',
+            { className: 'page-link', href: '#', onClick: _this3.handleNextPage },
+            'Next'
+          )
+        );
+      } else {
+        return null;
+      }
+    };
+
+    _this3.setPreviousPage = function () {
+      if (_this3.props.state.previousPage !== null) {
+        return _react2.default.createElement(
+          'li',
+          { className: 'page-item' },
+          _react2.default.createElement(
+            'a',
+            { className: 'page-link', href: '#', onClick: _this3.handlePreviousPage },
+            'Previous'
+          )
+        );
+      } else {
+        return null;
+      }
     };
 
     _this3.setPagination = function () {
@@ -3857,15 +3937,7 @@ var PostPagination = exports.PostPagination = function (_React$Component3) {
       return _react2.default.createElement(
         'ul',
         { className: 'pagination justify-content-center' },
-        _react2.default.createElement(
-          'li',
-          { className: 'page-item' },
-          _react2.default.createElement(
-            'a',
-            { className: 'page-link', href: '#', onClick: _this3.handlePreviousPage },
-            'Previous'
-          )
-        ),
+        _this3.setPreviousPage(),
         pages.map(function (page, index) {
           return _react2.default.createElement(
             'li',
@@ -3873,15 +3945,7 @@ var PostPagination = exports.PostPagination = function (_React$Component3) {
             setPage(page)
           );
         }),
-        _react2.default.createElement(
-          'li',
-          { className: 'page-item' },
-          _react2.default.createElement(
-            'a',
-            { className: 'page-link', href: '#', onClick: _this3.handleNextPage },
-            'Next'
-          )
-        )
+        _this3.setNextPage()
       );
     };
     return _this3;
@@ -4019,6 +4083,75 @@ var PostDetail = exports.PostDetail = function (_React$Component4) {
   }]);
 
   return PostDetail;
+}(_react2.default.Component);
+
+var CommentCard = exports.CommentCard = function (_React$Component5) {
+  _inherits(CommentCard, _React$Component5);
+
+  function CommentCard(props) {
+    _classCallCheck(this, CommentCard);
+
+    var _this5 = _possibleConstructorReturn(this, (CommentCard.__proto__ || Object.getPrototypeOf(CommentCard)).call(this, props));
+
+    _this5.props = props;
+    _this5.comment = _this5.props.comment;
+    _this5.setContent = function (content) {
+      var temp = content.split('\n');
+      return temp.map(function (paragraphy, index) {
+        return _react2.default.createElement(
+          'p',
+          { key: index },
+          paragraphy
+        );
+      });
+    };
+    return _this5;
+  }
+
+  _createClass(CommentCard, [{
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        'div',
+        { className: 'media comment' },
+        _react2.default.createElement(
+          'div',
+          { className: 'media-left' },
+          _react2.default.createElement(
+            'div',
+            { className: 'row' },
+            _react2.default.createElement('img', { src: awsBucket + this.comment.author_avatar, height: '60', width: '60',
+              className: 'rounded comment-author-avatar' })
+          ),
+          _react2.default.createElement(
+            'p',
+            { className: 'text-justify text-center comment-author' },
+            this.comment.author
+          )
+        ),
+        _react2.default.createElement(
+          'div',
+          { className: 'media-body' },
+          _react2.default.createElement(
+            'div',
+            { className: 'description' },
+            _react2.default.createElement(
+              'h5',
+              null,
+              this.setContent(this.comment.content)
+            ),
+            _react2.default.createElement(
+              'p',
+              { className: 'text-right comment-pub-time' },
+              setPubTime(this.comment.pub_time)
+            )
+          )
+        )
+      );
+    }
+  }]);
+
+  return CommentCard;
 }(_react2.default.Component);
 
 /***/ }),
@@ -26137,11 +26270,11 @@ var _actions = __webpack_require__(49);
 
 var Actions = _interopRequireWildcard(_actions);
 
-var _components = __webpack_require__(50);
-
 var _container = __webpack_require__(115);
 
 var _reactRouterDom = __webpack_require__(8);
+
+var _components = __webpack_require__(50);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -26167,9 +26300,7 @@ var Post = function Post(_ref) {
               _react2.default.createElement(_container.PostComments, { state: state.post,
                 actions: actions,
                 uuid: uuid.match.params.uuid }),
-              _react2.default.createElement(_components.NewComment, { state: state,
-                actions: actions,
-                uuid: uuid.match.params.uuid })
+              _react2.default.createElement(_components.NewComment, { state: state, actions: actions, uuid: uuid.match.params.uuid })
             );
           } }),
         _react2.default.createElement(_reactRouterDom.Route, { path: '/new-post', render: function render() {
@@ -26238,8 +26369,8 @@ var PostList = exports.PostList = function (_React$Component) {
   }
 
   _createClass(PostList, [{
-    key: "componentWillMount",
-    value: function componentWillMount() {
+    key: "componentDidMount",
+    value: function componentDidMount() {
       if (this.props.state.postList.length === 0) {
         this.props.actions.fetchPostList();
       }
@@ -26350,12 +26481,35 @@ var PostComments = exports.PostComments = function (_React$Component3) {
 
     _this3.props = props;
     _this3.uuid = _this3.props.uuid;
+
+    _this3.handleNextPage = function () {
+      _this3.props.actions.fetchComments(null, _this3.props.state.commentNext);
+    };
+
+    _this3.setNextButton = function () {
+      var n = _this3.props.state.postDetail.comment_num - _this3.props.state.comments.length;
+      if (n > 0) {
+        return _react2.default.createElement(
+          "div",
+          { className: "text-center" },
+          _react2.default.createElement(
+            "button",
+            { id: "show-more-comments", className: "btn btn-light btn-lg", onClick: _this3.handleNextPage },
+            "Show more (",
+            n,
+            ")"
+          )
+        );
+      } else {
+        return null;
+      }
+    };
     return _this3;
   }
 
   _createClass(PostComments, [{
-    key: "componentWillMount",
-    value: function componentWillMount() {
+    key: "componentDidMount",
+    value: function componentDidMount() {
       this.props.actions.fetchPostDetail(this.uuid);
     }
   }, {
@@ -26364,7 +26518,11 @@ var PostComments = exports.PostComments = function (_React$Component3) {
       return _react2.default.createElement(
         "div",
         null,
-        _react2.default.createElement(_components.PostDetail, { state: this.props.state, actions: this.props.actions, uuid: this.uuid })
+        _react2.default.createElement(_components.PostDetail, { state: this.props.state, actions: this.props.actions, uuid: this.uuid }),
+        this.props.state.comments.map(function (comment, index) {
+          return _react2.default.createElement(_components.CommentCard, { comment: comment, key: comment.uuid });
+        }),
+        this.setNextButton()
       );
     }
   }]);
@@ -26621,16 +26779,10 @@ var setDisplay = exports.setDisplay = function setDisplay(content) {
 
 var search = exports.search = function search(keywords) {
   return function (dispatch) {
-    window.location.hash = "#";
-    fetch('/api/search/', {
-      method: "POST",
-      credentials: 'include',
-      headers: {
-        'Accept': 'application/json',
-        "X-CSRFToken": getCookie("csrftoken"),
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(keywords)
+    // window.location.hash = "#"
+    var path = '/api/search/?keywords=' + keywords;
+    fetch(path, {
+      method: "GET"
     }).then(function (response) {
       return response.json();
     }).then(function (postList) {
@@ -26638,6 +26790,7 @@ var search = exports.search = function search(keywords) {
       dispatch((0, _actions.setNextPage)(postList.next));
       dispatch((0, _actions.setPreviousPage)(postList.previous));
       dispatch((0, _actions.setPostNum)(postList.count));
+      dispatch((0, _actions.setPostListUrl)(path));
     });
   };
 };
@@ -26814,8 +26967,8 @@ var HeaderBar = function (_React$Component3) {
   }
 
   _createClass(HeaderBar, [{
-    key: 'componentWillMount',
-    value: function componentWillMount() {
+    key: 'componentDidMount',
+    value: function componentDidMount() {
       this.props.actions.checkAuthentication();
     }
   }, {
@@ -27168,10 +27321,7 @@ var Search = exports.Search = function (_React$Component3) {
     };
 
     _this3.handleSubmit = function () {
-      _this3.props.actions.search({
-        searchKeywords: _this3.searchKeywords,
-        searchType: _this3.searchType
-      });
+      _this3.props.actions.search(_this3.searchKeywords);
     };
 
     _this3.handleSearchType = function (searchType) {
@@ -27220,18 +27370,23 @@ var initialState = {
     content: "",
     like_num: null,
     dislike_num: null,
-    comment_num: null,
-    comments: []
+    comment_num: null
   },
+  comments: [],
   like_active: {},
   postIconName: 'upload an picture for your post',
   postDetailError: "",
   commentError: "",
   nextPage: null,
   previousPage: null,
+  commentNext: null,
   currPage: 1,
-  postNum: 0
+  postNum: 0,
+  postListUrl: '/api/posts/list/'
 };
+
+var postPageSize = 10;
+var commentPageSize = 5;
 
 var postReducer = function postReducer() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
@@ -27244,7 +27399,11 @@ var postReducer = function postReducer() {
       newState.postList = actions.postList;
       break;
     case "ADD_POST":
-      newState.postList.push(actions.post);
+      var newList = [actions.post].concat(newState.postList);
+      if (newList.length > postPageSize) {
+        newList.pop();
+      }
+      newState.postList = newList;
       break;
     case "NEW_POST_ERROR":
       newState.newPostError = actions.error;
@@ -27256,7 +27415,8 @@ var postReducer = function postReducer() {
       newState.postDetailError = actions.error;
       break;
     case "ADD_COMMENT":
-      newState.postDetail.comments.push(actions.comment);
+      var newComments = [actions.comment].concat(newState.comments);
+      newState.comments = newComments;
       break;
     case "COMMENT_ERROR":
       newState.commentError = actions.error;
@@ -27279,6 +27439,18 @@ var postReducer = function postReducer() {
     case "SET_LIKE_POST":
       newState.postDetail.like_num += 1;
       newState.like_active[actions.uuid] = true;
+      break;
+    case "SET_COMMENTS":
+      newState.comments = newState.comments.concat(actions.comments);
+      break;
+    case "CLEAR_COMMENTS":
+      newState.comments = [];
+      break;
+    case "SET_COMMENT_NEXT":
+      newState.commentNext = actions.commentNext;
+      break;
+    case "SET_POSTLIST_URL":
+      newState.postListUrl = actions.url;
       break;
     default:
       break;

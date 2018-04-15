@@ -88,7 +88,7 @@ export default class HeaderBar extends React.Component {
     }
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.props.actions.checkAuthentication()
   }
 

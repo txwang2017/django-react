@@ -5,6 +5,7 @@ from .views import (
     PostDetailAPIView,
     PostIconUploadView,
     PostLikeNumIncView,
+    CommentListView,
 )
 
 
@@ -16,4 +17,6 @@ urlpatterns = [
         PostIconUploadView.as_view(), name='upload-post-icon'),
     url(r'^(?P<uuid>[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12})/like/$',
         PostLikeNumIncView.as_view(), name='post-like'),
+    url(r'^(?P<uuid>[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12})/comment-list/$',
+        CommentListView.as_view(), name='comment-list'),
 ]

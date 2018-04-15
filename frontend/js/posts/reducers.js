@@ -10,17 +10,22 @@ const initialState = {
     like_num: null,
     dislike_num: null,
     comment_num: null,
-    comments: [],
   },
+  comments: [],
   like_active: {},
   postIconName: 'upload an picture for your post',
   postDetailError: "",
   commentError: "",
   nextPage: null,
   previousPage: null,
+  commentNext: null,
   currPage: 1,
   postNum: 0,
+  postListUrl: '/api/posts/list/'
 }
+
+const postPageSize = 10
+const commentPageSize = 5
 
 const postReducer = (state = initialState, actions) => {
   let newState = {}
@@ -30,7 +35,11 @@ const postReducer = (state = initialState, actions) => {
       newState.postList = actions.postList
       break
     case "ADD_POST":
-      newState.postList.push(actions.post)
+      let newList = [actions.post].concat(newState.postList)
+      if(newList.length > postPageSize){
+        newList.pop()
+      }
+      newState.postList = newList
       break
     case "NEW_POST_ERROR":
       newState.newPostError = actions.error
@@ -42,7 +51,8 @@ const postReducer = (state = initialState, actions) => {
       newState.postDetailError = actions.error
       break
     case "ADD_COMMENT":
-      newState.postDetail.comments.push(actions.comment)
+      let newComments = [actions.comment].concat(newState.comments)
+      newState.comments = newComments
       break
     case "COMMENT_ERROR":
       newState.commentError = actions.error
@@ -65,6 +75,18 @@ const postReducer = (state = initialState, actions) => {
     case "SET_LIKE_POST":
       newState.postDetail.like_num += 1
       newState.like_active[actions.uuid] = true
+      break
+    case "SET_COMMENTS":
+      newState.comments = newState.comments.concat(actions.comments)
+      break
+    case "CLEAR_COMMENTS":
+      newState.comments = []
+      break
+    case "SET_COMMENT_NEXT":
+      newState.commentNext = actions.commentNext
+      break
+    case "SET_POSTLIST_URL":
+      newState.postListUrl = actions.url
       break
     default:
       break

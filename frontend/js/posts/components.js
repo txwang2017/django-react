@@ -9,6 +9,13 @@ const setPubTime = pubTime => {
   return date.getMonth() + '-' + date.getDate() + '-' + date.getFullYear()
 }
 
+const setUrl = url => {
+  let temp = url.split('?')
+  const host = temp[0]
+  const params = temp.splice(1, temp.length)
+  return host + "?" + params.join("&")
+}
+
 export class PostCard extends React.Component {
   constructor(props) {
     super(props)
@@ -43,7 +50,7 @@ export class PostCard extends React.Component {
 
   render() {
     return (
-      <div className="media">
+      <div className="media post">
         {this.setIcon()}
         <div className="media-body">
           <Link to={`/post-detail/${this.postDetail.uuid}`} style={{textDecoration: 'none', color: 'black'}}>
@@ -90,7 +97,8 @@ export class NewComment extends React.Component {
     }
 
     this.handleSubmit = () => {
-      this.props.actions.newComment(this.comment, this.uuid)
+      this.props.actions.newComment(this.comment, this.props.uuid)
+      document.getElementById("comment-content").value = ''
     }
 
   }
@@ -98,13 +106,18 @@ export class NewComment extends React.Component {
   render() {
     if (this.props.state.header.userInfo.isAuthenticated === true) {
       return (
-        <div id="new-comment">
-  <textarea id="comment-content"
-            placeholder="comment....."
-            onChange={this.handleContentChange}/>
-          <p id="comment-error">{this.props.state.post.commentError}</p>
-          <button id="submit-comment" className="btn" onClick={this.handleSubmit}>comment</button>
-        </div>
+        <form className="new-comment-form">
+          <div className="form-group align-items-center new-comment">
+            <textarea className="form-control new-comment-content"
+                      onChange={this.handleContentChange}
+                      placeholder="Comment..."
+                      id="comment-content"
+                      rows="3"/>
+          </div>
+          <div className="text-right">
+            <button type="button" onClick={this.handleSubmit} className="btn btn-primary btn-lg">Comment</button>
+          </div>
+        </form>
       )
     } else {
       return null
@@ -132,9 +145,34 @@ export class PostPagination extends React.Component {
     }
 
     this.handlePage = (page) => {
-      let pageUrl = `/api/posts/list?page=${page}`
+      let pageUrl = setUrl(`${this.props.state.postListUrl}?page=${page}`)
       this.props.actions.fetchPostList(pageUrl)
       this.props.actions.setCurrPage(page)
+    }
+
+    this.setNextPage = () => {
+      if (this.props.state.nextPage !== null) {
+        return (
+
+          <li className="page-item">
+            <a className="page-link" href="#" onClick={this.handleNextPage}>Next</a>
+          </li>
+        )
+      } else {
+        return null
+      }
+    }
+
+    this.setPreviousPage = () => {
+      if (this.props.state.previousPage !== null) {
+        return (
+          <li className="page-item">
+            <a className="page-link" href="#" onClick={this.handlePreviousPage}>Previous</a>
+          </li>
+        )
+      } else {
+        return null
+      }
     }
 
     this.setPagination = () => {
@@ -166,14 +204,15 @@ export class PostPagination extends React.Component {
       }
       return (
         <ul className="pagination justify-content-center">
-          <li className="page-item"><a className="page-link" href="#" onClick={this.handlePreviousPage}>Previous</a>
-          </li>
-          {pages.map((page, index) => (
-            <li className="page-item" key={index}>
-              {setPage(page)}
-            </li>
-          ))}
-          <li className="page-item"><a className="page-link" href="#" onClick={this.handleNextPage}>Next</a></li>
+          {this.setPreviousPage()}
+          {
+            pages.map((page, index) => (
+              <li className="page-item" key={index}>
+                {setPage(page)}
+              </li>
+            ))
+          }
+          {this.setNextPage()}
         </ul>
       )
     }
@@ -260,6 +299,44 @@ export class PostDetail extends React.Component {
             <li className="list-inline-item">{this.setLikeButton()}</li>
             <li className="list-inline-item"><h5>Like it!</h5></li>
           </ul>
+        </div>
+      </div>
+    )
+  }
+}
+
+export class CommentCard extends React.Component {
+  constructor(props) {
+    super(props)
+    this.props = props
+    this.comment = this.props.comment
+    this.setContent = content => {
+      let temp = content.split('\n')
+      return (temp.map((paragraphy, index) => (
+        <p key={index}>{paragraphy}</p>
+      )))
+    }
+  }
+
+  render() {
+    return (
+      <div className="media comment">
+        <div className="media-left">
+          <div className="row">
+            <img src={awsBucket + this.comment.author_avatar} height="60" width="60"
+                 className="rounded comment-author-avatar"/>
+          </div>
+          <p className="text-justify text-center comment-author">
+            {this.comment.author}
+          </p>
+        </div>
+        <div className="media-body">
+          <div className="description">
+            <h5>{this.setContent(this.comment.content)}</h5>
+            <p className="text-right comment-pub-time">
+              {setPubTime(this.comment.pub_time)}
+            </p>
+          </div>
         </div>
       </div>
     )

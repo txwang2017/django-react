@@ -28,6 +28,8 @@ export const fetchPostList = (path = '/api/posts/list/') => dispatch => {
       dispatch(setPostNum(postList.count))
       dispatch(setNextPage(postList.next))
       dispatch(setPreviousPage(postList.previous))
+      dispatch(clearComments())
+      dispatch(setPostListUrl('/api/posts/list/'))
     }
   )
 }
@@ -71,7 +73,7 @@ export const newPost = (post, icon) => dispatch => {
       post => {
         if (success === true) {
           dispatch(addPost(post))
-          if(icon){
+          if (icon) {
             dispatch(uploadPostIcon(icon, post.uuid))
           }
           window.location.hash = '#'
@@ -96,12 +98,16 @@ export const fetchPostDetail = uuid => dispatch => {
     postDetail => {
       if (success) {
         dispatch(setPostDetail(postDetail))
+        dispatch(fetchComments(postDetail.uuid))
+        dispatch(clearComments())
       } else {
         dispatch(setPostDetailError("the post no longer exist"))
       }
     }
   )
 }
+
+export const clearComments = () => ({type: 'CLEAR_COMMENTS'})
 
 export const addComment = comment => ({type: "ADD_COMMENT", comment})
 
@@ -174,3 +180,23 @@ export const likePost = uuid => dispatch => {
     dispatch(setLikePost(uuid))
   )
 }
+
+export const setCommentList = comments => ({type: 'SET_COMMENTS', comments})
+
+export const setCommentNextPage = commentNext => ({type: 'SET_COMMENT_NEXT', commentNext})
+
+export const fetchComments = (uuid, path = null) => dispatch => {
+  const fetchUrl = path || `/api/posts/${uuid}/comment-list/`
+  fetch(fetchUrl, {
+    method: 'GET'
+  }).then(
+    response => response.json()
+  ).then(
+    response => {
+      dispatch(setCommentList(response.results))
+      dispatch(setCommentNextPage(response.next))
+    }
+  )
+}
+
+export const setPostListUrl = url => ({type: "SET_POSTLIST_URL", url})

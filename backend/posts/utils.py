@@ -52,7 +52,7 @@ def filter_posts(queryset, keywords):
     posts_filter = Q()
     for kw in keywords:
         if kw:
-            posts_filter = posts_filter & Q(title__contains=kw)
+            posts_filter = posts_filter & (Q(title__contains=kw) | Q(author__username__contains=kw))
     return queryset.filter(posts_filter)
 
 

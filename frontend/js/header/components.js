@@ -183,10 +183,7 @@ export class Search extends React.Component {
     }
 
     this.handleSubmit = () => {
-      this.props.actions.search({
-        searchKeywords: this.searchKeywords,
-        searchType: this.searchType
-      })
+      this.props.actions.search(this.searchKeywords)
     }
 
     this.handleSearchType = searchType => {

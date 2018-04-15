@@ -1,4 +1,4 @@
-import {getPostList, setNextPage, setPostNum, setPreviousPage} from '../posts/actions'
+import {getPostList, setNextPage, setPostNum, setPreviousPage, setPostListUrl} from '../posts/actions'
 
 const awsBucket = 'https://s3.amazonaws.com/django-react/'
 
@@ -185,16 +185,10 @@ export const signIn = (username, password) => dispatch => {
 export const setDisplay = content => ({type: "DISPLAY_CONTENT", content})
 
 export const search = keywords => dispatch => {
-  window.location.hash = "#"
-  fetch('/api/search/', {
-    method: "POST",
-    credentials: 'include',
-    headers: {
-      'Accept': 'application/json',
-      "X-CSRFToken": getCookie("csrftoken"),
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(keywords)
+  // window.location.hash = "#"
+  const path = `/api/search/?keywords=${keywords}`
+  fetch(path, {
+    method: "GET",
   }).then(
     response => response.json()
   ).then(
@@ -203,6 +197,7 @@ export const search = keywords => dispatch => {
       dispatch(setNextPage(postList.next))
       dispatch(setPreviousPage(postList.previous))
       dispatch(setPostNum(postList.count))
+      dispatch(setPostListUrl(path))
     }
   )
 }

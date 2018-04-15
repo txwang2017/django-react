@@ -1,5 +1,5 @@
 import React from "react"
-import {PostCard, PostPagination, PostDetail} from "./components"
+import {PostCard, PostPagination, PostDetail, CommentCard, NewComment} from "./components"
 
 export class PostList extends React.Component {
 
@@ -8,7 +8,7 @@ export class PostList extends React.Component {
     this.props = props
   }
 
-  componentWillMount() {
+  componentDidMount() {
     if (this.props.state.postList.length === 0) {
       this.props.actions.fetchPostList()
     }
@@ -87,9 +87,27 @@ export class PostComments extends React.Component {
     super(props)
     this.props = props
     this.uuid = this.props.uuid
+
+    this.handleNextPage = () => {
+      this.props.actions.fetchComments(null, this.props.state.commentNext)
+    }
+
+    this.setNextButton = () => {
+      let n = this.props.state.postDetail.comment_num - this.props.state.comments.length
+      if (n > 0) {
+        return (
+          <div className="text-center">
+            <button id="show-more-comments" className="btn btn-light btn-lg" onClick={this.handleNextPage}>Show more ({n})</button>
+          </div>
+        )
+      } else {
+        return null
+      }
+    }
   }
 
-  componentWillMount() {
+
+  componentDidMount() {
     this.props.actions.fetchPostDetail(this.uuid)
   }
 
@@ -97,6 +115,10 @@ export class PostComments extends React.Component {
     return (
       <div>
         <PostDetail state={this.props.state} actions={this.props.actions} uuid={this.uuid}/>
+        {this.props.state.comments.map((comment, index) => (
+          <CommentCard comment={comment} key={comment.uuid}/>
+        ))}
+        {this.setNextButton()}
       </div>
     )
   }

@@ -3,9 +3,9 @@ import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 
 import * as Actions from './actions'
-import {NewComment} from "./components"
 import {NewPost, PostList, PostComments} from './container'
 import {Route, Switch, HashRouter} from 'react-router-dom'
+import {NewComment} from "./components"
 
 const Post = ({state, actions}) => {
   return (
@@ -17,9 +17,7 @@ const Post = ({state, actions}) => {
               <PostComments state={state.post}
                           actions={actions}
                           uuid={uuid.match.params.uuid}/>
-              <NewComment state={state}
-                          actions={actions}
-                          uuid={uuid.match.params.uuid}/>
+              <NewComment state={state} actions={actions} uuid={uuid.match.params.uuid}/>
             </div>
           )}/>
           <Route path="/new-post" render={() => (

@@ -1,19 +1,30 @@
 from rest_framework import serializers
+from django.conf import settings
 
 from .models import Post, Comment
 from .utils import get_post_uuid, create_comment, get_comment_uuid, get_post_comment_num
 
+DEFAULT_AVATAR = 'default-avatar.jpg'
+
 
 class CommentSerializer(serializers.ModelSerializer):
+
+    author_avatar = serializers.SerializerMethodField()
+
     class Meta:
         model = Comment
         fields = (
             'author',
             'content',
             'pub_time',
+            'author_avatar',
             'uuid',
         )
         read_only_fields = ('author', 'uuid', 'pub_time')
+
+    def get_author_avatar(self, obj):
+        avatar = obj.author.avatar
+        return avatar or DEFAULT_AVATAR
 
     def create(self, validated_data):
         validated_data.update({'author': self.author})
@@ -24,34 +35,8 @@ class CommentSerializer(serializers.ModelSerializer):
 
 
 class PostSerializer(serializers.ModelSerializer):
-    comments = CommentSerializer(many=True, read_only=True)
-    author_avatar = serializers.CharField(read_only=True, max_length=36)
-    comment_num = serializers.SerializerMethodField()
 
-    class Meta:
-        model = Post
-        fields = (
-            'author',
-            'title',
-            'content',
-            'pub_time',
-            'comments',
-            'comment_num',
-            'like_num',
-            'read_num',
-            'author_avatar',
-            'uuid',
-            'icon',
-        )
-        read_only_fields = ('author', 'pub_time', 'link_num', 'read_num', 'uuid', 'icon')
-
-    def get_comment_num(self, obj):
-        return get_post_comment_num(obj)
-
-
-class PostsSerializer(serializers.ModelSerializer):
-
-    author_avatar = serializers.CharField(max_length=36, read_only=True)
+    author_avatar = serializers.SerializerMethodField(read_only=True)
     comment_num = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
@@ -73,8 +58,12 @@ class PostsSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         validated_data.update({'author': self.author})
         validated_data.update({'uuid': get_post_uuid()})
-        return super(PostsSerializer, self).create(validated_data)
+        return super(PostSerializer, self).create(validated_data)
 
     def get_comment_num(self, obj):
         return get_post_comment_num(obj)
+
+    def get_author_avatar(self, obj):
+        avatar = obj.author.avatar
+        return avatar or DEFAULT_AVATAR
 
