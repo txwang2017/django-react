@@ -16,6 +16,7 @@ from .utils import upload_avatar
 class SignUpView(RegisterView):
 
     def get_response_data(self, user):
+        user.token = self.token
         return UserSerializer(user).data
 
     def create(self, request, *args, **kwargs):
@@ -36,6 +37,7 @@ class SignInView(LoginView):
 
     def post(self, request, *args, **kwargs):
         # super(SignInView, self).post(request, *args, **kwargs)
+
         self.request = request
         self.serializer = self.get_serializer(
             data=self.request.data,
@@ -46,7 +48,9 @@ class SignInView(LoginView):
             if request.user.__class__ is AnonymousUser:
                 return Response({'err': 'username or password is wrong'})
             else:
-                user_info = UserSerializer(request.user).data
+                user = request.user
+                user.token = self.token
+                user_info = UserSerializer(user).data
                 return Response(status=200, data=user_info)
         else:
             return Response({'err': 'username or password is wrong'})

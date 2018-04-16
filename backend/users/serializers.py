@@ -4,11 +4,13 @@ from .models import User
 
 
 class UserSerializer(serializers.ModelSerializer):
+    token = serializers.CharField(max_length=255, read_only=True)
 
     class Meta:
         model = User
         fields = (
-            'email',
+            'username',
             'avatar',
+            'token'
         )
-        read_only_fields = ('email', 'avatar')
+        read_only_fields = ('username', 'avatar', 'token')

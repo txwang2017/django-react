@@ -16,7 +16,6 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.contrib import admin
 from django.views.generic import TemplateView
-from rest_framework.authtoken import views
 
 
 urlpatterns = [
@@ -27,9 +26,5 @@ urlpatterns = [
     url(r'^$', TemplateView.as_view(template_name='index/index.html')),
 
     url(r'^api/rest-auth/', include('rest_auth.urls')),
-    url(r'^api/rest-auth/registration/', include('rest_auth.registration.urls'))
-]
-
-urlpatterns += [
-    url(r'^api-token-auth/', views.obtain_auth_token)
+    url(r'^api/rest-auth/registration/', include('rest_auth.registration.urls')),
 ]

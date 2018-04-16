@@ -23,3 +23,7 @@ def upload_avatar(avatar, user):
     obj.Acl().put(ACL='public-read')
     user.avatar = uid
     user.save()
+
+
+def get_user(user_id):
+    return User.objects.filter(user_id=user_id).first()
