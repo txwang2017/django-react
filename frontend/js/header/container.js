@@ -57,7 +57,7 @@ class AccountInfo extends React.Component {
           <button type="button" className="btn btn-secondary dropdown-toggle" data-toggle="dropdown"
                   aria-haspopup="true"
                   aria-expanded="false">
-            {this.props.state.userInfo.email}
+            {this.props.state.userInfo.username}
           </button>
           <div className="dropdown-menu dropdown-menu-right">
             <button className="dropdown-item" type="button">

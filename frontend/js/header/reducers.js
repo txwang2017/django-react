@@ -1,6 +1,6 @@
 const initialState = {
   userInfo: {
-    email: '',
+    username: '',
     isAuthenticated: false,
     avatar: null,
   },
@@ -11,7 +11,7 @@ const initialState = {
 }
 
 const setUserInfo = (newState, userInfo) => {
-  newState.userInfo.email = userInfo.email
+  newState.userInfo.username = userInfo.username
   newState.userInfo.isAuthenticated = userInfo.isAuthenticated
   newState.userInfo.avatar = userInfo.avatar
 }

@@ -6,6 +6,16 @@
     border-bottom: #99ccff solid 1px;
 }
 
+#new-post-content{
+    min-height: 300px;
+}
+
+#new-post{
+    margin-top: 30px;
+    margin-left: 10%;
+    max-width: 80%;
+}
+
 .media-heading {
     font-weight: bold;
 }

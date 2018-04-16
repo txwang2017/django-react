@@ -26620,10 +26620,15 @@ var getCookie = function getCookie(name) {
 var checkAuthentication = exports.checkAuthentication = function checkAuthentication() {
   return function (dispatch) {
     var isAuthenticated = false;
+    var token = localStorage.getItem('token');
+    if (token === null) {
+      return;
+    }
     fetch('/api/accounts/check-authentication/', {
       method: 'POST',
       credentials: 'include',
       headers: {
+        'Authorization': 'JWT ' + token,
         'Accept': 'application/json',
         "X-CSRFToken": getCookie("csrftoken"),
         'Content-Type': 'application/json'
@@ -26654,14 +26659,16 @@ var redirectToIndex = function redirectToIndex() {
 
 var signOut = exports.signOut = function signOut() {
   return function (dispatch) {
+    var token = localStorage.getItem('token');
     var userInfo = {
-      email: '',
+      username: '',
       isAuthenticated: false
     };
     fetch('/api/accounts/sign-out/', {
       method: 'POST',
       credentials: 'include',
       headers: {
+        'Authorization': 'JWT ' + token,
         'Accept': 'application/json',
         'Content-Type': 'application/json',
         "X-CSRFToken": getCookie("csrftoken")
@@ -26669,6 +26676,7 @@ var signOut = exports.signOut = function signOut() {
     }).then(function () {
       dispatch(setUserInfo(userInfo));
     }).then(function () {
+      localStorage.removeItem('token');
       redirectToIndex();
     });
   };
@@ -26683,10 +26691,12 @@ var setSignUpError = exports.setSignUpError = function setSignUpError(errorMessa
 };
 
 var uploadAvatar = function uploadAvatar(username, avatar) {
+  var token = localStorage.getItem('token');
   fetch('/api/accounts/upload-avatar/', {
     method: 'POST',
     credentials: 'include',
     headers: {
+      'Authorization': 'JWT ' + token,
       'Content-Disposition': 'attachment; filename=' + username,
       'Accept': 'application/json',
       "X-CSRFToken": getCookie("csrftoken"),
@@ -26731,9 +26741,11 @@ var signUp = exports.signUp = function signUp(username, email, password1, passwo
           return;
         }
         signUpClose.click();
-        var userInfo = response;
+        var userInfo = {};
+        userInfo.username = response.username;
         userInfo.isAuthenticated = true;
         userInfo.avatar = awsBucket + userInfo.avatar;
+        localStorage.setItem('token', response.token);
         dispatch(setSignUpError(''));
         dispatch(setUserInfo(userInfo));
         dispatch(uploadAvatar(username, avatar));
@@ -26764,7 +26776,10 @@ var signIn = exports.signIn = function signIn(username, password) {
         return;
       }
       signInClose.click();
-      var userInfo = response;
+      var userInfo = {};
+      userInfo.username = response.username;
+      userInfo.avatar = response.avatar;
+      localStorage.setItem('token', response.token);
       userInfo.isAuthenticated = true;
       userInfo.avatar = awsBucket + userInfo.avatar;
       dispatch(setSignInError(''));
@@ -26913,7 +26928,7 @@ var AccountInfo = function (_React$Component2) {
             { type: 'button', className: 'btn btn-secondary dropdown-toggle', 'data-toggle': 'dropdown',
               'aria-haspopup': 'true',
               'aria-expanded': 'false' },
-            this.props.state.userInfo.email
+            this.props.state.userInfo.username
           ),
           _react2.default.createElement(
             'div',
@@ -27472,7 +27487,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 var initialState = {
   userInfo: {
-    email: '',
+    username: '',
     isAuthenticated: false,
     avatar: null
   },
@@ -27483,7 +27498,7 @@ var initialState = {
 };
 
 var setUserInfo = function setUserInfo(newState, userInfo) {
-  newState.userInfo.email = userInfo.email;
+  newState.userInfo.username = userInfo.username;
   newState.userInfo.isAuthenticated = userInfo.isAuthenticated;
   newState.userInfo.avatar = userInfo.avatar;
 };

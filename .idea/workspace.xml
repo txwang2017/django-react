@@ -2,26 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e56ea9f2-d568-46e8-8f8d-f380f9aab4ec" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/backend/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/backend/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/posts/serializer.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/posts/serializer.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/posts/tests.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/posts/tests.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/posts/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/posts/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/posts/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/posts/utils.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/posts/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/posts/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/search/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/search/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/css/post-list.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/css/post-list.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/css/headbar.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/css/headbar.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/css/post.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/css/post.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/dist/account.bundle.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/dist/account.bundle.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/dist/account.bundle.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/dist/account.bundle.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/index/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/index/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/js/header/actions.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/js/header/actions.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/js/header/components.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/js/header/components.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/js/header/container.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/js/header/container.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/js/posts/Post.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/js/posts/Post.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/js/posts/actions.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/js/posts/actions.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/js/posts/components.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/js/posts/components.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/js/posts/container.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/js/posts/container.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/js/posts/reducers.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/js/posts/reducers.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/js/header/reducers.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/js/header/reducers.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -29,6 +18,10 @@
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CoverageDataManager">
+    <SUITE FILE_PATH="coverage/django_react$views.coverage" NAME="views Coverage Results" MODIFIED="1523837792902" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/backend/users" />
+    <SUITE FILE_PATH="coverage/django_react$middlewares.coverage" NAME="middlewares Coverage Results" MODIFIED="1523844457044" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/backend/users" />
   </component>
   <component name="DatabaseView">
     <option name="SHOW_INTERMEDIATE" value="true" />
@@ -67,138 +60,34 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="450">
-      <file leaf-file-name="actions.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/frontend/js/posts/actions.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="186">
-              <caret line="19" column="9" selection-start-line="19" selection-start-column="9" selection-end-line="19" selection-end-column="9" />
-              <folding>
-                <element signature="e#102#506#0" />
-                <element signature="e#1511#2406#0" />
-                <element signature="e#2459#2920#0" />
-                <element signature="e#3187#3810#0" />
-                <element signature="e#3955#4327#0" />
-                <element signature="e#4517#4840#0" />
-                <element signature="e#5076#5359#0" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="components.js" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/frontend/js/posts/components.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="251">
-              <caret line="137" column="5" lean-forward="true" selection-start-line="137" selection-start-column="5" selection-end-line="137" selection-end-column="5" />
-              <folding>
-                <element signature="e#198#307#0" />
-                <element signature="e#331#469#0" />
-                <element signature="n#PostCard#0" />
-                <element signature="e#951#1202#0" />
-                <element signature="n#NewComment#0" />
-                <element signature="e#4218#4427#0" />
-                <element signature="n#PostDetail#0" />
-                <element signature="e#7034#7109#0" />
-                <element signature="e#7141#7432#0" />
-                <element signature="n#CommentCard#0" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="reducers.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/frontend/js/posts/reducers.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="101">
-              <caret line="23" column="26" selection-start-line="23" selection-start-column="26" selection-end-line="23" selection-end-column="26" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="settings.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/backend/backend/settings.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="4526">
-              <caret line="146" selection-start-line="146" selection-end-line="146" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="post-list.css" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/frontend/css/post-list.css">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2759">
-              <caret line="89" selection-start-line="89" selection-end-line="89" />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/backend/posts/views.py">
+        <entry file="file://$PROJECT_DIR$/backend/users/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1085">
-              <caret line="49" column="28" selection-start-line="49" selection-start-column="28" selection-end-line="49" selection-end-column="28" />
+            <state relative-caret-position="68">
+              <caret line="15" column="24" selection-start-line="15" selection-start-column="24" selection-end-line="15" selection-end-column="24" />
               <folding>
                 <element signature="e#24#63#0" expanded="true" />
+                <element signature="e#1161#1919#0" />
+                <element signature="e#1963#2278#0" />
+                <element signature="e#2316#2320#0" />
+                <element signature="e#2361#2645#0" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/backend/search/views.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="132">
-              <caret line="31" column="29" selection-start-line="31" selection-start-column="29" selection-end-line="31" selection-end-column="29" />
-              <folding>
-                <element signature="e#24#63#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="utils.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/backend/posts/utils.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="157">
-              <caret line="48" selection-start-line="48" selection-end-line="48" />
-              <folding>
-                <element signature="e#0#11#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="actions.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="actions.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/frontend/js/header/actions.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="93">
-              <caret line="3" lean-forward="true" selection-start-line="3" selection-end-line="3" />
+            <state relative-caret-position="240">
+              <caret line="41" column="17" lean-forward="true" selection-start-line="41" selection-start-column="17" selection-end-line="41" selection-end-column="17" />
               <folding>
-                <element signature="e#189#235#0" />
-                <element signature="e#263#669#0" />
-                <element signature="e#724#1403#0" />
-                <element signature="e#1435#1546#0" />
-                <element signature="e#1589#2012#0" />
-                <element signature="e#2060#2114#0" />
-                <element signature="e#2162#2216#0" />
-                <element signature="e#2261#2636#0" />
-                <element signature="e#2723#4047#0" />
-                <element signature="e#4107#4845#0" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="components.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/frontend/js/header/components.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="62">
-              <caret line="3" column="13" selection-start-line="3" selection-start-column="13" selection-end-line="3" selection-end-column="13" />
-              <folding>
-                <element signature="n#SignIn#0" />
-                <element signature="n#SignUp#0" />
-                <element signature="e#6055#6118#0" />
+                <element signature="e#279#685#0" />
+                <element signature="e#902#1138#0" />
+                <element signature="e#1573#1684#0" />
+                <element signature="e#1727#2189#0" />
+                <element signature="e#2438#2813#0" />
+                <element signature="e#4284#5152#0" />
               </folding>
             </state>
           </provider>
@@ -209,24 +98,15 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Python Script" />
         <option value="HTML File" />
         <option value="JavaScript File" />
         <option value="CSS File" />
+        <option value="Python Script" />
       </list>
     </option>
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>glyphicons</find>
-      <find>Link</find>
-      <find>redis</find>
-      <find>this.setSignIn</find>
-      <find>signUpError</find>
-      <find>setContent</find>
-      <find>signInPath</find>
-      <find>awsBucket</find>
-      <find>signIn</find>
       <find>console.</find>
       <find>DEBUG</find>
       <find>style</find>
@@ -234,7 +114,6 @@
       <find>higherBound</find>
       <find>currPage</find>
       <find>pageSize</find>
-      <find>print</find>
       <find>this.postDetail</find>
       <find>setPubTime</find>
       <find>get_query</find>
@@ -248,6 +127,16 @@
       <find>componentWill</find>
       <find>NewComment</find>
       <find>search</find>
+      <find>REST</find>
+      <find>get_jwt</find>
+      <find>get_jwt_value</find>
+      <find>JWT_AUTH_HEADER_PREFIX</find>
+      <find>auth_header_prefix</find>
+      <find>natu</find>
+      <find>JWT_PAYLOAD_GET_USERNAME_HANDLER</find>
+      <find>print</find>
+      <find>email</find>
+      <find>fetch</find>
     </findStrings>
     <replaceStrings>
       <replace>upperBound</replace>
@@ -265,9 +154,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$APPLICATION_CONFIG_DIR$/consoles/db/8d101873-1700-4556-9170-fb14fe957802/console_2.sql" />
-        <option value="$APPLICATION_CONFIG_DIR$/consoles/db/8d101873-1700-4556-9170-fb14fe957802/console_3.sql" />
-        <option value="$PROJECT_DIR$/frontend/css/header.css" />
         <option value="$PROJECT_DIR$/frontend/css/accounts-copy.css" />
         <option value="$PROJECT_DIR$/frontend/css/posts-copy.css" />
         <option value="$PROJECT_DIR$/frontend/js/accounts/Account.js" />
@@ -284,28 +170,16 @@
         <option value="$PROJECT_DIR$/backend/lib/python2.7/site-packages/rest_auth/registration/views.py" />
         <option value="$PROJECT_DIR$/frontend/css/accounts.css" />
         <option value="$PROJECT_DIR$/requirements.txt" />
-        <option value="$PROJECT_DIR$/backend/users/models.py" />
         <option value="$PROJECT_DIR$/backend/users/urls.py" />
         <option value="$PROJECT_DIR$/frontend/index/test.html" />
-        <option value="$PROJECT_DIR$/backend/users/serializers.py" />
-        <option value="$PROJECT_DIR$/backend/users/views.py" />
-        <option value="$PROJECT_DIR$/frontend/js/header/reducers.js" />
         <option value="$PROJECT_DIR$/frontend/js/header/Header.js" />
-        <option value="$PROJECT_DIR$/frontend/css/new-post.css" />
-        <option value="$PROJECT_DIR$/backend/users/utils.py" />
-        <option value="$PROJECT_DIR$/backend/backend/urls.py" />
         <option value="$PROJECT_DIR$/frontend/css/post-card.css" />
         <option value="$PROJECT_DIR$/backend/posts/models.py" />
-        <option value="$PROJECT_DIR$/frontend/css/headbar.css" />
-        <option value="$PROJECT_DIR$/frontend/index/index.html" />
         <option value="$PROJECT_DIR$/frontend/css/post-detail.css" />
         <option value="$PROJECT_DIR$/backend/posts/tests.py" />
         <option value="$PROJECT_DIR$/backend/posts/urls.py" />
-        <option value="$PROJECT_DIR$/frontend/js/header/container.js" />
         <option value="$PROJECT_DIR$/frontend/js/posts/Post.js" />
-        <option value="$PROJECT_DIR$/frontend/css/post-list.css" />
         <option value="$PROJECT_DIR$/frontend/js/posts/container.js" />
-        <option value="$PROJECT_DIR$/backend/backend/settings.py" />
         <option value="$PROJECT_DIR$/backend/posts/serializer.py" />
         <option value="$PROJECT_DIR$/backend/posts/views.py" />
         <option value="$PROJECT_DIR$/backend/lib/python2.7/site-packages/rest_framework/views.py" />
@@ -313,9 +187,24 @@
         <option value="$PROJECT_DIR$/backend/search/views.py" />
         <option value="$PROJECT_DIR$/frontend/js/posts/actions.js" />
         <option value="$PROJECT_DIR$/frontend/js/posts/reducers.js" />
-        <option value="$PROJECT_DIR$/frontend/js/header/actions.js" />
         <option value="$PROJECT_DIR$/frontend/js/header/components.js" />
         <option value="$PROJECT_DIR$/frontend/js/posts/components.js" />
+        <option value="$PROJECT_DIR$/frontend/css/new-post.css" />
+        <option value="$PROJECT_DIR$/frontend/css/post-list.css" />
+        <option value="$PROJECT_DIR$/frontend/index/index.html" />
+        <option value="$PROJECT_DIR$/frontend/css/headbar.css" />
+        <option value="$PROJECT_DIR$/backend/backend/urls.py" />
+        <option value="$PROJECT_DIR$/backend/users/utils.py" />
+        <option value="$PROJECT_DIR$/backend/lib/python2.7/site-packages/rest_auth/views.py" />
+        <option value="$PROJECT_DIR$/backend/users/serializers.py" />
+        <option value="$PROJECT_DIR$/frontend/js/header/reducers.js" />
+        <option value="$PROJECT_DIR$/frontend/js/header/container.js" />
+        <option value="$PROJECT_DIR$/backend/users/models.py" />
+        <option value="$PROJECT_DIR$/backend/lib/python2.7/site-packages/rest_framework_jwt/authentication.py" />
+        <option value="$PROJECT_DIR$/backend/users/middlewares.py" />
+        <option value="$PROJECT_DIR$/backend/backend/settings.py" />
+        <option value="$PROJECT_DIR$/backend/users/views.py" />
+        <option value="$PROJECT_DIR$/frontend/js/header/actions.js" />
       </list>
     </option>
   </component>
@@ -337,8 +226,8 @@
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
     <option name="y" value="28" />
-    <option name="width" value="954" />
-    <option name="height" value="1018" />
+    <option name="width" value="1239" />
+    <option name="height" value="763" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
@@ -348,6 +237,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -378,18 +268,10 @@
               <item name="js" type="462c0819:PsiDirectoryNode" />
               <item name="header" type="462c0819:PsiDirectoryNode" />
             </path>
-            <path>
-              <item name="django-react" type="b2602c69:ProjectViewProjectNode" />
-              <item name="django-react" type="462c0819:PsiDirectoryNode" />
-              <item name="frontend" type="462c0819:PsiDirectoryNode" />
-              <item name="js" type="462c0819:PsiDirectoryNode" />
-              <item name="posts" type="462c0819:PsiDirectoryNode" />
-            </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -403,12 +285,12 @@
     <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors.Color Scheme Font" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/frontend" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/frontend/static" />
       <recent name="$PROJECT_DIR$/frontend/js" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/frontend" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -423,6 +305,56 @@
       </list>
     </option>
   </component>
+  <component name="RunManager" selected="Python.middlewares">
+    <configuration name="middlewares" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="django-react" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/backend/users" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/backend/users/middlewares.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+    </configuration>
+    <configuration name="views" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="django-react" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/backend/users" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/backend/users/views.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+    </configuration>
+    <list>
+      <item itemvalue="Python.views" />
+      <item itemvalue="Python.middlewares" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.middlewares" />
+        <item itemvalue="Python.views" />
+      </list>
+    </recent_temporary>
+  </component>
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -436,33 +368,56 @@
     </task>
     <servers />
   </component>
+  <component name="TodoView">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+  </component>
   <component name="ToolWindowManager">
     <frame x="0" y="28" width="1920" height="1018" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Event Log" order="13" sideWeight="0.5096983" side_tool="true" weight="0.22630332" />
+      <window_info anchor="bottom" id="TODO" order="6" sideWeight="0.4994612" weight="0.32938388" />
+      <window_info anchor="bottom" id="Event Log" order="13" sideWeight="0.51293105" side_tool="true" weight="0.27962086" />
       <window_info anchor="bottom" id="Database Changes" order="11" />
-      <window_info anchor="bottom" id="Version Control" order="7" weight="0.32891566" />
-      <window_info anchor="bottom" id="Python Console" order="8" />
-      <window_info anchor="bottom" id="Run" order="2" />
-      <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.49030173" visible="true" weight="0.25118482" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.21982759" />
+      <window_info anchor="bottom" id="Version Control" order="7" sideWeight="0.4994612" weight="0.32819906" />
+      <window_info anchor="bottom" id="Python Console" order="8" sideWeight="0.4994612" weight="0.32938388" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.32938388" />
+      <window_info anchor="right" id="Coverage" side_tool="true" weight="0.3297414" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="9" sideWeight="0.48706895" visible="true" weight="0.3507109" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.22359914" />
       <window_info anchor="bottom" id="Docker" order="10" show_stripe_button="false" />
       <window_info anchor="right" id="Database" order="5" weight="0.3292026" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32891566" />
       <window_info anchor="right" id="SciView" order="3" weight="0.32972974" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.3992891" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.2494612" />
+      <window_info anchor="bottom" id="Docker" order="10" show_stripe_button="false" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.21982759" />
+      <window_info anchor="right" id="SciView" order="3" weight="0.32972974" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Version Control" order="7" weight="0.32891566" />
+      <window_info anchor="bottom" id="Run" order="2" />
       <window_info anchor="right" id="Data View" order="4" weight="0.32972974" />
+      <window_info anchor="bottom" id="Database Changes" order="11" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info anchor="right" id="Database" order="5" weight="0.3292026" />
       <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Event Log" order="13" sideWeight="0.5096983" side_tool="true" weight="0.22630332" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Database Console" order="12" weight="0.32819906" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.32891566" />
+      <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.49030173" visible="true" weight="0.25118482" />
+      <window_info anchor="bottom" id="Python Console" order="8" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -473,87 +428,10 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="24" />
+      <option name="time" value="27" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/frontend/package-lock.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="9" column="13" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/backend/lib/python2.7/site-packages/requests/help.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="14" column="4" lean-forward="true" selection-start-line="14" selection-start-column="4" selection-end-line="14" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/backend/lib/python2.7/site-packages/jwt/utils.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="310">
-          <caret line="113" lean-forward="true" selection-start-line="113" selection-end-line="113" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/backend/manage.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="7" column="39" selection-start-line="7" selection-start-column="39" selection-end-line="7" selection-end-column="39" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="das://8d101873-1700-4556-9170-fb14fe957802/schema/main/table/sqlite_master">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.gitignore">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="6" column="10" selection-start-line="6" selection-start-column="10" selection-end-line="6" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/backend/lib/python2.7/site-packages/rest_auth/utils.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-10">
-          <caret line="3" selection-start-line="3" selection-end-line="3" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/frontend/webpack.config.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-10">
-          <caret line="19" column="13" selection-start-line="19" selection-start-column="13" selection-end-line="19" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/frontend/package.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-10">
-          <caret line="10" column="19" selection-start-line="10" selection-start-column="19" selection-end-line="10" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/backend/lib/python2.7/site-packages/rest_auth/registration/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="61">
-          <caret line="58" column="13" selection-start-line="58" selection-start-column="13" selection-end-line="58" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/backend/lib/python2.7/site-packages/rest_auth/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="217">
-          <caret line="89" selection-start-line="89" selection-end-line="95" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/frontend/js/bootstrap.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="155">
@@ -566,13 +444,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1178">
           <caret line="38" lean-forward="true" selection-start-line="38" selection-end-line="38" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/backend/lib/python2.7/site-packages/django/contrib/auth/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-351">
-          <caret line="139" column="33" selection-start-line="139" selection-start-column="18" selection-end-line="139" selection-end-column="33" />
         </state>
       </provider>
     </entry>
@@ -604,43 +475,8 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/backend/users/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="48" column="61" lean-forward="true" selection-start-line="48" selection-start-column="61" selection-end-line="48" selection-end-column="61" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/frontend/index/test.html" />
-    <entry file="file://$PROJECT_DIR$/backend/users/utils.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="708">
-          <caret line="24" column="15" lean-forward="true" selection-start-line="24" selection-start-column="15" selection-end-line="24" selection-end-column="15" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/frontend/css/post-card.css" />
-    <entry file="file://$PROJECT_DIR$/frontend/css/new-post.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="93">
-          <caret line="3" selection-start-line="3" selection-end-line="3" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/frontend/css/headbar.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="310">
-          <caret line="22" column="22" lean-forward="true" selection-start-line="22" selection-start-column="22" selection-end-line="22" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/frontend/index/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="434">
-          <caret line="20" column="64" selection-start-line="20" selection-start-column="64" selection-end-line="20" selection-end-column="64" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/backend/posts/tests.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="93">
@@ -648,45 +484,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/backend/users/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="434">
-          <caret line="25" column="10" selection-start-line="25" selection-start-column="4" selection-end-line="25" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/frontend/dist/account.bundle.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="170">
           <caret line="3533" column="17" selection-start-line="3533" selection-start-column="17" selection-end-line="3533" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/backend/users/serializers.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="217">
-          <caret line="9" column="18" lean-forward="true" selection-start-line="9" selection-start-column="18" selection-end-line="9" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/frontend/js/header/container.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="176">
-          <caret line="90" column="14" selection-start-line="90" selection-start-column="14" selection-end-line="90" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/frontend/js/header/Header.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="209">
-          <caret line="13" column="4" selection-start-line="13" selection-start-column="4" selection-end-line="13" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/frontend/js/header/reducers.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="157">
-          <caret line="12" column="4" selection-start-line="12" selection-start-column="4" selection-end-line="12" selection-end-column="4" />
         </state>
       </provider>
     </entry>
@@ -701,13 +502,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="341">
           <caret line="90" column="25" selection-start-line="90" selection-start-column="25" selection-end-line="90" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/backend/backend/settings.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4526">
-          <caret line="146" selection-start-line="146" selection-end-line="146" />
         </state>
       </provider>
     </entry>
@@ -732,27 +526,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/frontend/css/post-list.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2759">
-          <caret line="89" selection-start-line="89" selection-end-line="89" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/backend/posts/views.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1085">
           <caret line="49" column="28" selection-start-line="49" selection-start-column="28" selection-end-line="49" selection-end-column="28" />
-          <folding>
-            <element signature="e#24#63#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/backend/backend/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="744">
-          <caret line="27" selection-start-line="27" selection-end-line="27" />
         </state>
       </provider>
     </entry>
@@ -760,9 +537,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="217">
           <caret line="7" column="1" selection-start-line="7" selection-start-column="1" selection-end-line="7" selection-end-column="1" />
-          <folding>
-            <element signature="e#0#32#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -777,9 +551,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="157">
           <caret line="48" selection-start-line="48" selection-end-line="48" />
-          <folding>
-            <element signature="e#0#11#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -787,9 +558,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="132">
           <caret line="31" column="29" selection-start-line="31" selection-start-column="29" selection-end-line="31" selection-end-column="29" />
-          <folding>
-            <element signature="e#24#63#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -800,68 +568,262 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/frontend/js/posts/components.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="251">
+          <caret line="137" column="5" lean-forward="true" selection-start-line="137" selection-start-column="5" selection-end-line="137" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frontend/css/post-detail.css">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frontend/css/new-post.css">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frontend/index/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="341">
+          <caret line="17" column="48" selection-start-line="17" selection-start-column="48" selection-end-line="17" selection-end-column="48" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/frontend/js/posts/actions.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="186">
-          <caret line="19" column="9" selection-start-line="19" selection-start-column="9" selection-end-line="19" selection-end-column="9" />
+        <state relative-caret-position="121">
+          <caret line="17" column="72" selection-start-line="17" selection-start-column="72" selection-end-line="17" selection-end-column="72" />
           <folding>
             <element signature="e#102#506#0" />
-            <element signature="e#1511#2406#0" />
-            <element signature="e#2459#2920#0" />
-            <element signature="e#3187#3810#0" />
-            <element signature="e#3955#4327#0" />
-            <element signature="e#4517#4840#0" />
-            <element signature="e#5076#5359#0" />
+            <element signature="e#580#986#0" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/frontend/js/header/actions.js">
+    <entry file="file://$PROJECT_DIR$/frontend/css/headbar.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="93">
-          <caret line="3" lean-forward="true" selection-start-line="3" selection-end-line="3" />
+        <state relative-caret-position="186">
+          <caret line="6" column="1" lean-forward="true" selection-start-line="6" selection-start-column="1" selection-end-line="6" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backend/backend/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="143">
+          <caret line="17" column="45" lean-forward="true" selection-start-line="17" selection-start-column="45" selection-end-line="17" selection-end-column="45" />
           <folding>
-            <element signature="e#189#235#0" />
-            <element signature="e#263#669#0" />
-            <element signature="e#724#1403#0" />
-            <element signature="e#1435#1546#0" />
-            <element signature="e#1589#2012#0" />
-            <element signature="e#2060#2114#0" />
-            <element signature="e#2162#2216#0" />
-            <element signature="e#2261#2636#0" />
-            <element signature="e#2723#4047#0" />
-            <element signature="e#4107#4845#0" />
+            <element signature="e#641#682#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frontend/css/post.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="279">
+          <caret line="9" column="22" lean-forward="true" selection-start-line="9" selection-start-column="22" selection-end-line="9" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backend/users/utils.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="186">
+          <caret line="24" column="15" lean-forward="true" selection-start-line="24" selection-start-column="15" selection-end-line="24" selection-end-column="15" />
+          <folding>
+            <element signature="e#114#297#0" />
+            <element signature="e#337#544#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backend/lib/python2.7/site-packages/rest_framework_jwt/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="155">
+          <caret line="5" column="34" selection-start-line="5" selection-start-column="22" selection-end-line="5" selection-end-column="34" />
+          <folding>
+            <element signature="e#604#765#0" />
+            <element signature="e#811#1399#0" />
+            <element signature="e#1456#1768#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backend/lib/python2.7/site-packages/rest_auth/utils.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="279">
+          <caret line="26" lean-forward="true" selection-start-line="26" selection-end-line="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backend/lib/python2.7/site-packages/django/contrib/auth/middleware.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="62">
+          <caret line="8" lean-forward="true" selection-start-line="8" selection-end-line="8" />
+          <folding>
+            <element signature="e#0#32#0" expanded="true" />
+            <element signature="e#1120#1533#0" />
+            <element signature="e#1585#5346#0" />
+            <element signature="e#5413#5876#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backend/lib/python2.7/site-packages/rest_auth/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="25">
+          <caret line="55" column="24" selection-start-line="55" selection-start-column="24" selection-end-line="55" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backend/lib/python2.7/site-packages/django/contrib/auth/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="178">
+          <caret line="139" column="33" selection-start-line="139" selection-start-column="18" selection-end-line="139" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backend/users/serializers.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="186">
+          <caret line="8" column="15" selection-start-line="8" selection-start-column="15" selection-end-line="8" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backend/lib/python2.7/site-packages/rest_framework/authentication.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="124">
+          <caret line="68" selection-start-line="68" selection-end-line="68" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frontend/js/header/Header.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="62">
+          <caret line="7" selection-start-line="7" selection-end-line="7" />
+          <folding>
+            <element signature="e#220#294#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frontend/js/header/reducers.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-837">
+          <caret line="12" column="44" selection-start-line="12" selection-start-column="44" selection-end-line="12" selection-end-column="44" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backend/lib/python2.7/site-packages/rest_framework_jwt/settings.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="54">
+          <caret line="24" column="21" lean-forward="true" selection-start-line="24" selection-start-column="21" selection-end-line="24" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backend/lib/python2.7/site-packages/django/conf/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="374">
+          <caret line="45" column="10" selection-start-line="45" selection-start-column="10" selection-end-line="45" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backend/lib/python2.7/site-packages/django/contrib/auth/base_user.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-155">
+          <caret line="40" column="6" lean-forward="true" selection-start-line="40" selection-start-column="6" selection-end-line="40" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backend/lib/python2.7/site-packages/rest_framework_jwt/authentication.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="186">
+          <caret line="67" column="19" selection-start-line="67" selection-start-column="19" selection-end-line="67" selection-end-column="19" />
+          <folding>
+            <element signature="e#0#10#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backend/users/middlewares.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="155">
+          <caret line="8" column="23" selection-start-line="8" selection-start-column="23" selection-end-line="8" selection-end-column="23" />
+          <folding>
+            <element signature="e#0#52#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backend/backend/settings.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="63">
+          <caret line="33" column="11" lean-forward="true" selection-start-line="33" selection-start-column="11" selection-end-line="33" selection-end-column="11" />
+          <folding>
+            <element signature="e#312#321#0" expanded="true" />
+            <element signature="e#960#1326#0" />
+            <element signature="e#1449#1571#0" />
+            <element signature="e#1607#2170#0" />
+            <element signature="e#2215#2699#0" />
+            <element signature="e#2760#2918#0" />
+            <element signature="e#2929#3021#0" />
+            <element signature="e#3050#3446#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backend/users/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="155">
+          <caret line="16" lean-forward="true" selection-start-line="16" selection-end-line="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backend/users/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="15" column="24" selection-start-line="15" selection-start-column="24" selection-end-line="15" selection-end-column="24" />
+          <folding>
+            <element signature="e#24#63#0" expanded="true" />
+            <element signature="e#1161#1919#0" />
+            <element signature="e#1963#2278#0" />
+            <element signature="e#2316#2320#0" />
+            <element signature="e#2361#2645#0" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/frontend/js/header/components.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="62">
-          <caret line="3" column="13" selection-start-line="3" selection-start-column="13" selection-end-line="3" selection-end-column="13" />
+        <state relative-caret-position="147">
+          <caret line="72" column="14" selection-start-line="72" selection-start-column="9" selection-end-line="72" selection-end-column="14" />
           <folding>
             <element signature="n#SignIn#0" />
-            <element signature="n#SignUp#0" />
+            <element signature="n#!!block;n#render#0;n#SignIn#0" />
+            <element signature="n#Search#0" />
             <element signature="e#6055#6118#0" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/frontend/js/posts/components.js">
+    <entry file="file://$PROJECT_DIR$/frontend/js/header/container.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="251">
-          <caret line="137" column="5" lean-forward="true" selection-start-line="137" selection-start-column="5" selection-end-line="137" selection-end-column="5" />
+        <state relative-caret-position="147">
+          <caret line="62" column="44" selection-start-line="62" selection-start-column="44" selection-end-line="62" selection-end-column="44" />
           <folding>
-            <element signature="e#198#307#0" />
-            <element signature="e#331#469#0" />
-            <element signature="n#PostCard#0" />
-            <element signature="e#951#1202#0" />
-            <element signature="n#NewComment#0" />
-            <element signature="e#4218#4427#0" />
-            <element signature="n#PostDetail#0" />
-            <element signature="e#7034#7109#0" />
-            <element signature="e#7141#7432#0" />
-            <element signature="n#CommentCard#0" />
+            <element signature="n#SignPanel#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frontend/js/header/actions.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="41" column="17" lean-forward="true" selection-start-line="41" selection-start-column="17" selection-end-line="41" selection-end-column="17" />
+          <folding>
+            <element signature="e#279#685#0" />
+            <element signature="e#902#1138#0" />
+            <element signature="e#1573#1684#0" />
+            <element signature="e#1727#2189#0" />
+            <element signature="e#2438#2813#0" />
+            <element signature="e#4284#5152#0" />
           </folding>
         </state>
       </provider>

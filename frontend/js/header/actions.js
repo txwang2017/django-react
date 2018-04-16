@@ -23,10 +23,15 @@ const getCookie = name => {
 
 export const checkAuthentication = () => dispatch => {
   let isAuthenticated = false
+  const token = localStorage.getItem('token')
+  if(token === null){
+    return
+  }
   fetch('/api/accounts/check-authentication/', {
     method: 'POST',
     credentials: 'include',
     headers: {
+      'Authorization': `JWT ${token}`,
       'Accept': 'application/json',
       "X-CSRFToken": getCookie("csrftoken"),
       'Content-Type': 'application/json'
@@ -57,14 +62,16 @@ const redirectToIndex = () => {
 }
 
 export const signOut = () => dispatch => {
+  const token = localStorage.getItem('token')
   const userInfo = {
-    email: '',
+    username: '',
     isAuthenticated: false
   }
   fetch('/api/accounts/sign-out/', {
     method: 'POST',
     credentials: 'include',
     headers: {
+      'Authorization': `JWT ${token}`,
       'Accept': 'application/json',
       'Content-Type': 'application/json',
       "X-CSRFToken": getCookie("csrftoken"),
@@ -75,6 +82,7 @@ export const signOut = () => dispatch => {
     }
   ).then(
     () => {
+      localStorage.removeItem('token')
       redirectToIndex()
     }
   )
@@ -89,10 +97,12 @@ export const setSignUpError = errorMessage => {
 }
 
 const uploadAvatar = (username, avatar) => {
+  const token = localStorage.getItem('token')
   fetch('/api/accounts/upload-avatar/', {
     method: 'POST',
     credentials: 'include',
     headers: {
+      'Authorization': `JWT ${token}`,
       'Content-Disposition': `attachment; filename=${username}`,
       'Accept': 'application/json',
       "X-CSRFToken": getCookie("csrftoken"),
@@ -138,9 +148,11 @@ export const signUp = (username, email, password1, password2, avatar) => dispatc
           return
         }
         signUpClose.click()
-        let userInfo = response
+        let userInfo = {}
+        userInfo.username = response.username
         userInfo.isAuthenticated = true
         userInfo.avatar = awsBucket + userInfo.avatar
+        localStorage.setItem('token', response.token)
         dispatch(setSignUpError(''))
         dispatch(setUserInfo(userInfo))
         dispatch(uploadAvatar(username, avatar))
@@ -173,7 +185,10 @@ export const signIn = (username, password) => dispatch => {
         return
       }
       signInClose.click()
-      let userInfo = response
+      let userInfo = {}
+      userInfo.username = response.username
+      userInfo.avatar = response.avatar
+      localStorage.setItem('token', response.token)
       userInfo.isAuthenticated = true
       userInfo.avatar = awsBucket + userInfo.avatar
       dispatch(setSignInError(''))
