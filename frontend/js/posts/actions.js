@@ -50,6 +50,7 @@ export const addPost = post => ({type: "ADD_POST", post})
 
 export const newPost = (post, icon) => dispatch => {
   let success = false
+  const token = localStorage.getItem('token')
   if (post.title === "" || post.content === "") {
     dispatch(setNewPostError("title or content cannot be blank"))
   } else {
@@ -57,6 +58,7 @@ export const newPost = (post, icon) => dispatch => {
       method: "POST",
       credentials: 'include',
       headers: {
+        'Authorization': `JWT ${token}`,
         'Accept': 'application/json',
         'Content-Type': 'application/json',
         "X-CSRFToken": getCookie("csrftoken"),
@@ -116,10 +118,12 @@ export const setCommentError = error => ({type: "COMMENT_ERROR", error})
 export const newComment = (comment, uuid) => dispatch => {
   let path = `/api/posts/${uuid}/`
   let success = false
+  const token = localStorage.getItem('token')
   fetch(path, {
     method: "POST",
     credentials: 'include',
     headers: {
+      'Authorization': `JWT ${token}`,
       'Accept': 'application/json',
       'Content-Type': 'application/json',
       "X-CSRFToken": getCookie("csrftoken"),
@@ -146,10 +150,12 @@ export const newComment = (comment, uuid) => dispatch => {
 export const setPostIconName = iconName => ({type: 'SET_POST_ICON_NAME', iconName})
 
 export const uploadPostIcon = (icon, uuid) => dispatch => {
+  const token = localStorage.getItem('token')
   fetch(`/api/posts/${uuid}/upload-icon/`, {
     method: 'POST',
     credentials: 'include',
     headers: {
+      'Authorization': `JWT ${token}`,
       'Content-Disposition': `attachment; filename=${uuid}`,
       'Accept': 'application/json',
       "X-CSRFToken": getCookie("csrftoken"),

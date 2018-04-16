@@ -80,5 +80,5 @@ class UploadAvatarView(APIView):
 
     def post(self, request, *args, **kwargs):
         avatar = request.data.get('file')
-        upload_avatar(avatar=avatar, user=request.user)
-        return Response(status=200, data={'success': True})
+        avatar_uuid = upload_avatar(avatar=avatar, user=request.user)
+        return Response(status=200, data={'avatar': avatar_uuid})

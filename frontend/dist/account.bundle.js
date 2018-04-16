@@ -3475,6 +3475,7 @@ var addPost = exports.addPost = function addPost(post) {
 var newPost = exports.newPost = function newPost(post, icon) {
   return function (dispatch) {
     var success = false;
+    var token = localStorage.getItem('token');
     if (post.title === "" || post.content === "") {
       dispatch(setNewPostError("title or content cannot be blank"));
     } else {
@@ -3482,6 +3483,7 @@ var newPost = exports.newPost = function newPost(post, icon) {
         method: "POST",
         credentials: 'include',
         headers: {
+          'Authorization': 'JWT ' + token,
           'Accept': 'application/json',
           'Content-Type': 'application/json',
           "X-CSRFToken": getCookie("csrftoken")
@@ -3543,10 +3545,12 @@ var newComment = exports.newComment = function newComment(comment, uuid) {
   return function (dispatch) {
     var path = '/api/posts/' + uuid + '/';
     var success = false;
+    var token = localStorage.getItem('token');
     fetch(path, {
       method: "POST",
       credentials: 'include',
       headers: {
+        'Authorization': 'JWT ' + token,
         'Accept': 'application/json',
         'Content-Type': 'application/json',
         "X-CSRFToken": getCookie("csrftoken")
@@ -3573,10 +3577,12 @@ var setPostIconName = exports.setPostIconName = function setPostIconName(iconNam
 
 var uploadPostIcon = exports.uploadPostIcon = function uploadPostIcon(icon, uuid) {
   return function (dispatch) {
+    var token = localStorage.getItem('token');
     fetch('/api/posts/' + uuid + '/upload-icon/', {
       method: 'POST',
       credentials: 'include',
       headers: {
+        'Authorization': 'JWT ' + token,
         'Content-Disposition': 'attachment; filename=' + uuid,
         'Accept': 'application/json',
         "X-CSRFToken": getCookie("csrftoken"),
@@ -26641,9 +26647,6 @@ var checkAuthentication = exports.checkAuthentication = function checkAuthentica
       }
       var userInfo = response;
       userInfo.isAuthenticated = true;
-      if (userInfo.avatar === '' || userInfo.avatar === null) {
-        userInfo.avatar = 'default-avatar.jpg';
-      }
       userInfo.avatar = awsBucket + userInfo.avatar;
       dispatch(setUserInfo(userInfo));
     });
@@ -26690,22 +26693,30 @@ var setSignUpError = exports.setSignUpError = function setSignUpError(errorMessa
   return { type: 'SET_SIGN_UP_ERROR', errorMessage: errorMessage };
 };
 
-var uploadAvatar = function uploadAvatar(username, avatar) {
-  var token = localStorage.getItem('token');
-  fetch('/api/accounts/upload-avatar/', {
-    method: 'POST',
-    credentials: 'include',
-    headers: {
-      'Authorization': 'JWT ' + token,
-      'Content-Disposition': 'attachment; filename=' + username,
-      'Accept': 'application/json',
-      "X-CSRFToken": getCookie("csrftoken"),
-      'Content-Type': 'application/octet-stream'
-    },
-    body: avatar
-  }).then(function (response) {
-    return response.json();
-  });
+var uploadAvatar = function uploadAvatar(userInfo, avatar) {
+  return function (dispatch) {
+    var token = localStorage.getItem('token');
+    if (avatar === null) {
+      return;
+    }
+    fetch('/api/accounts/upload-avatar/', {
+      method: 'POST',
+      credentials: 'include',
+      headers: {
+        'Authorization': 'JWT ' + token,
+        'Content-Disposition': 'attachment; filename=' + userInfo.username,
+        'Accept': 'application/json',
+        "X-CSRFToken": getCookie("csrftoken"),
+        'Content-Type': 'application/octet-stream'
+      },
+      body: avatar
+    }).then(function (response) {
+      return response.json();
+    }).then(function (response) {
+      userInfo.avatar = awsBucket + response.avatar;
+      dispatch(setUserInfo(userInfo));
+    });
+  };
 };
 
 var signUp = exports.signUp = function signUp(username, email, password1, password2, avatar) {
@@ -26744,11 +26755,11 @@ var signUp = exports.signUp = function signUp(username, email, password1, passwo
         var userInfo = {};
         userInfo.username = response.username;
         userInfo.isAuthenticated = true;
-        userInfo.avatar = awsBucket + userInfo.avatar;
+        userInfo.avatar = awsBucket + response.avatar;
         localStorage.setItem('token', response.token);
         dispatch(setSignUpError(''));
         dispatch(setUserInfo(userInfo));
-        dispatch(uploadAvatar(username, avatar));
+        dispatch(uploadAvatar(userInfo, avatar));
       }).catch(function (err) {
         dispatch(setSignUpError(err));
       });

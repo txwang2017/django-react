@@ -24,7 +24,7 @@ const getCookie = name => {
 export const checkAuthentication = () => dispatch => {
   let isAuthenticated = false
   const token = localStorage.getItem('token')
-  if(token === null){
+  if (token === null) {
     return
   }
   fetch('/api/accounts/check-authentication/', {
@@ -45,9 +45,6 @@ export const checkAuthentication = () => dispatch => {
       }
       let userInfo = response
       userInfo.isAuthenticated = true
-      if(userInfo.avatar === '' || userInfo.avatar === null){
-        userInfo.avatar = 'default-avatar.jpg'
-      }
       userInfo.avatar = awsBucket + userInfo.avatar
       dispatch(setUserInfo(userInfo))
     }
@@ -96,14 +93,17 @@ export const setSignUpError = errorMessage => {
   return {type: 'SET_SIGN_UP_ERROR', errorMessage}
 }
 
-const uploadAvatar = (username, avatar) => {
+const uploadAvatar = (userInfo, avatar) => dispatch => {
   const token = localStorage.getItem('token')
+  if (avatar === null) {
+    return
+  }
   fetch('/api/accounts/upload-avatar/', {
     method: 'POST',
     credentials: 'include',
     headers: {
       'Authorization': `JWT ${token}`,
-      'Content-Disposition': `attachment; filename=${username}`,
+      'Content-Disposition': `attachment; filename=${userInfo.username}`,
       'Accept': 'application/json',
       "X-CSRFToken": getCookie("csrftoken"),
       'Content-Type': 'application/octet-stream'
@@ -111,6 +111,11 @@ const uploadAvatar = (username, avatar) => {
     body: avatar,
   }).then(
     response => response.json()
+  ).then(
+    response => {
+      userInfo.avatar = awsBucket + response.avatar
+      dispatch(setUserInfo(userInfo))
+    }
   )
 }
 
@@ -151,11 +156,11 @@ export const signUp = (username, email, password1, password2, avatar) => dispatc
         let userInfo = {}
         userInfo.username = response.username
         userInfo.isAuthenticated = true
-        userInfo.avatar = awsBucket + userInfo.avatar
+        userInfo.avatar = awsBucket + response.avatar
         localStorage.setItem('token', response.token)
         dispatch(setSignUpError(''))
         dispatch(setUserInfo(userInfo))
-        dispatch(uploadAvatar(username, avatar))
+        dispatch(uploadAvatar(userInfo, avatar))
       }
     ).catch(
       err => {
