@@ -1,4 +1,5 @@
 from django.conf.urls import url
+from django.views.generic.base import RedirectView
 
 from .views import (
     PostAPIListView,
@@ -7,7 +8,6 @@ from .views import (
     PostLikeNumIncView,
     CommentListView,
 )
-
 
 urlpatterns = [
     url(r'^(?P<uuid>[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12})/$',

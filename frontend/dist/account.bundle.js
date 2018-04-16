@@ -3512,19 +3512,30 @@ var newPost = exports.newPost = function newPost(post, icon) {
 var fetchPostDetail = exports.fetchPostDetail = function fetchPostDetail(uuid) {
   return function (dispatch) {
     var success = false;
+    var redirect = false;
     fetch('/api/posts/' + uuid + '/').then(function (response) {
+      if (response.status === 302) {
+        redirect = true;
+        return response.json();
+      }
       if (response.status === 200) {
         success = true;
         return response.json();
       }
-    }).then(function (postDetail) {
+    }).then(function (response) {
+      if (redirect) {
+        window.location.replace(response.redirect_to);
+      }
       if (success) {
+        var postDetail = response;
         dispatch(setPostDetail(postDetail));
         dispatch(fetchComments(postDetail.uuid));
         dispatch(clearComments());
       } else {
         dispatch(setPostDetailError("the post no longer exist"));
       }
+    }).catch(function (err) {
+      window.location.replace('index/404');
     });
   };
 };

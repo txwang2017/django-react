@@ -89,16 +89,25 @@ export const newPost = (post, icon) => dispatch => {
 
 export const fetchPostDetail = uuid => dispatch => {
   let success = false
+  let redirect = false
   fetch(`/api/posts/${uuid}/`).then(
     response => {
+      if(response.status === 302){
+        redirect = true
+        return response.json()
+      }
       if (response.status === 200) {
         success = true
         return response.json()
       }
     }
   ).then(
-    postDetail => {
+    response => {
+      if(redirect){
+        window.location.replace(response.redirect_to)
+      }
       if (success) {
+        const postDetail = response
         dispatch(setPostDetail(postDetail))
         dispatch(fetchComments(postDetail.uuid))
         dispatch(clearComments())
@@ -106,7 +115,9 @@ export const fetchPostDetail = uuid => dispatch => {
         dispatch(setPostDetailError("the post no longer exist"))
       }
     }
-  )
+  ).catch(err => {
+    window.location.replace('index/404')
+  })
 }
 
 export const clearComments = () => ({type: 'CLEAR_COMMENTS'})

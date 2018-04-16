@@ -92,6 +92,8 @@ class PostDetailAPIView(APIView):
         uuid = kwargs.get('uuid')
         # TODO: there might be bug on updating read_num
         post = get_post(post_uuid=uuid, read_inc=True)
+        if post is None:
+            return Response(status=302, data={'redirect_to': '404.html'})
         post.author_avatar = post.author.avatar
         serializer = PostSerializer(post)
         return Response(status=200, data=serializer.data)
