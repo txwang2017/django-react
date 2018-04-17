@@ -4134,15 +4134,11 @@ var CommentCard = exports.CommentCard = function (_React$Component5) {
         _react2.default.createElement(
           'div',
           { className: 'media-left' },
-          _react2.default.createElement(
-            'div',
-            { className: 'row' },
-            _react2.default.createElement('img', { src: awsBucket + this.comment.author_avatar, height: '60', width: '60',
-              className: 'rounded comment-author-avatar' })
-          ),
+          _react2.default.createElement('img', { src: awsBucket + this.comment.author_avatar, height: '80', width: '80',
+            className: 'rounded comment-author-avatar center-block' }),
           _react2.default.createElement(
             'p',
-            { className: 'text-justify text-center comment-author' },
+            { className: 'comment-author text-center' },
             this.comment.author
           )
         ),

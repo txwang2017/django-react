@@ -322,11 +322,9 @@ export class CommentCard extends React.Component {
     return (
       <div className="media comment">
         <div className="media-left">
-          <div className="row">
-            <img src={awsBucket + this.comment.author_avatar} height="60" width="60"
-                 className="rounded comment-author-avatar"/>
-          </div>
-          <p className="text-justify text-center comment-author">
+          <img src={awsBucket + this.comment.author_avatar} height="80" width="80"
+               className="rounded comment-author-avatar center-block"/>
+          <p className="comment-author text-center">
             {this.comment.author}
           </p>
         </div>
