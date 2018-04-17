@@ -15,9 +15,9 @@ def get_all_posts():
 def get_post_uuid():
     posts_set = get_all_posts()
     while True:
-        _uuid = uuid.uuid4()
-        if not posts_set.filter(uuid=_uuid):
-            return _uuid
+        post_uuid = uuid.uuid4()
+        if not posts_set.filter(uuid=post_uuid):
+            return str(post_uuid)
 
 
 def get_comment_uuid():
