@@ -1,5 +1,6 @@
+import datetime
+
 from rest_framework import serializers
-from django.conf import settings
 
 from .models import Post, Comment
 from .utils import get_post_uuid, create_comment, get_comment_uuid, get_post_comment_num
@@ -58,6 +59,7 @@ class PostSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         validated_data.update({'author': self.author})
         validated_data.update({'uuid': get_post_uuid()})
+        validated_data.update({'pub_time': datetime.datetime.now()})
         return super(PostSerializer, self).create(validated_data)
 
     def get_comment_num(self, obj):

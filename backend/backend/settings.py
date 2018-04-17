@@ -155,11 +155,12 @@ USE_TZ = True
 
 AWS_BUCKET_NAME = 'django-react'
 
+
+STATICFILES_DIRS = [os.path.abspath(os.path.join(BASE_DIR, "../frontend"))]
+
 if DEBUG is True:
     STATIC_URL = '/frontend/'
-    STATICFILES_DIRS = [
-        os.path.abspath(os.path.join(BASE_DIR, "../frontend")),
-    ]
 else:
     STATIC_URL = 'static'
     STATIC_ROOT = os.path.join(BASE_DIR, "static/")
+

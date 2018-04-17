@@ -3500,7 +3500,7 @@ var newPost = exports.newPost = function newPost(post, icon) {
           if (icon) {
             dispatch(uploadPostIcon(icon, post.uuid));
           }
-          window.location.hash = '#';
+          window.location.hash = '';
         } else {
           dispatch(setNewPostError("please log in first"));
         }

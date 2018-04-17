@@ -2,10 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e56ea9f2-d568-46e8-8f8d-f380f9aab4ec" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/backend/posts/crawler.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/pip-selfcheck.json" beforeDir="false" afterPath="$PROJECT_DIR$/backend/pip-selfcheck.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/posts/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/posts/utils.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/backend/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/backend/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/posts/crawler.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/posts/crawler.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/posts/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/posts/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/posts/serializer.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/posts/serializer.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/dist/account.bundle.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/dist/account.bundle.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/dist/account.bundle.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/dist/account.bundle.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/js/posts/actions.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/js/posts/actions.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -55,15 +59,45 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="450">
-      <file leaf-file-name="actions.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="actions.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/frontend/js/posts/actions.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1333">
-              <caret line="110" column="18" selection-start-line="110" selection-start-column="18" selection-end-line="110" selection-end-column="18" />
+            <state relative-caret-position="217">
+              <caret line="73" column="11" lean-forward="true" selection-start-line="73" selection-start-column="11" selection-end-line="73" selection-end-column="11" />
               <folding>
                 <element signature="e#102#506#0" />
                 <element signature="e#580#986#0" />
-                <element signature="e#1562#2544#0" />
+                <element signature="e#2560#3319#0" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="components.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/frontend/js/posts/components.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="341">
+              <caret line="86" column="26" selection-start-line="86" selection-start-column="26" selection-end-line="86" selection-end-column="26" />
+              <folding>
+                <element signature="e#198#307#0" />
+                <element signature="e#331#469#0" />
+                <element signature="n#PostCard#0" />
+                <element signature="n#NewComment#0" />
+                <element signature="n#PostPagination#0" />
+                <element signature="n#PostDetail#0" />
+                <element signature="n#CommentCard#0" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="container.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/frontend/js/posts/container.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="161">
+              <caret line="57" column="58" selection-start-line="57" selection-start-column="58" selection-end-line="57" selection-end-column="58" />
+              <folding>
+                <element signature="n#PostComments#0" />
               </folding>
             </state>
           </provider>
@@ -72,7 +106,7 @@
       <file leaf-file-name="urls.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/backend/backend/urls.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="410">
+            <state relative-caret-position="868">
               <caret line="30" column="59" selection-start-line="30" selection-start-column="59" selection-end-line="30" selection-end-column="59" />
               <folding>
                 <element signature="e#641#682#0" expanded="true" />
@@ -84,20 +118,8 @@
       <file leaf-file-name="tests.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/backend/posts/tests.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="31">
-              <caret line="1" selection-start-line="1" selection-end-line="1" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="crawler.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/backend/posts/crawler.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="267">
-              <caret line="51" lean-forward="true" selection-start-line="51" selection-end-line="51" />
-              <folding>
-                <element signature="e#0#15#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="93">
+              <caret line="13" selection-start-line="13" selection-end-line="13" />
             </state>
           </provider>
         </entry>
@@ -106,7 +128,7 @@
         <entry file="file://$PROJECT_DIR$/backend/posts/models.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="155">
-              <caret line="9" selection-start-line="9" selection-end-line="16" selection-end-column="45" />
+              <caret line="9" column="31" selection-start-line="9" selection-start-column="31" selection-end-line="9" selection-end-column="31" />
             </state>
           </provider>
         </entry>
@@ -125,8 +147,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>higherBound</find>
-      <find>currPage</find>
       <find>pageSize</find>
       <find>this.postDetail</find>
       <find>setPubTime</find>
@@ -155,6 +175,8 @@
       <find>default</find>
       <find>upload</find>
       <find>img</find>
+      <find>window.location</find>
+      <find>location</find>
     </findStrings>
     <replaceStrings>
       <replace>upperBound</replace>
@@ -189,12 +211,9 @@
         <option value="$PROJECT_DIR$/frontend/index/test.html" />
         <option value="$PROJECT_DIR$/frontend/js/header/Header.js" />
         <option value="$PROJECT_DIR$/frontend/css/post-card.css" />
-        <option value="$PROJECT_DIR$/backend/posts/models.py" />
         <option value="$PROJECT_DIR$/frontend/css/post-detail.css" />
         <option value="$PROJECT_DIR$/backend/posts/tests.py" />
         <option value="$PROJECT_DIR$/frontend/js/posts/Post.js" />
-        <option value="$PROJECT_DIR$/frontend/js/posts/container.js" />
-        <option value="$PROJECT_DIR$/backend/posts/serializer.py" />
         <option value="$PROJECT_DIR$/backend/lib/python2.7/site-packages/rest_framework/views.py" />
         <option value="$PROJECT_DIR$/backend/search/views.py" />
         <option value="$PROJECT_DIR$/frontend/js/posts/reducers.js" />
@@ -209,7 +228,6 @@
         <option value="$PROJECT_DIR$/backend/users/models.py" />
         <option value="$PROJECT_DIR$/backend/lib/python2.7/site-packages/rest_framework_jwt/authentication.py" />
         <option value="$PROJECT_DIR$/backend/users/middlewares.py" />
-        <option value="$PROJECT_DIR$/backend/backend/settings.py" />
         <option value="$PROJECT_DIR$/frontend/js/header/container.js" />
         <option value="$PROJECT_DIR$/backend/users/serializers.py" />
         <option value="$PROJECT_DIR$/backend/users/utils.py" />
@@ -219,10 +237,14 @@
         <option value="$PROJECT_DIR$/backend/posts/views.py" />
         <option value="$PROJECT_DIR$/backend/users/urls.py" />
         <option value="$PROJECT_DIR$/backend/posts/urls.py" />
-        <option value="$PROJECT_DIR$/frontend/js/posts/actions.js" />
         <option value="$PROJECT_DIR$/backend/backend/urls.py" />
         <option value="$PROJECT_DIR$/backend/posts/utils.py" />
         <option value="$PROJECT_DIR$/backend/posts/crawler.py" />
+        <option value="$PROJECT_DIR$/backend/posts/models.py" />
+        <option value="$PROJECT_DIR$/backend/posts/serializer.py" />
+        <option value="$PROJECT_DIR$/backend/backend/settings.py" />
+        <option value="$PROJECT_DIR$/frontend/js/posts/container.js" />
+        <option value="$PROJECT_DIR$/frontend/js/posts/actions.js" />
       </list>
     </option>
   </component>
@@ -265,29 +287,6 @@
             <path>
               <item name="django-react" type="b2602c69:ProjectViewProjectNode" />
               <item name="django-react" type="462c0819:PsiDirectoryNode" />
-              <item name="backend" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="django-react" type="b2602c69:ProjectViewProjectNode" />
-              <item name="django-react" type="462c0819:PsiDirectoryNode" />
-              <item name="backend" type="462c0819:PsiDirectoryNode" />
-              <item name="backend" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="django-react" type="b2602c69:ProjectViewProjectNode" />
-              <item name="django-react" type="462c0819:PsiDirectoryNode" />
-              <item name="backend" type="462c0819:PsiDirectoryNode" />
-              <item name="posts" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="django-react" type="b2602c69:ProjectViewProjectNode" />
-              <item name="django-react" type="462c0819:PsiDirectoryNode" />
-              <item name="backend" type="462c0819:PsiDirectoryNode" />
-              <item name="users" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="django-react" type="b2602c69:ProjectViewProjectNode" />
-              <item name="django-react" type="462c0819:PsiDirectoryNode" />
               <item name="frontend" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -295,6 +294,13 @@
               <item name="django-react" type="462c0819:PsiDirectoryNode" />
               <item name="frontend" type="462c0819:PsiDirectoryNode" />
               <item name="js" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="django-react" type="b2602c69:ProjectViewProjectNode" />
+              <item name="django-react" type="462c0819:PsiDirectoryNode" />
+              <item name="frontend" type="462c0819:PsiDirectoryNode" />
+              <item name="js" type="462c0819:PsiDirectoryNode" />
+              <item name="header" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="django-react" type="b2602c69:ProjectViewProjectNode" />
@@ -423,8 +429,8 @@
       <window_info anchor="bottom" id="Version Control" order="7" weight="0.32891566" />
       <window_info anchor="bottom" id="Python Console" order="8" />
       <window_info anchor="bottom" id="Run" order="2" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="9" sideWeight="0.49030173" visible="true" weight="0.34834123" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2273707" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="9" sideWeight="0.49030173" visible="true" weight="0.22037914" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.23114224" />
       <window_info anchor="bottom" id="Docker" order="10" show_stripe_button="false" />
       <window_info anchor="right" id="Database" order="5" weight="0.3292026" />
       <window_info anchor="right" id="SciView" order="3" weight="0.32972974" />
@@ -492,20 +498,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/frontend/js/posts/container.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="341">
-          <caret line="90" column="25" selection-start-line="90" selection-start-column="25" selection-end-line="90" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/backend/posts/serializer.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1001">
-          <caret line="68" lean-forward="true" selection-start-line="68" selection-end-line="68" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/backend/search/urls.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="217">
@@ -531,13 +523,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="101">
           <caret line="23" column="26" selection-start-line="23" selection-start-column="26" selection-end-line="23" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/frontend/js/posts/components.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="251">
-          <caret line="137" column="5" lean-forward="true" selection-start-line="137" selection-start-column="5" selection-end-line="137" selection-end-column="5" />
         </state>
       </provider>
     </entry>
@@ -645,23 +630,6 @@
           <caret line="8" column="23" selection-start-line="8" selection-start-column="23" selection-end-line="8" selection-end-column="23" />
           <folding>
             <element signature="e#0#52#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/backend/backend/settings.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="63">
-          <caret line="33" column="11" lean-forward="true" selection-start-line="33" selection-start-column="11" selection-end-line="33" selection-end-column="11" />
-          <folding>
-            <element signature="e#312#321#0" expanded="true" />
-            <element signature="e#960#1326#0" />
-            <element signature="e#1449#1571#0" />
-            <element signature="e#1607#2170#0" />
-            <element signature="e#2215#2699#0" />
-            <element signature="e#2760#2918#0" />
-            <element signature="e#2929#3021#0" />
-            <element signature="e#3050#3446#0" />
           </folding>
         </state>
       </provider>
@@ -784,39 +752,13 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/frontend/js/posts/actions.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1333">
-          <caret line="110" column="18" selection-start-line="110" selection-start-column="18" selection-end-line="110" selection-end-column="18" />
-          <folding>
-            <element signature="e#102#506#0" />
-            <element signature="e#580#986#0" />
-            <element signature="e#1562#2544#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/backend/backend/urls.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="410">
+        <state relative-caret-position="868">
           <caret line="30" column="59" selection-start-line="30" selection-start-column="59" selection-end-line="30" selection-end-column="59" />
           <folding>
             <element signature="e#641#682#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/backend/posts/tests.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="31">
-          <caret line="1" selection-start-line="1" selection-end-line="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/backend/posts/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="155">
-          <caret line="9" selection-start-line="9" selection-end-line="16" selection-end-column="45" />
         </state>
       </provider>
     </entry>
@@ -836,10 +778,80 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/backend/posts/crawler.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="267">
-          <caret line="51" lean-forward="true" selection-start-line="51" selection-end-line="51" />
+        <state relative-caret-position="248">
+          <caret line="8" column="35" selection-start-line="8" selection-start-column="35" selection-end-line="8" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backend/posts/tests.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="93">
+          <caret line="13" selection-start-line="13" selection-end-line="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backend/posts/serializer.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="155">
+          <caret line="53" column="28" lean-forward="true" selection-start-line="53" selection-start-column="28" selection-end-line="53" selection-end-column="28" />
           <folding>
             <element signature="e#0#15#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backend/backend/settings.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="251">
+          <caret line="160" column="11" selection-start-line="160" selection-start-column="11" selection-end-line="160" selection-end-column="11" />
+          <folding>
+            <element signature="e#312#321#0" expanded="true" />
+            <element signature="e#960#1326#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backend/posts/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="155">
+          <caret line="9" column="31" selection-start-line="9" selection-start-column="31" selection-end-line="9" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frontend/js/posts/components.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="341">
+          <caret line="86" column="26" selection-start-line="86" selection-start-column="26" selection-end-line="86" selection-end-column="26" />
+          <folding>
+            <element signature="e#198#307#0" />
+            <element signature="e#331#469#0" />
+            <element signature="n#PostCard#0" />
+            <element signature="n#NewComment#0" />
+            <element signature="n#PostPagination#0" />
+            <element signature="n#PostDetail#0" />
+            <element signature="n#CommentCard#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frontend/js/posts/container.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="161">
+          <caret line="57" column="58" selection-start-line="57" selection-start-column="58" selection-end-line="57" selection-end-column="58" />
+          <folding>
+            <element signature="n#PostComments#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frontend/js/posts/actions.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="217">
+          <caret line="73" column="11" lean-forward="true" selection-start-line="73" selection-start-column="11" selection-end-line="73" selection-end-column="11" />
+          <folding>
+            <element signature="e#102#506#0" />
+            <element signature="e#580#986#0" />
+            <element signature="e#2560#3319#0" />
           </folding>
         </state>
       </provider>

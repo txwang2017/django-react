@@ -42,7 +42,7 @@ def fetch():
                 author=user,
                 title=article_title,
                 content=article_content,
-                read_num=random.randint(0, read_num),
+                read_num=read_num,
                 like_num=random.randint(0, read_num),
                 uuid=post_uuid,
                 icon=True,

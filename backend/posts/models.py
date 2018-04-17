@@ -10,7 +10,7 @@ class Post(models.Model):
     author = models.ForeignKey(User, on_delete=models.DO_NOTHING)
     title = models.TextField()
     content = models.TextField()
-    pub_time = models.DateTimeField(auto_now=True)
+    pub_time = models.DateTimeField()
     like_num = models.IntegerField(default=0)
     read_num = models.IntegerField(default=0)
     uuid = models.CharField(max_length=36, unique=True)

@@ -78,7 +78,7 @@ export const newPost = (post, icon) => dispatch => {
           if (icon) {
             dispatch(uploadPostIcon(icon, post.uuid))
           }
-          window.location.hash = '#'
+          window.location.hash = ''
         } else {
           dispatch(setNewPostError("please log in first"))
         }
