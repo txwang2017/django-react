@@ -25,8 +25,5 @@ urlpatterns = [
     url(r'^api/search/', include('search.urls')),
     url(r'^api/rest-auth/', include('rest_auth.urls')),
     url(r'^api/rest-auth/registration/', include('rest_auth.registration.urls')),
-    url(r'^notfound', TemplateView.as_view(template_name='index/404.html')),
     url(r'^', TemplateView.as_view(template_name='index/index.html')),
-
-    # url(r'^', TemplateView.as_view(template_name='index/404.html')),
 ]
