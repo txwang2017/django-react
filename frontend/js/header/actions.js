@@ -7,14 +7,14 @@ export const setUserInfo = (userInfo) => {
 }
 
 const getCookie = name => {
-  let cookieValue = null;
+  let cookieValue = null
   if (document.cookie && document.cookie !== '') {
     let cookies = document.cookie.split(';')
     for (let i = 0; i < cookies.length; i++) {
       let cookie = cookies[i].trim()
       if (cookie.substring(0, name.length + 1) === (name + '=')) {
         cookieValue = decodeURIComponent(cookie.substring(name.length + 1))
-        break;
+        break
       }
     }
   }
@@ -41,6 +41,7 @@ export const checkAuthentication = () => dispatch => {
   ).then(
     response => {
       if (response.err) {
+        dispatch(signOut())
         return
       }
       let userInfo = response
@@ -53,8 +54,8 @@ export const checkAuthentication = () => dispatch => {
 
 const redirectToIndex = () => {
   let curr_url = window.location.hash
-  if (curr_url === "#/new-post") {
-    window.location.hash = "#"
+  if (curr_url === "/new-post") {
+    window.location.hash = "/"
   }
 }
 

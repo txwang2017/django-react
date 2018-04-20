@@ -27,7 +27,7 @@ export class PostCard extends React.Component {
 
     this.setContent = content => {
       let temp = content.split(' ')
-      const textLength = 45
+      const textLength = 30
       if (temp.length < textLength) {
         return content
       } else {

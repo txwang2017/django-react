@@ -18,6 +18,7 @@ const getCookie = name => {
 export const fetchPostList = (path = '/api/posts/list/') => dispatch => {
   fetch(path, {
     method: 'GET',
+    cache: 'reload',
   }).then(
     response => {
       return response.json()
@@ -90,7 +91,10 @@ export const newPost = (post, icon) => dispatch => {
 export const fetchPostDetail = uuid => dispatch => {
   let success = false
   let redirect = false
-  fetch(`/api/posts/${uuid}/`).then(
+  fetch(`/api/posts/${uuid}/`, {
+    method: 'GET',
+    cache: 'reload'
+  }).then(
     response => {
       if(response.status === 302){
         redirect = true
@@ -205,7 +209,8 @@ export const setCommentNextPage = commentNext => ({type: 'SET_COMMENT_NEXT', com
 export const fetchComments = (uuid, path = null) => dispatch => {
   const fetchUrl = path || `/api/posts/${uuid}/comment-list/`
   fetch(fetchUrl, {
-    method: 'GET'
+    method: 'GET',
+    cache: 'reload'
   }).then(
     response => response.json()
   ).then(

@@ -1,30 +1,30 @@
-import React from "react";
-import {Link} from 'react-router-dom';
+import React from "react"
+import {Link} from 'react-router-dom'
 
 export class SignIn extends React.Component {
 
   constructor(props) {
-    super(props);
-    this.props = props;
-    this.username = '';
-    this.password = '';
+    super(props)
+    this.props = props
+    this.username = ''
+    this.password = ''
     this.handleUsername = username => {
-      this.username = username.target.value;
-    };
+      this.username = username.target.value
+    }
     this.handlePassword = password => {
-      this.password = password.target.value;
-    };
+      this.password = password.target.value
+    }
     this.handleSwitch = () => {
       this.props.actions.setDisplay('sign-up')
     }
     this.handleSubmit = () => {
-      this.props.actions.signIn(this.username, this.password);
-    };
+      this.props.actions.signIn(this.username, this.password)
+    }
   }
 
   render() {
     if (this.props.state.userInfo.isAuthenticated) {
-      return null;
+      return null
     } else {
       return (
         <div className="modal-content">

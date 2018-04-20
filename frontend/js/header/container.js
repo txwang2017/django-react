@@ -1,7 +1,7 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
 
-import {SignIn, SignUp, Search} from "./components";
+import {SignIn, SignUp, Search} from "./components"
 
 class SignPanel extends React.Component {
   constructor(props) {
@@ -74,7 +74,7 @@ class AccountInfo extends React.Component {
   }
 }
 
-export default class HeaderBar extends React.Component {
+class HeaderBar extends React.Component {
   constructor(props) {
     super(props)
     this.props = props
@@ -94,9 +94,8 @@ export default class HeaderBar extends React.Component {
 
   render() {
     return (
-
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a className="navbar-brand" href="#">
+        <a className="navbar-brand" href="/">
           <img src='https://s3.amazonaws.com/django-react/icon.png' width="30" height="30"
                className="d-inline-block align-top" alt=""/>
           TX-Wang Blog
@@ -110,7 +109,8 @@ export default class HeaderBar extends React.Component {
           {this.setContent()}
         </div>
       </nav>
-
     )
   }
 }
+
+export default HeaderBar

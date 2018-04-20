@@ -2,7 +2,8 @@
     max-width: 60%;
     margin-left: 20%;
     margin-top: 40px;
-    min-height: 150px;
+    min-height: 120px;
+    padding-bottom: 10px;
     border-bottom: #99ccff solid 1px;
 }
 

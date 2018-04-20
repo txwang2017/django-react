@@ -28,21 +28,21 @@ export class PostList extends React.Component {
 
 export class NewPost extends React.Component {
   constructor(props) {
-    super();
-    this.props = props;
+    super()
+    this.props = props
     this.newPost = {
       title: "",
       content: "",
-    };
+    }
     this.icon = null
 
     this.handlePostTitleChange = title => {
-      this.newPost.title = title.target.value;
-    };
+      this.newPost.title = title.target.value
+    }
 
     this.handlePostContentChange = content => {
-      this.newPost.content = content.target.value;
-    };
+      this.newPost.content = content.target.value
+    }
 
     this.handleIcon = icon => {
       this.icon = icon.target.files[0]
@@ -55,7 +55,7 @@ export class NewPost extends React.Component {
     }
 
     this.handleSubmit = () => {
-      this.props.actions.newPost(this.newPost, this.icon);
+      this.props.actions.newPost(this.newPost, this.icon)
     }
   }
 
